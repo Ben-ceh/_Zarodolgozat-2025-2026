@@ -30,20 +30,44 @@ bizFelhasznaloiAdat:
 - bizFelhasznalo_jelszo
 <!-- bizFelhasznalo_bKod -->
 
-Bejegyzesek
+bejegyzes_megosztasok:
+- bejegyMeg_id
 - bejegyzes_id
-- bejegyzes_felAzon
-- bejegyzes_tart
-- bejegyzes_datum
-- bejegyzes_tetszikC
-- bejegyzes_ntetszikC
-- bejegyzes_megosztC
-- bejegyzes_kommentC
+- felhasznalo_id
+- megosztva
 
-tetszikIg:
-- tetszikBejegyzes_id
-- tetszikFelhasznalo_id
-- 
+bejegyzesek:
+- bejegy_id
+- felhasznalo_id
+- tartalom
+- kep_url
+- letrehozva
+
+bejegyzes_reakciok:
+- bejegyReak_id
+- bejegyzes_id
+- felhasznalo_id
+- reakcio
+- letrehozva
+
+hozzaszolasok:
+- hozz_id
+- bejegyzes_id
+- felhasznalo_id
+- hozzaszolas_szoveg
+- letrehozva
+
+felhasznalok:
+- felh_id
+- felhasznalonev
+- email
+- jelszo_hash
+- profil_kep
+- bio
+- regisztralt
+
 
 ### 5.2 Kapcsolatok
+
+
 
