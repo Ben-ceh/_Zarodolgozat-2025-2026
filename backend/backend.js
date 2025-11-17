@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 })
 
 //Bence vépontjai
-app.get('/olvaso', (req, res) => {
+app.get('/felhasznaloim', (req, res) => {
         const sql=`SELECT * from felhasznalok`
         pool.query(sql, (err, result) => {
         if (err) {
