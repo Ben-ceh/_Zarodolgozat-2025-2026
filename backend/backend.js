@@ -78,7 +78,29 @@ app.get('/bejegyEsFelh', (req, res) => {
         return res.status(200).json(result)
         })
 })
+app.post('/kommentKeresBejegyId', (req, res) => {
+        const {bejegyzesek_id} =req.body
+        const sql=`
+                select *
+                from bejegyzesek
+                inner join felhasznalok
+                on felhasznalo_id=felhasznalok_id
+                INNER JOIN hozzaszolasok
+                ON bejegyzesek.bejegyzesek_id =hozzaszolasok.bejegyzes_id
+                where bejegyzesek_id=?;
+                `
+        pool.query(sql,[bejegyzesek_id], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({error:"Hiba"})
+        }
+        if (result.length===0){
+            return res.status(404).json({error:"Nincs adat"})
+        }
 
+        return res.status(200).json(result)
+        })
+})
 //Sanyi végpontjai
 app.get('/bejegyzesek', (req, res) => {
         const sql=`SELECT * from bejegyzesek`
