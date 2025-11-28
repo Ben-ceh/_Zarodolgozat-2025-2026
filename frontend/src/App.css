@@ -1,0 +1,172 @@
+h1,h2 {
+  text-align: center;
+  font-family: Cambria, Cochin;
+  color: rgb(64, 64, 171);
+}
+
+.bejegyzesKartya{
+  width: 450px;
+  margin: auto;
+  padding: auto;
+}
+.bejegyzesKepek{
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border: solid 1px black;
+}
+.bejegyzesCim{
+  font-weight: bold;
+  color: gray;
+}
+.bejegyzesTartalom{
+  margin: auto;
+  padding: auto;
+  width: 600px;
+  text-align: justify;
+  
+}
+.bejegyzesGomb {
+  display: block;
+  margin: 10px auto;
+  background-color: transparent;
+  color: gray;
+  font-weight: bold;
+  border: outset 2px gray;
+  transition: background-color 0.12s ease, color 0.12s ease, transform 0.08s ease;
+}
+
+/* hover/focus/active - figyelj a pontokra a szelektorok elején! */
+.bejegyzesGomb:hover,
+.bejegyzesGomb:focus,
+.bejegyzesGomb:focus-visible,
+.bejegyzesGomb:active,
+.bejegyzesGomb:active:focus,
+.bejegyzesGomb:active:focus-visible {
+  background-color: transparent !important;
+  color: black !important;
+  border: outset 2px black !important;
+  outline: none !important;
+  box-shadow: none !important; /* eltünteti a kék külső árnyékot (Bootstrap miatt) */
+}
+
+/* ha szeretnéd, hogy kattintásnál "benyomódjon" */
+.bejegyzesGomb:active {
+  transform: scale(0.99);
+}
+
+/* .bejegyzesGomb{
+  display: block;
+  margin: 10px auto; 
+  background-color: transparent;
+  color: gray;
+  font-weight: bolder;
+  border: outset 2px gray;
+} */
+/* .bejegyzesGomb:hover{
+  display: block;
+  margin: 10px auto; 
+  background-color: transparent;
+  color: dimgray;
+  font-weight: bolder;
+  border: outset 2px black;
+} 
+.bejegyzesGomb:active{
+  display: block;
+  margin: 10px auto; 
+  background-color: transparent;
+  color: dimgray;
+  font-weight: bolder;
+  border: outset 2px black;
+}  */
+/* .bejegyzesGomb:focus,bejegyzesGomb:active,bejegyzesGomb:hover,bejegyzesGomb:focus-visible{
+  display: block;
+  margin: 10px auto;
+  background-color: transparent;
+  color: black;
+  font-weight: bolder;
+  border: outset 2px black;
+}  */
+.kartya{
+  border:1px solid black;
+  margin:20px 150px;
+  padding:30px;
+  font-size: 20px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px;
+
+}
+.szoveg{
+  text-align: justify;
+}
+.datum{
+  color:blue;
+  font-size: smaller;
+}
+.ki{
+  color:rgb(0, 255, 13);
+  font-size: 15px;
+  font-style: italic;
+}
+.nev{
+  color:rgb(255, 0, 157);
+  text-align: right;
+}
+span{
+  font-size: 10px;
+}
+
+.zoldGomb{
+  background-color: rgb(11, 236, 30);
+  color:white;
+  border:none;
+  border-radius: 8px;
+  padding:10px 15px;
+  font-size:16px;
+  cursor:pointer;
+  margin-top: 8px;
+}
+.urlapDoboz{
+  border:2px solid green;
+  text-align: center;
+  margin:20px 250px;
+  padding:10px;
+  border-radius: 5px;
+}
+
+.input{
+  margin:5px;
+  border-radius: 5px;
+  padding:5px
+}
+.gombok{
+  width: 30px;
+}
+/* .doboz{
+
+} */
+.profilKep{ 
+  width: 100px;      /* legyen négyzet */
+  height: 100px;
+  border-radius: 50%; /* kör alak */
+  object-fit: cover;
+}
+.poszt{
+  border: 2px solid black;
+}
+@media (max-width:1000px){
+  /* .doboz{
+    
+  } */
+  .kartya{
+    margin:10px;
+    padding: 10px;
+    font-size: 15px;
+  }
+  .urlapDoboz{
+  
+    margin:20px 20px;
+    padding:10px;
+  
+}
+}

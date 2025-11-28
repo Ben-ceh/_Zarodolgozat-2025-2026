@@ -1,0 +1,198 @@
+import { useState, useEffect } from "react"
+import Cim from "../Cim"
+import "../App.css"
+
+const FoOldal = ({ kivalasztott }) => {
+    const [adatok, setAdatok] = useState([])
+    const [tolt, setTolt] = useState(true)
+    const [hiba, setHiba] = useState(false)
+
+    useEffect(() => {
+    const leToltes = async () => {
+        try {
+            const response = await fetch(`${Cim.Cim}/bejegyzesek`)
+
+            const data = await response.json()
+
+            if (response.ok) {
+                setAdatok(data)
+            } else {
+                setHiba(true)
+            }
+        } catch (error) {
+            console.log(error)
+            setHiba(true)
+        } finally {
+            setTolt(false)
+        }
+    }
+
+    leToltes()
+}, [])
+
+
+    if (tolt) return <div style={{ textAlign: "center" }}>Adatok betöltése...</div>
+    if (hiba) return <div>Hiba történt</div>
+
+    return (
+        <div>
+            {adatok.map((elem, index) => (
+                <div key={index}>
+                    <div className="card" style={{ width: "400px" }}>
+                       {elem.kep_url && (
+                          <img
+                              className="card-img-top"
+                              src={`${Cim.Cim}/kepek/${elem.kep_url}.jpg`}
+                              alt="bejegyzesKep"
+                              style={{ width: "100%" }}
+                          />
+                      )}
+                        <div className="card-body">
+                            <h4 className="card-title">{elem.felhasznalo_id}</h4>
+                            <p className="card-text">{elem.tartalom}</p>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    )
+}
+
+export default FoOldal
+
+// // import 'bootstrap/dist/css/bootstrap.min.css';
+// // import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+
+
+// // const FoOldal=()=>{
+// //     return(
+// //        <div class="container mt-3">
+// //   <h2>Card Image</h2>
+// //   <p>Image at the top (card-img-top):</p>
+// //   <div class="card" style={{ width: "400px" }}>
+// //     <img class="card-img-top" src='' alt="bejegyzesKep" style={{ width: "100%" }}/>
+// //     <div class="card-body">
+// //       <h4 class="card-title">John Doe</h4>
+// //       <p class="card-text">Some example text some example text. John Doe is an architect and engineer</p>
+// //       <a href="FoOldal" class="btn btn-primary">See Profile</a>
+// //     </div>
+// //   </div>
+// //   <br />
+  
+  
+// //   <p>Image at the bottom (card-img-bottom):</p>
+// //   <div class="card" style={{ width: "400px" }}>
+// //     <div class="card-body">
+// //       <h4 class="card-title">Jane Doe</h4>
+// //       <p class="card-text">Some example text some example text. Jane Doe is an architect and engineer</p>
+// //       {/* <a href="#" class="btn btn-primary">See Profile</a> */}
+// //     </div>
+// //     <img class="card-img-bottom" src="../kepek/02.jfif" alt="bejegyzesKep" style={{ width: "100%" }}/>
+// //   </div>
+// // </div>
+// //     )
+// // }
+// // export default FoOldal
+
+
+// import { useState,useEffect } from "react"
+// import Cim from "../Cim"
+// import "../App.css"
+
+// const FoOldal=({kivalasztott})=>{
+//     const [adatok,setAdatok]=useState([])
+//     const [tolt,setTolt]=useState(true)
+//     const [hiba,setHiba]=useState(false)
+
+
+
+//     useEffect(()=>{
+
+//     const leToltes=async ()=>{
+//         try{
+//             let bemenet={
+//                 "bejegyzesek.bejegyzesek_id":kivalasztott
+//             }
+//             const response=await fetch(Cim.Cim+"/bejegyzesek",{
+//                     method: "POST",
+//                     headers: {
+//                         "Content-Type": "application/json"
+//                     },
+//                     body: JSON.stringify(bemenet)
+//             })
+//             const data=await response.json()
+//             //alert(JSON.stringify(data))
+//             //console.log(data)
+//             if (response.ok)
+//                 {
+//                     setAdatok(data)
+//                     setTolt(false)}
+//             else 
+//                 {
+//                     setHiba(true)
+//                     setTolt(false)
+//                 }
+//             }
+//         catch (error){
+//             console.log(error)
+//             setHiba(true)
+//         }
+        
+//     }
+
+//         leToltes()
+//     },[kivalasztott])
+
+//     if (tolt)
+//         return (
+//             <div style={{textAlign:"center"}}>Adatok betöltése folyamatban...</div>
+//                 )
+//     else if (hiba)
+//         return (
+//             <div>Hiba</div>
+//                 )       
+    
+//     else return (
+//         <div>
+//                 {/*kivalasztott*/}
+//                 {adatok.map((elem,index)=>(
+//                   //        <div class="container mt-3">
+//   // <h2>Card Image</h2>
+//   // <p>Image at the top (card-img-top):</p>
+//   <div>
+//   <div class="card" style={{ width: "400px" }}>
+//     <img class="card-img-top" src={`${Cim.Cim}/kepek/${elem.kep_url}.jpg`} alt="bejegyzesKep" style={{ width: "100%" }}/>
+//     <div class="card-body">
+//       <h4 class="card-title">{elem.felhasznalo_id}</h4>
+//       <p class="card-text">{elem.tartalom}</p>
+//       {/* <a href="FoOldal" class="btn btn-primary">Főoldal</a> */}
+//     </div>
+//   </div>                   
+//   ))}
+// </div>
+//     )
+//  }
+// export default Fooldal
+
+// {/* <div key={index} className="doboz"> 
+//                         <div className="jatekCim">{elem.jatek_nev} </div>
+//                         <div style={{textAlign:"center",marginTop:"20px"}}>
+//                             <img style={{width:"200px"}} src={`${Cim.Cim}/kepek/${elem.jatek_id}.jpg`} alt={elem.jatek_nev} />
+//                         </div>
+//                         <div>Értékelés: {elem.jatek_ertekeles} </div>
+//                         <div>Ár: {elem.jatek_ar} </div>
+//                         <div>Játék leírása: {elem.jatek_leiras} </div>
+//                         <div className="jatekTipus">Játék típusa: {elem.tipus_nev} </div>
+
+//                     </div> */}
+
+
+
+
+
+ 
+                        <button data-bs-toggle="collapse" data-bs-target={`#lenyilo${elem.bejegyzesek_id}`}>Collapsible</button>
+
+                        <div id={"lenyilo"+elem.bejegyzesek_id} className="collapse">
+                        Lorem ipsum dolor text....
+                        </div>

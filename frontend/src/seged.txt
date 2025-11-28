@@ -1,0 +1,35 @@
+import { useState } from 'react';
+import './App.css';
+
+import Lenyilo from './Lenyilo';
+
+
+
+function App() {
+  const [kivalasztott,setKivalasztott]=useState(1)
+  const [frissit,setFrissit]=useState(false)
+  return (
+    <div >
+      
+          <Lenyilo kivalasztott={setKivalasztott}/>
+          
+    </div>
+  );
+}
+
+export default App;
+
+
+
+
+a{/* <div key={index} className="doboz"> 
+                         <div className="jatekCim">{elem.felhasznalo_id} </div>
+                        <div style={{textAlign:"center",marginTop:"20px"}}>
+                            <img style={{width:"200px"}} src={`${Cim.Cim}/kepek/${elem.kep_url}.jpg`} alt={elem.felhasznalo_id} />
+                         </div>
+                        {/* <div>Tartalom: {elem.tartalom} </div>
+                        <div>Ár: {elem.jatek_ar} </div>
+                        <div>Játék leírása: {elem.jatek_leiras} </div> */}
+                        <div className="jatekTipus">Játék típusa: {elem.felhasznalo_id} </div>
+
+                    </div> */}
