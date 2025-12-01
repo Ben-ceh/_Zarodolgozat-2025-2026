@@ -30,35 +30,35 @@ bizFelhasznaloiAdat:
 - bizFelhasznalo_jelszo
 <!-- bizFelhasznalo_bKod -->
 
-bejegyzes_megosztasok:
-- bejegyMeg_id
+megosztasok:
+- megosztasok_id
 - bejegyzes_id
 - felhasznalo_id
 - megosztva
 
 bejegyzesek:
-- bejegy_id
+- bejegyzesek_id
 - felhasznalo_id
 - tartalom
 - kep_url
 - letrehozva
 
-bejegyzes_reakciok:
-- bejegyReak_id
+reakciok:
+- reakciok_id
 - bejegyzes_id
 - felhasznalo_id
 - reakcio
 - letrehozva
 
 hozzaszolasok:
-- hozz_id
+- hozzaszolasok_id
 - bejegyzes_id
 - felhasznalo_id
 - hozzaszolas_szoveg
 - letrehozva
 
 felhasznalok:
-- felh_id
+- felhasznalok_id
 - felhasznalonev
 - email
 - jelszo_hash
