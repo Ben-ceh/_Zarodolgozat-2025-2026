@@ -25,6 +25,9 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
+const login = require('./login');
+app.use('/login', login);
+
 //Bence végpontjai
 app.get('/felhasznaloim', (req, res) => {
         const sql=`SELECT * from felhasznalok`
