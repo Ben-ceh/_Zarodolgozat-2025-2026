@@ -46,8 +46,6 @@ app.get('/felhasznaloim', (req, res) => {
         })
 })
 
-//Sanyi végpontjai---------------------------------------------------------------------
-
 app.post('/bejegyzesekKeresId', (req, res) => {
         const {bejegyzesek_id} =req.body
         const sql=`
@@ -108,6 +106,11 @@ app.post('/kommentKeresBejegyId', (req, res) => {
         return res.status(200).json(result)
         })
 })
+
+
+//Sanyi végpontjai---------------------------------------------------------------------
+
+
 //Sanyi végpontjai
 app.get('/bejegyzesek', (req, res) => {
         const sql=`SELECT *
