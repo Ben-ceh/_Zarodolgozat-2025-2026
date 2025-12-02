@@ -15,6 +15,10 @@ import Admin from './Admin/Admin';
 import User from './User/User';
 //FőOldal menü
 import FoOldal from './FoOldal/FoOldal';
+// BejegyzésTörlése
+import BejegyzesTorles from './BejegyzesTorles/BejegyzesTorles';
+//TrágárszavakTörlése
+import TragarSzoKereso from './TragarSzoKereso/TragarSzoKereso';
 
 const ProtectedRoute = ({ children, role }) => {
   const token = localStorage.getItem("token");
@@ -51,6 +55,25 @@ function App() {
               <ProtectedRoute role="admin">
                 <Admin />
               </ProtectedRoute>
+              
+            }
+          /> 
+          <Route 
+            path="/BejegyzesTorles"
+            element={
+              <ProtectedRoute role="admin">
+                <BejegyzesTorles/>
+              </ProtectedRoute>
+              
+            }
+          /> 
+          <Route 
+            path="/TragarSzoKereso"
+            element={
+              <ProtectedRoute role="admin">
+                <TragarSzoKereso/>
+              </ProtectedRoute>
+              
             }
           />
 
