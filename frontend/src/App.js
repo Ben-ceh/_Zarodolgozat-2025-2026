@@ -13,6 +13,8 @@ import Menu1 from './Menu1/Menu1';
 import Admin from './Admin/Admin';
 //User menük
 import User from './User/User';
+//FőOldal menü
+import FoOldal from './FoOldal/FoOldal';
 
 const ProtectedRoute = ({ children, role }) => {
   const token = localStorage.getItem("token");
@@ -36,6 +38,8 @@ function App() {
           <Route path="/" element={<Menu1 />} />
          
           <Route path="/menu1" element={<Menu1 />} />
+
+          <Route path="/FoOldal" element={<FoOldal />} />
 
 {/* Bejelentkezés*/}
           <Route path="/login" element={<Login />} />
