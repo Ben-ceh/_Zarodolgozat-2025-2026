@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react"
+import { useEffect } from "react"
 import Cim from "../Cim"
 
 const Admin=()=>{
@@ -25,7 +25,7 @@ const Admin=()=>{
     }
 
     leToltes()
-    },[])
+    },[token])
 
 
     return (
