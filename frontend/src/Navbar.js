@@ -39,16 +39,46 @@ const Navbar = () => {
             </Link>
             
           )}
-          {loggedIn && role === "admin" && (
-            <Link to="/BejegyzesTorles" className="link" onClick={() => setMenuOpen(false)}>
-              BejegyzesTorles
-            </Link>
-          )}
-            {loggedIn && role === "admin" && (
-            <Link to="/TragarSzoKereso" className="link" onClick={() => setMenuOpen(false)}>
-              TragarSzoKereso
-            </Link>
-          )}
+          <div className="dropdown">
+                {loggedIn && role === "admin" && (
+                <button className="dropdown-btn">
+                  
+                  Törlések ▼
+                </button>
+                )}
+                <div className="dropdown-content">
+                  {loggedIn && role === "admin" && (
+                    <>
+                      <Link 
+                        to="/BejegyzesTorles" 
+                        className="dropdown-link"
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        Bejegyzések törlése
+                      </Link>
+
+                      <Link 
+                        to="/FelhasznaloTorlese" 
+                        className="dropdown-link"
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        Felhasználók törlése
+                      </Link>
+
+                      <Link 
+                        to="/HozzaszolasTorlese" 
+                        className="dropdown-link"
+                        onClick={() => setMenuOpen(false)}
+                      >
+                        Hozzászolások törlése
+                      </Link>
+
+                    </>
+                  )}
+                  
+                </div>
+              </div>
+           
           {loggedIn && role === "user" && (
             <Link to="/user" className="link" onClick={() => setMenuOpen(false)}>
               User menü

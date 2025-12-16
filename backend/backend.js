@@ -200,8 +200,9 @@ app.get('/felhasznaloNevJelenit', (req, res) => {
 
 })
 
-//Trágár szavak jelölése
-app.get('/tragarszoSzures', (req, res) => {
+
+
+app.get('/kommentek', (req, res) => {
         const sql=`SELECT hozzaszolasok.bejegyzes_id, hozzaszolasok.hozzaszolas_szoveg from hozzaszolasok;`
         pool.query(sql, (err, result) => {
         if (err) {
@@ -215,7 +216,123 @@ app.get('/tragarszoSzures', (req, res) => {
         return res.status(200).json(result)
         })
 
-})
+});
+
+//Felhasznalonev 
+app.get('/Bejelentkezesek', (req, res) => {
+        const sql=
+        `
+        SELECT felhasznalok.felhasznalok_id, felhasznalok.felhasznalonev, felhasznalok.email, felhasznalok.profil_kep, felhasznalok.bio, felhasznalok.neme, felhasznalok.regisztralt 
+        FROM felhasznalok
+        `
+        pool.query(sql, (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({error:"Hiba"})
+        }
+        if (result.length===0){
+            return res.status(404).json({error:"Nincs adat"})
+        }
+
+        return res.status(200).json(result)
+        })
+});
+
+//HozzaszolasTorles 
+app.delete('/HozzaszolasTorlese/:hozzaszolasok_id', (req, res) => {
+        const {hozzaszolasok_id} =req.params
+        const sql=`DELETE from hozzaszolasok where hozzaszolasok_id=?`
+        pool.query(sql,[hozzaszolasok_id], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({error:"Hiba"})
+        }
+       
+        return res.status(200).json({message:"Sikeres törlés"})
+        })
+});
+
+//Hozzászólások
+app.get('/Hozzaszolasok', (req, res) => {
+        const sql=`SELECT *
+                   from Hozzaszolasok
+                   INNER JOIN felhasznalok
+                   on hozzaszolasok.felhasznalo_id = felhasznalok.felhasznalok_id;
+                   `
+        pool.query(sql, (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({error:"Hiba"})
+        }
+        if (result.length===0){
+            return res.status(404).json({error:"Nincs adat"})
+        }
+
+        return res.status(200).json(result)
+        })
+});
+
+
+//Felhasznalók
+app.get('/Felhasznalok', (req, res) => {
+        const sql=`SELECT * 
+                   from felhasznalok
+                   `
+        pool.query(sql, (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({error:"Hiba"})
+        }
+        if (result.length===0){
+            return res.status(404).json({error:"Nincs adat"})
+        }
+
+        return res.status(200).json(result)
+        })
+});
+
+//Felhasznalok törlése
+app.delete('/FelhasznalokTorlese/:felhasznalok_id', (req, res) => {
+        const {felhasznalok_id} =req.params
+        const sql=`DELETE from felhasznalok where felhasznalok_id=?`
+        pool.query(sql,[felhasznalok_id], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({error:"Hiba"})
+        }
+       
+        return res.status(200).json({message:"Sikeres törlés"})
+        })
+});
+
+//Felhasználók törlése part 2
+
+app.delete("/felhasznalokTorlese/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const index = felhasznalok.findIndex((f) => f.felhasznalok_id === id);
+
+  if (index !== -1) {
+    const toroltFelhasznalo = felhasznalok.splice(index, 1);
+    res.json({ message: `A(z) ${toroltFelhasznalo[0].felhasznalonev} felhasználó törölve.` });
+  } else {
+    res.status(404).json({ error: "Felhasználó nem található." });
+  }
+});
+
+
+//Felhasználók megjelenítése
+app.get("/felhasznalokMegjelen", (req, res) => {
+  db.query("SELECT * FROM felhasznalok", (err, rows) => {
+    if (err) res.status(500).json(err);
+    else res.json(rows);
+  });
+});
+
+
+//Felhasználók lekérése part 2
+app.get("/felhasznalok", (req, res) => {
+  res.json(felhasznalok);
+});
 
 
 

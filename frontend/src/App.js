@@ -17,8 +17,12 @@ import User from './User/User';
 import FoOldal from './FoOldal/FoOldal';
 // BejegyzésTörlése
 import BejegyzesTorles from './BejegyzesTorles/BejegyzesTorles';
-//TrágárszavakTörlése
-import TragarSzoKereso from './TragarSzoKereso/TragarSzoKereso';
+//Trágárszavak Törlése
+//import TragarSzoKereso from './TragarSzoKereso/TragarSzoKereso';
+//Hozzászólások Törlése
+import HozzaszolasTorlese from './BejegyzesTorles/HozzaszolasTorlese';
+//Felhasznalók törlése
+import FelhasznaloTorlese from './BejegyzesTorles/FelhasznaloTorlese';
 
 const ProtectedRoute = ({ children, role }) => {
   const token = localStorage.getItem("token");
@@ -68,14 +72,26 @@ function App() {
             }
           /> 
           <Route 
-            path="/TragarSzoKereso"
+            path="/FelhasznaloTorlese"
             element={
               <ProtectedRoute role="admin">
-                <TragarSzoKereso/>
+                <FelhasznaloTorlese/>
               </ProtectedRoute>
               
             }
           />
+
+
+
+          <Route 
+            path="/HozzaszolasTorlese"
+            element={
+              <ProtectedRoute role="admin">
+                <HozzaszolasTorlese />
+              </ProtectedRoute>
+              
+            }
+          /> 
 
           <Route 
             path="/user"

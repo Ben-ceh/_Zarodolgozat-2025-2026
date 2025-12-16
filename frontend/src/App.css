@@ -211,3 +211,36 @@ span{
   
 }
 }
+
+
+
+/*------------------Sanyi css--------------------------*/
+
+.name-btn {
+  background: none;
+  border: none;
+  color: #4a90e2;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 0;
+  font-weight: bold;
+}
+
+.name-btn:hover {
+  text-decoration: underline;
+}
+
+.delete-btn {
+  background: #e74c3c;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.delete-btn:hover {
+  background: #c0392b;
+}
