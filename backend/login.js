@@ -8,7 +8,7 @@ const pool = mysql.createPool({
   host: 'localhost',
   user: 'root',
   password: '',
-  database: 'marvel_2025_login'
+  database: 'okos_kozosseg'
 })
 
 const SECRET_KEY = 'your_secret_key';
@@ -21,8 +21,9 @@ router.post('/login', (req, res) => {
     SELECT 
     felhasznalo_nev, 
     felhasznalo_jelszo,
-    rang_nev AS role
-    FROM felhasznalo
+    rang_nev AS role,
+    felhasznalo_id
+    FROM belepes
     inner join rang
     on felhasznalo_rang=rang_id
     WHERE felhasznalo_nev = ?
@@ -53,6 +54,7 @@ router.post('/login', (req, res) => {
       // TOKEN + ROLE
       const token = jwt.sign(
         {
+          userid: rows[0].felhasznalo_id,
           username: rows[0].felhasznalo_nev,
           role: rows[0].role
         },
@@ -61,8 +63,10 @@ router.post('/login', (req, res) => {
       );
 
       return res.json({
-        token: token,
-        role: rows[0].role
+         token: token,
+        role: rows[0].role,
+        userid: rows[0].felhasznalo_id,
+        username: rows[0].felhasznalo_nev,
       });
     });
   });
@@ -77,7 +81,7 @@ router.post('/register', (req, res) => {
   }
 
   // Ellenőrizzük, hogy a felhasználónév már foglalt-e
-  pool.query('SELECT * FROM felhasznalo WHERE felhasznalo_nev = ?', [username], (err, rows) => {
+  pool.query('SELECT * FROM belepes WHERE felhasznalo_nev = ?', [username], (err, rows) => {
     if (err) {
       console.error('Adatbázis hiba:', err);
       return res.status(500).json({ message: 'Szerverhiba' });

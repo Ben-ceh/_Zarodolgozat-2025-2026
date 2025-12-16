@@ -19,7 +19,7 @@ const BejegyzesekOsszesen = () => {
     const now = new Date();
     const date = new Date(iso);
     const diff = (now - date) / 1000;
-
+ 
     if (diff < 60) return "egy perce";
     if (diff < 3600) return `${Math.floor(diff / 60)} perce`;
     if (diff < 86400) return `${Math.floor(diff / 3600)} órája`;
@@ -245,25 +245,12 @@ const BejegyzesekOsszesen = () => {
                             <strong>{k.felhasznalonev}</strong>
                             <div>{k.hozzaszolas_szoveg}</div>
 
-                            {/* 📅 Relatív + Tooltip + ÚJ jelzés */}
+                            {/* 📅 Relatív + Tooltip pontos idő */}
                             <div
                               style={{ fontSize: "12px", color: "#888" }}
                               title={formatExactDate(k.letrehozva)}
                             >
                               {formatRelativeTime(k.letrehozva)}
-
-                              {(new Date() - new Date(k.letrehozva)) <
-                                3600 * 1000 && (
-                                <span
-                                  style={{
-                                    color: "red",
-                                    marginLeft: "6px",
-                                    fontWeight: "bold",
-                                  }}
-                                >
-                                  ÚJ
-                                </span>
-                              )}
                             </div>
                           </div>
                         </div>

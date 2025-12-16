@@ -3,14 +3,49 @@ h1,h2 {
   font-family: Cambria, Cochin;
   color: rgb(64, 64, 171);
 }
-
+.profilKep {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 8px;
+}
+.profilKepKomment {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.bejegyzesKartya {
+  border: 1px solid #e0e0e0;
+  padding: 12px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+}
+.bejegyzesCim {
+  font-size: 20px;
+  margin: 8px 0;
+}
+.bejegyzesTartalom {
+  white-space: pre-wrap;  
+}
+.profilKepKomment {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
 .bejegyzesKartya{
-  width: 450px;
+  width: 550px;
   margin: auto;
   padding: auto;
+  border: 1px solid black;
+}
+.kozep{
+  text-align: center;
 }
 .bejegyzesKepek{
-  width: 100%;
+  width: 80%;
   height: auto;
   object-fit: cover;
   border: solid 1px black;
@@ -22,7 +57,7 @@ h1,h2 {
 .bejegyzesTartalom{
   margin: auto;
   padding: auto;
-  width: 600px;
+  width: auto;
   text-align: justify;
   
 }
@@ -158,6 +193,12 @@ span{
   /* .doboz{
     
   } */
+  .bejegyzesKartya{
+  width: 350px;
+  margin: auto;
+  padding: auto;
+  border: 1px solid black;
+}
   .kartya{
     margin:10px;
     padding: 10px;

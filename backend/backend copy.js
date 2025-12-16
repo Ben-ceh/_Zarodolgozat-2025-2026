@@ -88,11 +88,12 @@ app.post('/kommentKeresBejegyId', (req, res) => {
         const {bejegyzesek_id} =req.body
         const sql=`
                 select *
-from felhasznalok
-INNER JOIN hozzaszolasok
-ON hozzaszolasok.felhasznalo_id =felhasznalok.felhasznalok_id
-where hozzaszolasok.bejegyzes_id=?
-Order by hozzaszolasok_id;
+                from bejegyzesek
+                inner join felhasznalok
+                on felhasznalo_id=felhasznalok_id
+                INNER JOIN hozzaszolasok
+                ON bejegyzesek.bejegyzesek_id =hozzaszolasok.bejegyzes_id
+                where bejegyzesek_id=?;
                 `
         pool.query(sql,[bejegyzesek_id], (err, result) => {
         if (err) {
@@ -106,31 +107,38 @@ Order by hozzaszolasok_id;
         return res.status(200).json(result)
         })
 })
-//Poszt felvitele
-app.post('/posztFelvitel', (req, res) => {
-        const {cim,tartalom,kep_url_helyszin,letrehozva} =req.body
-        const sql=`insert into bejegyzesek values (null,?,?,?,?,?)`
-        pool.query(sql,[cim,tartalom,kep_url_helyszin,letrehozva], (err, result) => {
+//hozzaszolasok_id alapaján keres
+app.post('/mindenKerHozzId', (req, res) => {
+    const { bejegyzesek_id } = req.body;
+
+    const sql = `
+        SELECT * 
+        FROM bejegyzesek
+        INNER JOIN felhasznalok 
+            ON bejegyzesek.felhasznalo_id = felhasznalok.felhasznalok_id 
+        INNER JOIN hozzaszolasok
+            ON bejegyzesek.bejegyzesek_id = hozzaszolasok.bejegyzes_id 
+        LEFT JOIN megosztasok 
+            ON megosztasok.bejegyzes_id = bejegyzesek.bejegyzesek_id 
+        LEFT JOIN reakciok 
+            ON reakciok.bejegyzes_id = bejegyzesek.bejegyzesek_id 
+        WHERE bejegyzesek.bejegyzesek_id = ?;
+    `;
+
+    pool.query(sql, [bejegyzesek_id], (err, result) => {
         if (err) {
-            console.log(err)
-            return res.status(500).json({error:"Hiba"})
+            console.log(err);
+            return res.status(500).json({ error: "Hiba" });
         }
-        
-        return res.status(200).json({message:"Sikeres felvitel"})
-        })
-})
-//hozzaszolas felvitele 
-app.post('/hozzaszolasFelv', (req, res) => {
-        const {bejegyzes_id,felhasznalo_id,hozzaszolas_szoveg,letrehozva} =req.body
-        const sql=`insert into hozzaszolasok values (null,?,?,?,?)`
-        pool.query(sql,[bejegyzes_id,felhasznalo_id,hozzaszolas_szoveg,letrehozva], (err, result) => {
-        if (err) {
-            console.log(err)
-            return res.status(500).json({error:"Hiba"})
+
+        if (result.length === 0) {
+            return res.status(404).json({ error: "Nincs adat" });
         }
-            return res.status(200).json({message:"Sikeres felvitel"})
-        })
-})
+
+        return res.status(200).json(result);
+    });
+});
+
 
 //Sanyi végpontjai---------------------------------------------------------------------
 
