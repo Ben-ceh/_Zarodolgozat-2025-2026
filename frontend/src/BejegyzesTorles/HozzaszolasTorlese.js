@@ -1,143 +1,211 @@
+import { useState, useEffect } from "react";
+import Cim from "../Cim";
+import "../App.css";
+import Swal from "sweetalert2";
 
+const HozzaszolasTorlese = ({ kivalasztott }) => {
+  const [adatok, setAdatok] = useState([]);
+  const [tolt, setTolt] = useState(true);
+  const [hiba, setHiba] = useState(false);
+  const [siker, setSiker] = useState(false);
 
-import { useState,useEffect } from "react"
-import Cim from "../Cim"
-import "../App.css"
-import Swal from 'sweetalert2';
+  // 🔍 NÉV KERESÉS
+  const [nevKereses, setNevKereses] = useState("");
 
-const HozzaszolasTorlese=({kivalasztott})=>{
-    const [adatok,setAdatok]=useState([])
-    const [tolt,setTolt]=useState(true)
-    const [hiba,setHiba]=useState(false)
-    const [siker,setSiker]=useState(false)
+  // 🖍️ Tartalom kiemelés
+  const [inputErtek, setInputErtek] = useState("");
+  const [keresettSzo, setKeresettSzo] = useState("");
 
-    const leToltes=async ()=>{
-        try{
-            const response=await fetch(Cim.Cim+"/hozzaszolasok")
-            const data=await response.json()
-            //alert(JSON.stringify(data))
-            //console.log(data)
-            if (response.ok)
-                {
-                    setAdatok(data)
-                    setTolt(false)}
-            else 
-                {
-                    setHiba(true)
-                    setTolt(false)
-                }
-            }
-        catch (error){
-            console.log(error)
-            setHiba(true)
-        }
-        
+  // ----------------------------------------
+  const highlight = (szoveg, keres) => {
+    if (!keres) return szoveg;
+
+    const regex = new RegExp(`(${keres})`, "gi");
+    return szoveg.replace(
+      regex,
+      `<mark style="background: yellow; padding: 2px;">$1</mark>`
+    );
+  };
+  // ----------------------------------------
+
+  const leToltes = async () => {
+    try {
+      const response = await fetch(Cim.Cim + "/hozzaszolasok");
+      const data = await response.json();
+
+      if (response.ok) {
+        setAdatok(data);
+        setTolt(false);
+      } else {
+        setHiba(true);
+        setTolt(false);
+      }
+    } catch (error) {
+      console.log(error);
+      setHiba(true);
     }
+  };
 
-    useEffect(()=>{
-        leToltes()
-    },[siker])
-    const ido = (evHoNap) => {
-        return evHoNap.split("T")[0]; // "2025-11-17"
-    };
-    //-----------------------------
-    const nevKeres=async(felhaszanlok_id,felhasznalonev,email,bio)=>{
-        //alert(`${felhasznalonev}\n${email}\n${bio}`)
-        Swal.fire(`${felhasznalonev}`, `${email} <br></br> ${bio}`,`info`);
+  useEffect(() => {
+    leToltes();
+  }, [siker]);
+
+  const ido = (evHoNap) => evHoNap.split("T")[0];
+
+  const nevKeres = (id, nev, email, bio) => {
+    Swal.fire(nev, `${email} <br/> ${bio}`, "info");
+  };
+
+  const torlesFuggveny = async (id, szoveg) => {
+    const biztos = window.confirm(
+      `Biztosan törölni szeretnéd ezt a hozzászólást?\n\n"${szoveg}"`
+    );
+
+    if (biztos) {
+      const response = await fetch(
+        Cim.Cim + "/HozzaszolasTorlese/" + id,
+        { method: "delete" }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(data.message);
+        setSiker(!siker);
+      } else {
+        alert(data.error);
+      }
     }
-    const torlesFuggveny=async (hozzaszolasok_id,hozzaszolas_szoveg)=>{
-        //alert(jatek_id)
-        const biztos=window.confirm(`Biztosan törölni szeretnéd ${hozzaszolas_szoveg} hozzászólást?`)
-        if (biztos){
-            //alert("Jó")
-            const response=await fetch(Cim.Cim+"/HozzaszolasTorlese/" + hozzaszolasok_id,{
-                    method: "delete",
-                    headers: {
-                        "Content-Type": "application/json"
-                            }
-                   })
-            const data=await response.json()
-            if (response.ok){
-                alert(data["message"])
-                setSiker(!siker)
-            }
-            else{
-                alert(data["error"])
-            }
-        }
-    }
-    if (tolt)
-        return (
-            <div style={{textAlign:"center"}}>Adatok betöltése folyamatban...</div>
-                )
-    else if (hiba)
-        return (
-            <div>Hiba</div>
-                )
-    
-    else return (
-        <div className="bejegyzesekSzerkesztes">
-            {/* <div class="row">
-                    <div class="col p-3 ">Felhasználók neve:</div>
-                    <div class="col p-3 ">tartalom:</div>
-                    <div class="col p-3 ">dátum:</div>
-            </div> */}
-               <table className="styled-table">
-  <thead>
-    <tr>
-      <th>Felhasználó neve</th>
-      <th>Tartalom</th>
-      <th>Dátum</th>
-      <th>Művelet</th>
-    </tr>
-  </thead>
+  };
 
-  <tbody>
-    {adatok.map((elem, index) => (
-      <tr key={index}>
-        <td>
-          <button 
-            className="name-btn"
-            onClick={() =>
-              nevKeres(
-                elem.hozzaszolasok_id,
-                elem.felhasznalonev,
-                elem.email,
-                elem.bio
-              )
-            }
-          >
-            {elem.felhasznalonev}
-          </button>
-        </td>
+  // ----------------------------------------
+  // 🔍 SZŰRÉS FELHASZNÁLÓNÉV ALAPJÁN
+  const szurtAdatok = adatok.filter((elem) =>
+    elem.felhasznalonev
+      .toLowerCase()
+      .includes(nevKereses.toLowerCase())
+  );
+  // ----------------------------------------
 
-        <td>{elem.hozzaszolas_szoveg}</td>
+  if (tolt)
+    return (
+      <div style={{ textAlign: "center" }}>
+        Adatok betöltése folyamatban...
+      </div>
+    );
 
-        <td><b>{ido(elem.letrehozva)}</b></td>
+  if (hiba) return <div>Hiba</div>;
 
-        <td>
-          <button
-            className="delete-btn"
-            onClick={() =>
-              torlesFuggveny(
-                elem.hozzaszolasok_id,
-                elem.hozzaszolas_szoveg,
-                ido(elem.letrehozva)
-              )
-            }
-          >
-            ✕
-          </button>
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
+  return (
+    <div className="bejegyzesekSzerkesztes">
 
-                
-        </div>
-    )
+      {/* 🔍 NÉV KERESŐ */}
+      <input
+        type="text"
+        placeholder="Keresés felhasználónévre..."
+        value={nevKereses}
+        onChange={(e) => setNevKereses(e.target.value)}
+        style={{
+          padding: "8px",
+          width: "250px",
+          marginBottom: "15px",
+          borderRadius: "5px",
+          border: "1px solid #ccc",
+        }}
+      />
 
-    
-}
-export default HozzaszolasTorlese
+      {/* 🖍️ TARTALOM KIEMELÉS */}
+      <div style={{ marginBottom: "20px" }}>
+        <input
+          type="text"
+          placeholder="Írj be egy szót a tartalomból..."
+          value={inputErtek}
+          onChange={(e) => setInputErtek(e.target.value)}
+          style={{
+            padding: "8px",
+            width: "250px",
+            marginRight: "10px",
+            borderRadius: "5px",
+            border: "1px solid #ccc",
+          }}
+        />
+        <button
+          onClick={() => setKeresettSzo(inputErtek)}
+          style={{
+            padding: "8px 15px",
+            background: "#4a90e2",
+            border: "none",
+            borderRadius: "5px",
+            color: "white",
+            cursor: "pointer",
+          }}
+        >
+          Kiemelés
+        </button>
+      </div>
+
+      {/* 📋 TÁBLÁZAT */}
+      <table className="styled-table">
+        <thead>
+          <tr>
+            <th>Felhasználó neve</th>
+            <th>Tartalom</th>
+            <th>Dátum</th>
+            <th>Művelet</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {szurtAdatok.map((elem, index) => (
+            <tr key={index}>
+              <td>
+                <button
+                  className="name-btn"
+                  onClick={() =>
+                    nevKeres(
+                      elem.hozzaszolasok_id,
+                      elem.felhasznalonev,
+                      elem.email,
+                      elem.bio
+                    )
+                  }
+                >
+                  {elem.felhasznalonev}
+                </button>
+              </td>
+
+              <td
+                dangerouslySetInnerHTML={{
+                  __html: highlight(
+                    elem.hozzaszolas_szoveg,
+                    keresettSzo
+                  ),
+                }}
+              ></td>
+
+              <td>
+                <b>{ido(elem.letrehozva)}</b>
+              </td>
+
+              <td>
+                <button
+                  className="delete-btn"
+                  onClick={() =>
+                    torlesFuggveny(
+                      elem.hozzaszolasok_id,
+                      elem.hozzaszolas_szoveg
+                    )
+                  }
+                >
+                  ✕
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default HozzaszolasTorlese;
