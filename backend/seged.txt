@@ -1,0 +1,10 @@
+SELECT * 
+FROM belepes
+INNER JOIN 	felhasznalok
+on felhasznalok.idegen_felhasznalo_id = belepes.felhasznalo_id
+INNER JOIN felhasznalo_csoportok
+ON felhasznalo_csoportok.felhasznalok_id = felhasznalok.felhasznalok_id
+INNER JOIN csoportok
+ON csoportok.csoport_id = felhasznalo_csoportok.csoport_id;
+
+
