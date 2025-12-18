@@ -84,6 +84,7 @@ app.get('/bejegyEsFelh', (req, res) => {
         return res.status(200).json(result)
         })
 })
+//Komment Keres Bejegyzes Id Alapjan
 app.post('/kommentKeresBejegyId', (req, res) => {
         const {bejegyzesek_id} =req.body
         const sql=`
@@ -131,7 +132,51 @@ app.post('/hozzaszolasFelv', (req, res) => {
             return res.status(200).json({message:"Sikeres felvitel"})
         })
 })
+//Csoport megjenítése user_id alapján
+app.get('/csoportjaim/:user_id', (req, res) => {
+        const {user_id} =req.params
+        const sql=`
+                SELECT * 
+            FROM belepes
+            INNER JOIN felhasznalok
+            on felhasznalok.idegen_felhasznalo_id = belepes.felhasznalo_id
+            INNER JOIN felhasznalo_csoportok
+            ON felhasznalo_csoportok.felhasznalok_id = felhasznalok.felhasznalok_id
+            INNER JOIN csoportok
+            ON csoportok.csoport_id = felhasznalo_csoportok.csoport_id
+            Where ? = belepes.felhasznalo_id;
+                `
+        pool.query(sql,[user_id], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({error:"Hiba"})
+        }
+        if (result.length===0){
+            return res.status(404).json({error:"Nincs adat"})
+        }
 
+        return res.status(200).json(result)
+        })
+})
+//Csoport Bejegyzés megjenítése
+app.post('/bejegyKeresCs_id', (req, res) => {
+        const {csoport_id} =req.body
+        const sql=`
+                SELECT * FROM bejegyzesek
+                WHERE csoport_id = ?;
+                `
+        pool.query(sql,[csoport_id], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({error:"Hiba"})
+        }
+        if (result.length===0){
+            return res.status(404).json({error:"Nincs adat"})
+        }
+
+        return res.status(200).json(result)
+        })
+}) 
 //Sanyi végpontjai---------------------------------------------------------------------
 
 
