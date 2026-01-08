@@ -33,6 +33,12 @@ const Navbar = () => {
           <Link to="/FoOldal" className="link" onClick={() => setMenuOpen(false)}>
             FőOldal
           </Link>
+          {loggedIn && role === "user" && (
+            <Link to="/csoportjaim" className="link" onClick={() => setMenuOpen(false)}>
+              Csoportjaim
+            </Link>
+            
+          )}
           {loggedIn && role === "admin" && (
             <Link to="/admin" className="link" onClick={() => setMenuOpen(false)}>
               Admin

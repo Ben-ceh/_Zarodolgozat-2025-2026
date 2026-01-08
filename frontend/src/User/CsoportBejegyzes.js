@@ -4,7 +4,7 @@ import Cim from "../Cim";
 import "../App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const BejegyzesekOsszesen = () => {
+const CsoportBejegyzes = ({kivalasztott,userid,belepUserid}) => {
   const [adatok, setAdatok] = useState([]);
   const [tolt, setTolt] = useState(true);
   const [hiba, setHiba] = useState(false);
@@ -42,11 +42,23 @@ const BejegyzesekOsszesen = () => {
   };
 
   useEffect(() => {
+    // alert(userid)
+    
     const leToltes = async () => {
       try {
-        const response = await fetch(Cim.Cim + "/bejegyEsFelh");
+        // alert(userid)
+        let bemenet={
+                "kivalasztott":kivalasztott
+            }
+        const response = await fetch(Cim.Cim + "/bejegyKeresCs/"+userid,{
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(bemenet)});
         const data = await response.json();
         if (response.ok) {
+          // alert(JSON.stringify(data))
           setAdatok(data);
           setTolt(false);
         } else {
@@ -59,7 +71,7 @@ const BejegyzesekOsszesen = () => {
       }
     };
     leToltes();
-  }, []);
+  }, [kivalasztott,userid]);
 
   const formatDate = (mysqlDate) => (mysqlDate ? mysqlDate.split("T")[0] : "");
 
@@ -128,7 +140,7 @@ const BejegyzesekOsszesen = () => {
 
     const bemenet = {
       bejegyzes_id: bejegyzesek_id,
-      felhasznalo_id: 2,
+      felhasznalo_id: belepUserid,
       hozzaszolas_szoveg: szoveg,
       letrehozva: letrehozva,
     };
@@ -310,4 +322,4 @@ const BejegyzesekOsszesen = () => {
   );
 };
 
-export default BejegyzesekOsszesen;
+export default CsoportBejegyzes;

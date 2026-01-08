@@ -4,6 +4,7 @@ import CsoportBejegyzes from './CsoportBejegyzes';
 const User=()=>{
     
     const [userid] = useState(localStorage.getItem("userid"));
+    const [belepUserid] = useState(localStorage.getItem("belepUserid"));
     const [kivalasztott,setKivalasztott]=useState(1)
 
     return (
@@ -17,7 +18,7 @@ const User=()=>{
                     <Lenyilo kivalasztott={setKivalasztott}/>
                     </div>
                 <div className="col-sm-8">
-                    <CsoportBejegyzes kivalasztott={kivalasztott}/>
+                    <CsoportBejegyzes kivalasztott={kivalasztott} userid={userid} belepUserid={belepUserid}/>
                 </div>
             </div>
         </div>

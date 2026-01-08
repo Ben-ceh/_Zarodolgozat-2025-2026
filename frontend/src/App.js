@@ -23,6 +23,8 @@ import BejegyzesTorles from './BejegyzesTorles/BejegyzesTorles';
 import HozzaszolasTorlese from './BejegyzesTorles/HozzaszolasTorlese';
 //Felhasznalók törlése
 import FelhasznaloTorlese from './BejegyzesTorles/FelhasznaloTorlese';
+//Csoportjaim lista
+import Csoportjaim from './Csoportjaim/Csoportjaim';
 
 const ProtectedRoute = ({ children, role }) => {
   const token = localStorage.getItem("token");
@@ -48,6 +50,8 @@ function App() {
           <Route path="/menu1" element={<Menu1 />} />
 
           <Route path="/FoOldal" element={<FoOldal />} />
+
+          <Route path="/Csoportjaim" element={<Csoportjaim />} />
 
 {/* Bejelentkezés*/}
           <Route path="/login" element={<Login />} />

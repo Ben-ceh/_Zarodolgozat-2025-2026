@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2025. Dec 16. 12:06
+-- Létrehozás ideje: 2026. Jan 08. 14:13
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Adatbázis: `okos_kozosseg`
 --
-CREATE DATABASE IF NOT EXISTS `okos_kozosseg` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_hungarian_ci;
-USE `okos_kozosseg`;
 
 -- --------------------------------------------------------
 
@@ -35,7 +33,7 @@ CREATE TABLE `bejegyzesek` (
   `cim` text NOT NULL,
   `tartalom` text NOT NULL,
   `kep_url` varchar(255) DEFAULT NULL,
-  `helyszin` text NOT NULL,
+  `helyszin` int(11) NOT NULL,
   `letrehozva` timestamp NOT NULL DEFAULT current_timestamp(),
   `csoport_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
@@ -45,10 +43,13 @@ CREATE TABLE `bejegyzesek` (
 --
 
 INSERT INTO `bejegyzesek` (`bejegyzesek_id`, `felhasznalo_id`, `cim`, `tartalom`, `kep_url`, `helyszin`, `letrehozva`, `csoport_id`) VALUES
-(1, 1, 'Az első poszt.', 'Sziasztok! Ez lenne az első poszt ezen a weboldalon. Én és a kollégámmal szeretnénk egy barátságos közösséget építeni, ami kisegíti és informálja a tagjait. Köszönöm hogy végig olvastad, legyen csodálatos napod! ', '1.jfif', '1', '2025-11-17 12:44:02', 1),
-(2, 2, 'közúti tájékoztatás.', 'Tisztelt Lakosság!\r\n\r\nEzúton szeretnénk tájékoztatni Önöket, hogy településünk egyik legforgalmasabb útszakaszán, a … utcában/úton útfelújítási munkálatok kezdődnek a jövő hét elején. A beruházás célja a régi, elhasználódott burkolat teljes cseréje, valamint az út szerkezetének megerősítése annak érdekében, hogy hosszú távon biztonságosabb és kényelmesebb közlekedést biztosítsunk valamennyi közlekedő számára.\r\n\r\nA munkálatok várhatóan két hétig tartanak, ez idő alatt az érintett útszakaszon ideiglenes forgalomkorlátozásokra és részleges lezárásokra kell számítani. Kérjük a lakosokat, hogy a kihelyezett közlekedési táblákat, jelzéseket fokozott figyelemmel kövessék, és lehetőség szerint válasszanak kerülőútvonalat. Az út mentén élők számára korlátozott ideig előfordulhat zaj- és porhatás, ugyanakkor a kivitelező mindent megtesz annak érdekében, hogy a kellemetlenségeket a lehető legkisebbre csökkentse.\r\n\r\nMegértésüket és türelmüket előre is köszönjük. Bízunk benne, hogy a felújítás befejezését követően mindenki elégedetten tapasztalja majd az új burkolat nyújtotta könnyebb és biztonságosabb közlekedést.', NULL, '1', '2025-11-21 10:32:02', 1),
-(3, 3, 'Alma', 'Alma', '3.jfif', 'Buda Ézsiás utca', '2025-11-21 11:40:35', 1),
-(4, 4, 'Virág osztás a hétvégén!', 'Az önkörmányzat ingyen ad virágot.', NULL, 'Budai Ézsiás utca', '2025-12-11 13:19:55', 2);
+(1, 1, 'Az első poszt.', 'Sziasztok! Ez lenne az első poszt ezen a weboldalon. Én és a kollégámmal szeretnénk egy barátságos közösséget építeni, ami kisegíti és informálja a tagjait. Köszönöm hogy végig olvastad, legyen csodálatos napod! ', '1.jfif', 4, '2025-11-17 12:44:02', 1),
+(2, 2, 'közúti tájékoztatás.', 'Tisztelt Lakosság!\r\n\r\nEzúton szeretnénk tájékoztatni Önöket, hogy településünk egyik legforgalmasabb útszakaszán, a … utcában/úton útfelújítási munkálatok kezdődnek a jövő hét elején. A beruházás célja a régi, elhasználódott burkolat teljes cseréje, valamint az út szerkezetének megerősítése annak érdekében, hogy hosszú távon biztonságosabb és kényelmesebb közlekedést biztosítsunk valamennyi közlekedő számára.\r\n\r\nA munkálatok várhatóan két hétig tartanak, ez idő alatt az érintett útszakaszon ideiglenes forgalomkorlátozásokra és részleges lezárásokra kell számítani. Kérjük a lakosokat, hogy a kihelyezett közlekedési táblákat, jelzéseket fokozott figyelemmel kövessék, és lehetőség szerint válasszanak kerülőútvonalat. Az út mentén élők számára korlátozott ideig előfordulhat zaj- és porhatás, ugyanakkor a kivitelező mindent megtesz annak érdekében, hogy a kellemetlenségeket a lehető legkisebbre csökkentse.\r\n\r\nMegértésüket és türelmüket előre is köszönjük. Bízunk benne, hogy a felújítás befejezését követően mindenki elégedetten tapasztalja majd az új burkolat nyújtotta könnyebb és biztonságosabb közlekedést.', NULL, 1, '2025-11-21 10:32:02', 1),
+(3, 3, 'Alma', 'Alma', '3.jfif', 1, '2025-11-21 11:40:35', 1),
+(4, 4, 'Virág osztás a hétvégén!', 'Az önkörmányzat ingyen ad virágot.', NULL, 1, '2025-12-11 13:19:55', 2),
+(5, 4, 'Teszt', 'Teszt', NULL, 19, '2025-12-17 11:42:06', 1),
+(6, 2, 'Nem tudom,teszt!!4!', 'Nagy teszt!', NULL, 28, '2025-12-17 12:01:29', 2),
+(7, 2, 'Havazik', 'Havazik', NULL, 1, '2026-01-06 07:57:48', 3);
 
 -- --------------------------------------------------------
 
@@ -96,7 +97,8 @@ CREATE TABLE `csoportok` (
 
 INSERT INTO `csoportok` (`csoport_id`, `csoport_nev`, `csoport_leiras`, `csoport_telepules`, `csoport_kep`, `csoport_letrehozva`) VALUES
 (1, 'Általános', 'Általános', 1, NULL, '2025-12-11 13:06:27'),
-(2, 'Homokkerti barát', 'Homokkerti barát', 1, NULL, '2025-12-11 13:14:08');
+(2, 'Homokkerti barát', 'Homokkerti barát', 1, NULL, '2025-12-11 13:14:08'),
+(3, 'Időjárás', 'Dugóvan az utakon', 1, NULL, '2026-01-06 07:56:14');
 
 -- --------------------------------------------------------
 
@@ -120,9 +122,9 @@ CREATE TABLE `felhasznalok` (
 
 INSERT INTO `felhasznalok` (`felhasznalok_id`, `email`, `profil_kep`, `bio`, `neme`, `felhasznalonev`, `idegen_felhasznalo_id`) VALUES
 (1, 'BenceTibor@gmail.com', '1.jfif', 'A nevem Komóczi Bence Tibor.Egy weboldalt próbálok készíteni.', 1, 'Komóczi Bence Tibor', 11),
-(2, 'NagySandor@gmail.com', NULL, 'A nevem Nagy Sándor. Egy weboldalt próbálok készíteni.', 1, 'Nagy Sándor', 1),
+(2, 'NagySandor@gmail.com', NULL, 'A nevem Nagy Sándor. Egy weboldalt próbálok készíteni.', 1, 'Nagy Sándor', 6),
 (3, 'BaniMíra@gmail.com', NULL, 'A nevem Banai Míra. Nem szeretem a jókedvet.', 2, 'Bani Míra', 5),
-(4, 'Manci@gmail.com', NULL, 'Manci.', 0, 'Manci Nagy', 8);
+(4, 'Manci@gmail.com', 'manci.jpg', 'Manci.', 2, 'Manci Nagy', 8);
 
 -- --------------------------------------------------------
 
@@ -142,7 +144,11 @@ CREATE TABLE `felhasznalo_csoportok` (
 --
 
 INSERT INTO `felhasznalo_csoportok` (`id`, `felhasznalok_id`, `csoport_id`, `csatlakozva`) VALUES
-(1, 4, 1, '2025-12-11 13:07:20');
+(4, 2, 3, '2026-01-08 10:59:43'),
+(8, 4, 1, '2026-01-08 12:02:43'),
+(9, 4, 2, '2026-01-08 12:02:43'),
+(10, 4, 3, '2026-01-08 12:02:43'),
+(11, 4, 1, '2026-01-08 12:22:32');
 
 -- --------------------------------------------------------
 
@@ -190,7 +196,13 @@ INSERT INTO `hozzaszolasok` (`hozzaszolasok_id`, `bejegyzes_id`, `felhasznalo_id
 (27, 2, 2, 'Mai', '2025-12-11 07:43:30'),
 (28, 1, 2, 'adasdsaas', '2025-12-11 13:15:18'),
 (29, 1, 2, 'Csoki', '2025-12-16 10:36:49'),
-(30, 1, 2, 'teszt', '2025-12-16 11:04:35');
+(30, 1, 2, 'teszt', '2025-12-16 11:04:35'),
+(31, 1, 2, 'Csoki', '2025-12-17 10:58:18'),
+(32, 1, 2, 'csoki', '2025-12-17 10:58:23'),
+(37, 1, 2, 'Teszt', '2026-01-06 08:18:13'),
+(38, 1, 2, 'Teszt', '2026-01-06 08:18:50'),
+(39, 1, 2, 'teszt', '2026-01-06 08:25:59'),
+(43, 1, 4, 'Teszt', '2026-01-06 08:44:32');
 
 -- --------------------------------------------------------
 
@@ -315,7 +327,8 @@ INSERT INTO `telepules` (`telepules_id`, `telepules_nev`) VALUES
 --
 ALTER TABLE `bejegyzesek`
   ADD PRIMARY KEY (`bejegyzesek_id`),
-  ADD KEY `felhasznalo_id` (`felhasznalo_id`);
+  ADD KEY `felhasznalo_id` (`felhasznalo_id`),
+  ADD KEY `helyszin` (`helyszin`);
 
 --
 -- A tábla indexei `belepes`
@@ -390,19 +403,19 @@ ALTER TABLE `telepules`
 -- AUTO_INCREMENT a táblához `bejegyzesek`
 --
 ALTER TABLE `bejegyzesek`
-  MODIFY `bejegyzesek_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `bejegyzesek_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT a táblához `belepes`
 --
 ALTER TABLE `belepes`
-  MODIFY `felhasznalo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `felhasznalo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT a táblához `csoportok`
 --
 ALTER TABLE `csoportok`
-  MODIFY `csoport_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `csoport_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT a táblához `felhasznalok`
@@ -414,13 +427,13 @@ ALTER TABLE `felhasznalok`
 -- AUTO_INCREMENT a táblához `felhasznalo_csoportok`
 --
 ALTER TABLE `felhasznalo_csoportok`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT a táblához `hozzaszolasok`
 --
 ALTER TABLE `hozzaszolasok`
-  MODIFY `hozzaszolasok_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `hozzaszolasok_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT a táblához `megosztasok`
@@ -454,7 +467,8 @@ ALTER TABLE `telepules`
 -- Megkötések a táblához `bejegyzesek`
 --
 ALTER TABLE `bejegyzesek`
-  ADD CONSTRAINT `bejegyzesek_ibfk_1` FOREIGN KEY (`felhasznalo_id`) REFERENCES `felhasznalok` (`felhasznalok_id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `bejegyzesek_ibfk_1` FOREIGN KEY (`felhasznalo_id`) REFERENCES `felhasznalok` (`felhasznalok_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `bejegyzesek_ibfk_2` FOREIGN KEY (`helyszin`) REFERENCES `telepules` (`telepules_id`);
 
 --
 -- Megkötések a táblához `belepes`

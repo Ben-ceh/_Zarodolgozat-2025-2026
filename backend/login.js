@@ -22,11 +22,14 @@ router.post('/login', (req, res) => {
     felhasznalo_nev, 
     felhasznalo_jelszo,
     rang_nev AS role,
-    felhasznalo_id
+    felhasznalo_id,
+    felhasznalok_id
     FROM belepes
     inner join rang
     on felhasznalo_rang=rang_id
-    WHERE felhasznalo_nev = ?
+    INNER JOIN felhasznalok
+    ON belepes.felhasznalo_id = felhasznalok.idegen_felhasznalo_id
+    WHERE felhasznalo_nev = ?;
   `;
 
   pool.query(query, [username], (err, rows) => {
@@ -55,6 +58,7 @@ router.post('/login', (req, res) => {
       const token = jwt.sign(
         {
           userid: rows[0].felhasznalo_id,
+          belepUserid: rows[0].felhasznalok_id,
           username: rows[0].felhasznalo_nev,
           role: rows[0].role
         },
@@ -66,6 +70,7 @@ router.post('/login', (req, res) => {
          token: token,
         role: rows[0].role,
         userid: rows[0].felhasznalo_id,
+        belepUserid: rows[0].felhasznalok_id,
         username: rows[0].felhasznalo_nev,
       });
     });
