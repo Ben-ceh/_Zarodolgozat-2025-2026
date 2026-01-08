@@ -9,25 +9,26 @@ const BejegyzesekTorlese = ({ kivalasztott }) => {
   const [hiba, setHiba] = useState(false);
   const [siker, setSiker] = useState(false);
 
-  // kiemeléshez (tartalom)
+  // beviteli mező
   const [inputErtek, setInputErtek] = useState("");
+
+  // keresett szó a kiemeléshez
   const [keresettSzo, setKeresettSzo] = useState("");
 
-  // név szerinti keresés
-  const [nevKereses, setNevKereses] = useState("");
-
-  // --------------------------------------------------
+  // ----------------------------------------
   // Highlight függvény
   const highlight = (szoveg, keres) => {
     if (!keres) return szoveg;
-
+    
     const regex = new RegExp(`(${keres})`, "gi");
+
     return szoveg.replace(
       regex,
       `<mark style="background: yellow; padding: 2px;">$1</mark>`
     );
   };
-  // --------------------------------------------------
+  
+  // ----------------------------------------
 
   const leToltes = async () => {
     try {
@@ -51,7 +52,9 @@ const BejegyzesekTorlese = ({ kivalasztott }) => {
     leToltes();
   }, [siker]);
 
-  const ido = (evHoNap) => evHoNap.split("T")[0];
+  const ido = (evHoNap) => {
+    return evHoNap.split("T")[0];
+  };
 
   const nevKeres = async (felhaszanlok_id, felhasznalonev, email, bio) => {
     Swal.fire(`${felhasznalonev}`, `${email} <br></br> ${bio}`, `info`);
@@ -59,7 +62,7 @@ const BejegyzesekTorlese = ({ kivalasztott }) => {
 
   const torlesFuggveny = async (bejegyzesek_id, tartalom) => {
     const biztos = window.confirm(
-      `Biztosan törölni szeretnéd "${tartalom}" bejegyzését?`
+      `Biztosan törölni szeretnéd ${tartalom} bejegyzését?`
     );
 
     if (biztos) {
@@ -76,53 +79,30 @@ const BejegyzesekTorlese = ({ kivalasztott }) => {
       const data = await response.json();
 
       if (response.ok) {
-        alert(data.message);
+        alert(data["message"]);
         setSiker(!siker);
       } else {
-        alert(data.error);
+        alert(data["error"]);
       }
     }
   };
 
-  // --------------------------------------------------
-  // Szűrés név alapján
-  const szurtAdatok = adatok.filter((elem) =>
-    elem.felhasznalonev
-      .toLowerCase()
-      .includes(nevKereses.toLowerCase())
-  );
-  // --------------------------------------------------
+  // -------------------------------------------------------------------
 
   if (tolt)
     return (
       <div style={{ textAlign: "center" }}>Adatok betöltése folyamatban...</div>
     );
-  if (hiba) return <div>Hiba történt</div>;
+  if (hiba) return <div>Hiba</div>;
 
   return (
     <div className="bejegyzesekSzerkesztes">
 
-      {/* ---- NÉV KERESÉS ---- */}
-      <div style={{ marginBottom: "15px" }}>
-        <input
-          type="text"
-          placeholder="Keresés felhasználónévre..."
-          value={nevKereses}
-          onChange={(e) => setNevKereses(e.target.value)}
-          style={{
-            padding: "8px",
-            width: "250px",
-            borderRadius: "5px",
-            border: "1px solid #ccc",
-          }}
-        />
-      </div>
-
-      {/* ---- TARTALOM KIEMELÉS ---- */}
+      {/* --- Kereső / kiemelő mező --- */}
       <div style={{ marginBottom: "20px" }}>
         <input
           type="text"
-          placeholder="Írj be egy szót a tartalomból..."
+          placeholder="Írj be egy szót, amit ki szeretnél emelni..."
           value={inputErtek}
           onChange={(e) => setInputErtek(e.target.value)}
           style={{
@@ -148,7 +128,7 @@ const BejegyzesekTorlese = ({ kivalasztott }) => {
         </button>
       </div>
 
-      {/* ---- TÁBLÁZAT ---- */}
+      {/* --- Táblázat --- */}
       <table className="styled-table">
         <thead>
           <tr>
@@ -160,7 +140,7 @@ const BejegyzesekTorlese = ({ kivalasztott }) => {
         </thead>
 
         <tbody>
-          {szurtAdatok.map((elem, index) => (
+          {adatok.map((elem, index) => (
             <tr key={index}>
               <td>
                 <button
@@ -173,16 +153,22 @@ const BejegyzesekTorlese = ({ kivalasztott }) => {
                       elem.bio
                     )
                   }
-                  dangerouslySetInnerHTML={{
-                    __html: highlight(elem.felhasznalonev, nevKereses),
-                  }}
-                />
+                >
+
+                  {elem.felhasznalonev}
+                </button>
+                
               </td>
 
+              
+
+              {/* --- TARTALOM KIEMELÉSSEL --- */}
               <td
                 dangerouslySetInnerHTML={{
                   __html: highlight(elem.tartalom, keresettSzo),
+                
                 }}
+                
               ></td>
 
               <td>
@@ -193,7 +179,11 @@ const BejegyzesekTorlese = ({ kivalasztott }) => {
                 <button
                   className="delete-btn"
                   onClick={() =>
-                    torlesFuggveny(elem.bejegyzesek_id, elem.tartalom)
+                    torlesFuggveny(
+                      elem.bejegyzesek_id,
+                      elem.tartalom,
+                      ido(elem.letrehozva)
+                    )
                   }
                 >
                   ✕
