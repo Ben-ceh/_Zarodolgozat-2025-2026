@@ -11,20 +11,26 @@ import Register from './Register';
 import Menu1 from './Menu1/Menu1';
 //Admin menük
 import Admin from './Admin/Admin';
-//User menük
-import User from './User/User';
+
+
 //FőOldal menü
 import FoOldal from './FoOldal/FoOldal';
+//Sidebar
+import Sidebar from "./Sidebar/Sidebar";
+//MainLayout menü
+import MainLayout from './MainLayout/MainLayout';
 // BejegyzésTörlése
 import BejegyzesTorles from './BejegyzesTorles/BejegyzesTorles';
 //Trágárszavak Törlése
-//import TragarSzoKereso from './TragarSzoKereso/TragarSzoKereso';
+import TragarSzoKereso from './TragarSzoKereso/TragarSzoKereso';
 //Hozzászólások Törlése
 import HozzaszolasTorlese from './BejegyzesTorles/HozzaszolasTorlese';
 //Felhasznalók törlése
 import FelhasznaloTorlese from './BejegyzesTorles/FelhasznaloTorlese';
 //Csoportjaim lista
 import Csoportjaim from './Csoportjaim/Csoportjaim';
+//User Főoldal
+import UserFoOldal from './User/UserFoOldal';
 
 const ProtectedRoute = ({ children, role }) => {
   const token = localStorage.getItem("token");
@@ -43,74 +49,49 @@ function App() {
   return (
     <Router>
       <Navbar />
-      <div className="container mt-3">
+
+      <div className="app-container">
         <Routes>
-          <Route path="/" element={<Menu1 />} />
-         
-          <Route path="/menu1" element={<Menu1 />} />
+          <Route path="/" element={
+            <MainLayout>
+            <FoOldal />
+            </MainLayout>} />
 
-          <Route path="/FoOldal" element={<FoOldal />} />
 
+          <Route
+  path="/FoOldal"
+  element={
+    <MainLayout>
+      <FoOldal />
+    </MainLayout>
+  }
+/>
+<Route
+  path="/User"
+  element={
+    <MainLayout>
+      <UserFoOldal />
+    </MainLayout>
+  }
+/>
           <Route path="/Csoportjaim" element={<Csoportjaim />} />
-
-{/* Bejelentkezés*/}
+          <Route path="/UserFoOldal" element={<UserFoOldal />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          <Route 
+          <Route
             path="/admin"
             element={
               <ProtectedRoute role="admin">
                 <Admin />
               </ProtectedRoute>
-              
-            }
-          /> 
-          <Route 
-            path="/BejegyzesTorles"
-            element={
-              <ProtectedRoute role="admin">
-                <BejegyzesTorles/>
-              </ProtectedRoute>
-              
-            }
-          /> 
-          <Route 
-            path="/FelhasznaloTorlese"
-            element={
-              <ProtectedRoute role="admin">
-                <FelhasznaloTorlese/>
-              </ProtectedRoute>
-              
             }
           />
-
-
-
-          <Route 
-            path="/HozzaszolasTorlese"
-            element={
-              <ProtectedRoute role="admin">
-                <HozzaszolasTorlese />
-              </ProtectedRoute>
-              
-            }
-          /> 
-
-          <Route 
-            path="/user"
-            element={
-              <ProtectedRoute role="user">
-                <User />
-              </ProtectedRoute>
-            }
-          />
-{/* Bejelentkezés vége*/}
-
         </Routes>
       </div>
     </Router>
   );
 }
+
 
 export default App;

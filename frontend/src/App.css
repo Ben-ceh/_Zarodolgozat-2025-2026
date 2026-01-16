@@ -1,3 +1,71 @@
+/* Sidebar eleje */
+.sidebar {
+  width: 240px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  height: fit-content;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.sidebar-link {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.sidebar-link:hover {
+  background-color: #f0f2f5;
+  color: #000;
+}
+/* Sidebar vége */
+
+h1, h2, h3 {
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  
+}
+
+p {
+  line-height: 1.6;
+}
+
+.app-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 24px;
+}
+
+body {
+  background-color: #f4f5f7;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.post-meta {
+  font-size: 13px;
+  color: #777;
+}
+
+.post-image img {
+  width: 100%;
+  border-radius: 10px;
+  margin: 12px 0;
+}
+.app-layout {
+  max-width: 1200px;
+  margin: auto;
+  padding: 24px;
+}
+
+
 .layout {
     display: flex;
     gap: 24px;
@@ -77,12 +145,19 @@ h1,h2 {
   border-radius: 50%;
   object-fit: cover;
 }
-.bejegyzesKartya {
-  border: 1px solid #e0e0e0;
-  padding: 12px;
-  margin-bottom: 16px;
-  border-radius: 8px;
+.bejegyzesKategoria{
+  color: gray;
+  
 }
+.bejegyzesKartya {
+  max-width: 100%;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
 .bejegyzesCim {
   font-size: 20px;
   margin: 8px 0;

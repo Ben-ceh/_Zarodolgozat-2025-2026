@@ -11,6 +11,7 @@ const User=()=>{
 
         
         <div>
+            
             <div>{userid}</div>
             <div style={{textAlign:"center",marginBottom:20}}></div>
             <div className="row">

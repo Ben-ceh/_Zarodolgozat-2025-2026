@@ -69,9 +69,18 @@ app.post('/bejegyzesekKeresId', (req, res) => {
         })
 })
 app.get('/bejegyEsFelh', (req, res) => {
-        const sql=`SELECT * from bejegyzesek 
+        const sql=`SELECT 
+        *
+        from bejegyzesek 
         inner JOIN felhasznalok 
-        on bejegyzesek.felhasznalo_id = felhasznalok.felhasznalok_id;`
+        on bejegyzesek.felhasznalo_id = felhasznalok.felhasznalok_id
+        INNER JOIN bejegyzesek_kategoria
+        ON bejegyzesek_kategoria.kategoria_id = bejegyzesek.kategoria
+        INNER JOIN telepules
+        ON telepules.telepules_id = bejegyzesek.helyszin
+        
+        Where bejegyzesek.csoport_id = 1;
+`
         pool.query(sql, (err, result) => {
         if (err) {
             console.log(err)
@@ -80,6 +89,31 @@ app.get('/bejegyEsFelh', (req, res) => {
         if (result.length===0){
             return res.status(404).json({error:"Nincs adat"})
         }
+
+        return res.status(200).json(result)
+        })
+})
+app.post('/bejegyEsFelhKategoria', (req, res) => {
+        const {kategoria_id} =req.body
+        const sql=`
+                SELECT 
+        *
+        from bejegyzesek 
+        inner JOIN felhasznalok 
+        on bejegyzesek.felhasznalo_id = felhasznalok.felhasznalok_id
+        INNER JOIN bejegyzesek_kategoria
+        ON bejegyzesek_kategoria.kategoria_id = bejegyzesek.kategoria
+        INNER JOIN telepules
+        ON telepules.telepules_id = bejegyzesek.helyszin
+        
+        Where bejegyzesek.csoport_id = 1 and kategoria_id = ?;
+                `
+        pool.query(sql,[kategoria_id], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({error:"Hiba"})
+        }
+        
 
         return res.status(200).json(result)
         })
@@ -145,7 +179,7 @@ app.get('/csoportjaim/:user_id', (req, res) => {
             ON felhasznalo_csoportok.felhasznalok_id = felhasznalok.felhasznalok_id
             INNER JOIN csoportok
             ON csoportok.csoport_id = felhasznalo_csoportok.csoport_id
-            Where 8 = belepes.felhasznalo_id
+            Where ? = belepes.felhasznalo_id
             ORDER BY felhasznalo_csoportok.csatlakozva;
                 `
         pool.query(sql,[user_id], (err, result) => {
@@ -224,7 +258,22 @@ app.delete('/csoportKilepes/:id', (req, res) => {
         return res.status(200).json({message:"Sikeres törlés"})
         })
 });
+app.get('/kategoria', (req, res) => {
+        const sql=`SELECT * from bejegyzesek_kategoria
+  ;
+`
+        pool.query(sql, (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({error:"Hiba"})
+        }
+        if (result.length===0){
+            return res.status(404).json({error:"Nincs adat"})
+        }
 
+        return res.status(200).json(result)
+        })
+})
 //Sanyi végpontjai---------------------------------------------------------------------
 
 

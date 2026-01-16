@@ -2,12 +2,12 @@
 import { useState, useEffect } from "react";
 import Cim from "../Cim";
 import "../App.css";
-import "./feed.css";
+import "./Userfeed.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
-import LenyiloKategoria from "./LenyiloKategoria";
+import UserLenyiloKategoria from "./UserLenyiloKategoria";
 
-const BejegyzesekOsszesen = () => {
+const UserBejegyzesekOsszesen = ({userid,belepUserid}) => {
   const [adatok, setAdatok] = useState([]);
   const [tolt, setTolt] = useState(true);
   const [hiba, setHiba] = useState(false);
@@ -51,7 +51,10 @@ const BejegyzesekOsszesen = () => {
 
       if(kivalasztott===0){
 try {
-        const response = await fetch(Cim.Cim + "/bejegyEsFelh");
+        const response = await fetch(Cim.Cim + "/bejegyEsFelhKategoria",{
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ "kategoria_id":kivalasztott })});
         const data = await response.json();
         if (response.ok) {
           setAdatok(data);
@@ -89,15 +92,9 @@ try {
 
     };
     leToltes();
-  }, [kivalasztott]);
+  }, [kivalasztott,userid]);
 
-const szovegem = "0";
-const CommentingWithOutALogin = async (szoveg) => {
-    if (szovegem === "0") {
-      Swal.fire(`${szoveg}`,'Ismeretlen ként tudsz majd kommentelni, kérlek légy tisztelet teljes.<br></br>','Kérlek jelenkezz be <a href="/login">itt</a>.')
-        szovegem ="1";
-    };
-  };
+
 
   const formatDate = (mysqlDate) =>
     mysqlDate ? mysqlDate.split("T")[0] : "";
@@ -124,7 +121,7 @@ const CommentingWithOutALogin = async (szoveg) => {
 
   const komment = async (index, bejegyzesek_id) => {
 
-    CommentingWithOutALogin("Nem vagy bejelenkezve!")
+    
 
     setExpanded2((prev) => ({ ...prev, [index]: !prev[index] }));
     const isOpening = !expanded2[index];
@@ -172,7 +169,7 @@ const CommentingWithOutALogin = async (szoveg) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           bejegyzes_id: bejegyzesek_id,
-          felhasznalo_id: 5,
+          felhasznalo_id: belepUserid,
           hozzaszolas_szoveg: szoveg,
           letrehozva,
         }),
@@ -194,7 +191,7 @@ const CommentingWithOutALogin = async (szoveg) => {
   <div className="d-flex gap-3 flex-wrap">
 
     {/* Category filter */}
-    <LenyiloKategoria kivalasztott={setKivalasztott}/>
+    <UserLenyiloKategoria kivalasztott={setKivalasztott}/>
 
     {/* <select
       className="form-select"
@@ -369,4 +366,4 @@ const CommentingWithOutALogin = async (szoveg) => {
   );
 };
 
-export default BejegyzesekOsszesen;
+export default UserBejegyzesekOsszesen;
