@@ -92,7 +92,7 @@ try {
   }, [kivalasztott]);
 
 
-const CommentingWithOutALogin = async () => {
+const CommentingWithOutALogin = async (szoveg) => {
      
       Swal.fire(`${szoveg}`,'Ismeretlen ként tudsz majd kommentelni, kérlek légy tisztelet teljes.<br></br>','Kérlek jelenkezz be <a href="/login">itt</a>.')
        
