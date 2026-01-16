@@ -3,16 +3,16 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
+//Navbar
 import Navbar from './Navbar';
-
+//Login
 import Login from './Login';
+//Register
 import Register from './Register';
 //Bejelentkezés nélküli menük
 import Menu1 from './Menu1/Menu1';
 //Admin menük
 import Admin from './Admin/Admin';
-
-
 //FőOldal menü
 import FoOldal from './FoOldal/FoOldal';
 //Sidebar
@@ -54,7 +54,7 @@ function App() {
         <Routes>
           <Route path="/" element={
             <MainLayout>
-            <FoOldal />
+              <FoOldal />
             </MainLayout>} />
 
 
