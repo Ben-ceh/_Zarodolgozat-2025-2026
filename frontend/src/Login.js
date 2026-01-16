@@ -28,7 +28,7 @@ const Login = () => {
       localStorage.setItem('token', data.token);
       localStorage.setItem('role', data.role);
       localStorage.setItem('userid', data.userid);
-
+      localStorage.setItem('belepUserid', data.belepUserid);
       alert('Sikeres bejelentkezés!');
       navigate('/menu1');
     } catch (err) {

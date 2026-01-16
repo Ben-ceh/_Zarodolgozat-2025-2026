@@ -1,23 +1,16 @@
-// import { useState } from 'react';
+import BejegyzesekOsszesen from "./BejegyzesekOsszesen";
+import "./FoOldal.css";
 
-import BejegyzesekOsszesen from './BejegyzesekOsszesen';
 
-const FoOldal=()=>{
-   
+const FoOldal = () => {
+  return (
+    <main className="home">
+      <section className="feed-container">
+        <h1 className="feed-title"></h1>
+        <BejegyzesekOsszesen />
+      </section>
+    </main>
+  );
+};
 
-    return (
-        <div>
-            <div style={{marginBottom:20}}><h1>Bejegyzések</h1></div>
-            <div>
-                
-                    {/* <BejegyzekesLenyilo kivalasztott={setKivalasztott}/> */}
-                    
-                
-                    <BejegyzesekOsszesen />
-                
-            </div>
-
-        </div>
-    )
-}
-export default FoOldal
+export default FoOldal;

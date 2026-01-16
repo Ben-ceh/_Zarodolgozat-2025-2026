@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import "./Navbar.css";
+import "./App.css";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -21,21 +22,22 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar">
-      <div className="navbar-left">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <div className="container">
         <button className="hamburger" onClick={toggleMenu}>
           ☰
         </button>
-        <div className={`menu ${menuOpen ? "open" : ""}`}>
-          <Link to="/menu1" className="link" onClick={() => setMenuOpen(false)}>
-            Nyitólap
-          </Link>
+        <div style={{margin:"auto"}} className={`menu ${menuOpen ? "open" : ""}`}>
+          
           <Link to="/FoOldal" className="link" onClick={() => setMenuOpen(false)}>
             FőOldal
           </Link>
-
-          
-
+          {loggedIn && role === "user" && (
+            <Link to="/csoportjaim"  className="link NavBarNevek" onClick={() => setMenuOpen(false)}>
+              Csoportjaim
+            </Link>
+            
+          )}
           {loggedIn && role === "admin" && (
             <Link to="/admin" className="link" onClick={() => setMenuOpen(false)}>
               Admin

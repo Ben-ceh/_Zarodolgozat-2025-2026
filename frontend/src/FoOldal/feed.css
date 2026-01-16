@@ -1,0 +1,27 @@
+.post-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #eee;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+  cursor: pointer;
+}
+
+.action-btn:hover {
+  color: #000;
+}
+
+.comments-box {
+  margin-top: 16px;
+  padding: 12px;
+  background: #f9f9f9;
+  border-radius: 10px;
+}
