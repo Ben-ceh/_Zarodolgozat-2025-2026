@@ -1,100 +1,184 @@
-
-.profil-page {
-  background: #f6f7f9;
+.profile-page {
   min-height: 100vh;
-}
-
-.cover {
-  height: 180px;
-  background: linear-gradient(90deg, #2d7cff, #3a8bff);
-}
-
-.profil-header {
-  background: white;
-  margin: -60px auto 20px;
-  padding: 20px;
-  border-radius: 12px;
-  max-width: 900px;
+  background: #f4f4f5;
   display: flex;
-  gap: 20px;
-  position: relative;
+  justify-content: center;
+  padding-top: 40px;
 }
 
-.avatar {
-  width: 120px;
-  height: 120px;
+.profile-card {
+  width: 420px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  padding: 24px;
+}
+
+.profile-header {
+  text-align: center;
+}
+
+.profile-avatar {
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
-  border: 4px solid white;
+  background: #2563eb; /* Figma blue */
+  color: white;
+  font-size: 42px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px auto;
 }
 
-.profil-info {
+.profile-name {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.profile-bio {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.profile-stats {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+  padding: 12px 0;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.stat {
+  text-align: center;
   flex: 1;
 }
 
-.username {
-  color: #777;
-  margin-top: -8px;
-}
-
-.bio {
-  margin: 10px 0;
-}
-
-.meta span {
-  display: inline-block;
-  margin-right: 15px;
-  font-size: 14px;
-  color: #555;
-}
-
-.edit-btn {
-  position: absolute;
-  right: 20px;
-  top: 20px;
-  background: #2d7cff;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.box {
-  background: white;
-  max-width: 900px;
-  margin: 20px auto;
-  padding: 20px;
-  border-radius: 12px;
-}
-
-.tags {
-  display: flex;
-  gap: 10px;
-}
-
-.tag {
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: #e6f0ff;
-  color: #2d7cff;
-  font-size: 14px;
-}
-
-.tag.green {
-  background: #e6f8ed;
-  color: #1e9b4b;
-}
-
-.tag.purple {
-  background: #f0e6ff;
-  color: #7b3fe4;
-}
-
-.close-btn {
+.stat-value {
   display: block;
-  margin: 30px auto;
-  background: none;
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.profile-form label {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  margin-bottom: 14px;
+  color: #374151;
+}
+
+.profile-form input,
+.profile-form textarea {
+  margin-top: 6px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+}
+
+.profile-form input:focus,
+.profile-form textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 1px #2563eb;
+}
+
+.profile-save-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
   border: none;
-  font-size: 16px;
+  border-radius: 10px;
   cursor: pointer;
+}
+
+.profile-save-btn:hover {
+  background: #1d4ed8;
+}
+
+.msg-success {
+  margin-top: 10px;
+  color: #16a34a;
+  text-align: center;
+}
+
+.msg-error {
+  margin-top: 10px;
+  color: #dc2626;
+  text-align: center;
+}
+
+.profile-save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.skeleton {
+  animation: pulse 1.5s infinite;
+}
+
+.sk-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: #e5e7eb;
+  margin: 0 auto 16px auto;
+}
+
+.sk-line {
+  height: 14px;
+  background: #e5e7eb;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.sk-line.short {
+  width: 60%;
+  margin: 0 auto;
+}
+
+.profile-form input:disabled {
+  background: #f9fafb;
+}
+
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: .4; }
+  100% { opacity: 1; }
+}
+
+
+@media (max-width: 480px) {
+  .profile-card {
+    width: 100%;
+    margin: 0 12px;
+    padding: 20px;
+  }
+
+  .profile-avatar {
+    width: 72px;
+    height: 72px;
+    font-size: 32px;
+  }
+
+  .profile-name {
+    font-size: 18px;
+  }
+
+  .profile-stats {
+    margin: 16px 0;
+  }
 }
