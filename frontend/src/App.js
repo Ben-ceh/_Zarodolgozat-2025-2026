@@ -88,8 +88,9 @@ function App() {
               <ProtectedRoute role="admin">
                 <Admin />
               </ProtectedRoute>
-            }
-          />
+            }/>
+          
+          
 
             <Route 
             path="/BejegyzesTorles"
