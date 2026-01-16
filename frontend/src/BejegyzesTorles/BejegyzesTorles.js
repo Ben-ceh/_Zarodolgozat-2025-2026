@@ -3,7 +3,7 @@ import Cim from "../Cim";
 import "../App.css";
 import Swal from "sweetalert2";
 
-const BejegyzesekTorlese = ({ kivalasztott }) => {
+const BejegyzesTorles = ({ kivalasztott }) => {
   const [adatok, setAdatok] = useState([]);
   const [tolt, setTolt] = useState(true);
   const [hiba, setHiba] = useState(false);
@@ -207,4 +207,4 @@ const BejegyzesekTorlese = ({ kivalasztott }) => {
   );
 };
 
-export default BejegyzesekTorlese;
+export default BejegyzesTorles;

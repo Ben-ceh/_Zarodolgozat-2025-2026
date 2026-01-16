@@ -31,7 +31,7 @@ import FelhasznaloTorlese from './BejegyzesTorles/FelhasznaloTorlese';
 import Csoportjaim from './Csoportjaim/Csoportjaim';
 //User Főoldal
 import UserFoOldal from './User/UserFoOldal';
-
+import user from '@testing-library/user-event';
 import Profil from './Profil/Profil';
 import ProfilAdmin from './Profil/ProfilAdmin';
 
@@ -91,6 +91,26 @@ function App() {
             }
           />
 
+            <Route 
+            path="/BejegyzesTorles"
+            element={
+              <ProtectedRoute role="admin">
+                <BejegyzesTorles />
+              </ProtectedRoute>
+              
+            }
+          /> 
+
+            <Route 
+            path="/FelhasznaloTorlese"
+            element={
+              <ProtectedRoute role="admin">
+                <FelhasznaloTorlese />
+              </ProtectedRoute>
+              
+            }
+          /> 
+
           <Route 
             path="/HozzaszolasTorlese"
             element={
@@ -105,7 +125,9 @@ function App() {
             path="/user"
             element={
               <ProtectedRoute role="user">
-                <User />
+                <MainLayout>
+                  <UserFoOldal />
+                </MainLayout>
               </ProtectedRoute>
             }
           />
