@@ -277,6 +277,46 @@ app.get('/kategoria', (req, res) => {
 //Sanyi végpontjai---------------------------------------------------------------------
 
 
+// felhasznalok tábla módosítása, a parameterben az idegen, email,bio, felhasznalónév
+app.put('/profilModosit/:idegen_felhasznalo_id', (req, res) => {
+        const {idegen_felhasznalo_id} =req.params
+        const {email,bio,felhasznalonev}=req.body
+        const sql=`update felhasznalok
+                    set email=?, bio=?, felhasznalonev=?
+                    where felhasznalok_id=?
+                    `
+        pool.query(sql,[email,bio,felhasznalonev,idegen_felhasznalo_id], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({error:"Hiba"})
+        }
+
+        return res.status(200).json({message:"Sikeres módosítás"})
+        })
+})
+
+
+//egy post-os végpont lekérdezi az idegen felhasználó id-ét
+app.post('/idegenKeres', (req, res) => {
+        const {idegen_felhasznalo_id} =req.body
+        const sql=`
+                    select *
+                    from felhasznalok
+                    where idegen_felhasznalo_id=?
+                `
+        pool.query(sql,[idegen_felhasznalo_id], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({error:"Hiba"})
+        }
+        if (result.length===0){
+            return res.status(404).json({error:"Nincs adat"})
+        }
+
+        return res.status(200).json(result)
+        })
+})
+
 //Sanyi végpontjai
 app.get('/bejegyzesek', (req, res) => {
         const sql=`SELECT *
@@ -296,6 +336,7 @@ app.get('/bejegyzesek', (req, res) => {
         })
 })
 
+
 //Bejegyzés törlése
 app.delete('/BejegyzesekTorlese/:bejegyzesek_id', (req, res) => {
         const {bejegyzesek_id} =req.params
@@ -309,6 +350,7 @@ app.delete('/BejegyzesekTorlese/:bejegyzesek_id', (req, res) => {
         return res.status(200).json({message:"Sikeres törlés"})
         })
 })
+
 
 app.get('/datumJelenit', (req, res) => {
         const sql=`SELECT letrehozva FROM bejegyzesek;`
@@ -324,6 +366,7 @@ app.get('/datumJelenit', (req, res) => {
         return res.status(200).json(result)
         })
 })
+
 
 //Felhasznalonev 
 app.get('/felhasznaloNevJelenit', (req, res) => {
@@ -360,6 +403,7 @@ app.get('/kommentek', (req, res) => {
 
 });
 
+
 //Felhasznalonev 
 app.get('/Bejelentkezesek', (req, res) => {
         const sql=
@@ -380,6 +424,7 @@ app.get('/Bejelentkezesek', (req, res) => {
         })
 });
 
+
 //HozzaszolasTorles 
 app.delete('/HozzaszolasTorlese/:hozzaszolasok_id', (req, res) => {
         const {hozzaszolasok_id} =req.params
@@ -393,6 +438,7 @@ app.delete('/HozzaszolasTorlese/:hozzaszolasok_id', (req, res) => {
         return res.status(200).json({message:"Sikeres törlés"})
         })
 });
+
 
 //Hozzászólások
 app.get('/Hozzaszolasok', (req, res) => {
@@ -433,6 +479,7 @@ app.get('/Felhasznalok', (req, res) => {
         })
 });
 
+
 //Felhasznalok törlése
 app.delete('/FelhasznalokTorlese/:felhasznalok_id', (req, res) => {
         const {felhasznalok_id} =req.params
@@ -447,8 +494,8 @@ app.delete('/FelhasznalokTorlese/:felhasznalok_id', (req, res) => {
         })
 });
 
-//Felhasználók törlése part 2
 
+//Felhasználók törlése part 2
 app.delete("/felhasznalokTorlese/:id", (req, res) => {
   const id = parseInt(req.params.id);
   const index = felhasznalok.findIndex((f) => f.felhasznalok_id === id);
@@ -475,8 +522,6 @@ app.get("/felhasznalokMegjelen", (req, res) => {
 app.get("/felhasznalok", (req, res) => {
   res.json(felhasznalok);
 });
-
-
 
 
 app.listen(port, () => {

@@ -31,6 +31,9 @@ import FelhasznaloTorlese from './BejegyzesTorles/FelhasznaloTorlese';
 import Csoportjaim from './Csoportjaim/Csoportjaim';
 //User Főoldal
 import UserFoOldal from './User/UserFoOldal';
+import user from '@testing-library/user-event';
+import Profil from './Profil/Profil';
+import ProfilAdmin from './Profil/ProfilAdmin';
 
 const ProtectedRoute = ({ children, role }) => {
   const token = localStorage.getItem("token");
@@ -87,6 +90,68 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+            <Route 
+            path="/BejegyzesTorles"
+            element={
+              <ProtectedRoute role="admin">
+                <BejegyzesTorles />
+              </ProtectedRoute>
+              
+            }
+          /> 
+
+            <Route 
+            path="/FelhasznaloTorlese"
+            element={
+              <ProtectedRoute role="admin">
+                <FelhasznaloTorlese />
+              </ProtectedRoute>
+              
+            }
+          /> 
+
+          <Route 
+            path="/HozzaszolasTorlese"
+            element={
+              <ProtectedRoute role="admin">
+                <HozzaszolasTorlese />
+              </ProtectedRoute>
+              
+            }
+          /> 
+
+          <Route 
+            path="/user"
+            element={
+              <ProtectedRoute role="user">
+                <MainLayout>
+                  <UserFoOldal />
+                </MainLayout>
+              </ProtectedRoute>
+            }
+          />
+
+          <Route 
+            path="/Profil"
+            element={
+              <ProtectedRoute role="user">
+                <Profil />
+              </ProtectedRoute>
+            }
+          />
+
+           <Route 
+            path="/ProfilAdmin"
+            element={
+              <ProtectedRoute role="admin">
+                <ProfilAdmin />
+              </ProtectedRoute>
+            }
+          />
+
+{/* Bejelentkezés vége*/}
+
         </Routes>
       </div>
     </Router>
