@@ -44,6 +44,18 @@ const Navbar = () => {
             </Link>
             
           )}
+          {loggedIn && role === "admin" && (
+            <Link to="/user" className="link" onClick={() => setMenuOpen(false)}>
+              User menü
+            </Link>
+            
+          )}
+          {loggedIn && role === "admin" && (
+            <Link to="/csoportjaim" className="link" onClick={() => setMenuOpen(false)}>
+              Csoportjaim
+            </Link>
+            
+          )}
 
           <div className="dropdown">
                 {loggedIn && role === "admin" && (

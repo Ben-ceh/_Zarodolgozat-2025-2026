@@ -245,6 +245,68 @@ app.post('/bejegyKeresCs/:user_id', (req, res) => {
         return res.status(200).json(result)
         })
 })
+//Felhasználó a saját csoportjai összes bejegyzését látja
+app.get('/csoportjaimBejegyzesei/:user_id', (req, res) => {
+        const {user_id} =req.params
+        
+        const sql=`
+            SELECT 
+        *
+        from bejegyzesek 
+        inner JOIN felhasznalok 
+        on bejegyzesek.felhasznalo_id = felhasznalok.felhasznalok_id
+        INNER JOIN bejegyzesek_kategoria
+        ON bejegyzesek_kategoria.kategoria_id = bejegyzesek.kategoria
+        INNER JOIN telepules
+        ON telepules.telepules_id = bejegyzesek.helyszin
+WHERE csoport_id IN (
+    SELECT csoport_id
+    FROM felhasznalo_csoportok
+    WHERE felhasznalok_id = ?
+)
+ORDER BY letrehozva DESC;
+                `
+        pool.query(sql,[user_id], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({error:"Hiba"})
+        }
+        if (result.length===0){
+            return res.status(404).json({error:"Nincs adat"})
+        }
+
+        return res.status(200).json(result)
+        })
+})
+
+//Felhasználó a saját csoportjai bejegyzését látja Kategória szerint
+app.post('/csoportjaimBejegyzeseiKat/:user_id', (req, res) => {
+    const { user_id } = req.params
+    const { kategoria_id } = req.body
+
+    const sql = `
+        SELECT *
+        FROM bejegyzesek
+        WHERE csoport_id IN (
+            SELECT csoport_id
+            FROM felhasznalo_csoportok
+            WHERE felhasznalok_id = ?
+        )
+        AND kategoria_id = ?
+        ORDER BY letrehozva DESC
+    `
+
+    pool.query(sql, [user_id, kategoria_id], (err, result) => {
+        if (err) {
+            console.error(err)
+            return res.status(500).json({ error: "Adatbázis hiba" })
+        }
+
+        return res.status(200).json(result)
+    })
+})
+
+
 //Csoport-ból kilépés
 app.delete('/csoportKilepes/:id', (req, res) => {
         const {id} =req.params
@@ -258,6 +320,7 @@ app.delete('/csoportKilepes/:id', (req, res) => {
         return res.status(200).json({message:"Sikeres törlés"})
         })
 });
+//Kategoria
 app.get('/kategoria', (req, res) => {
         const sql=`SELECT * from bejegyzesek_kategoria
   ;

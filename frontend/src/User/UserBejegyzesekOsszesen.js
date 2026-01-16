@@ -19,6 +19,7 @@ const UserBejegyzesekOsszesen = ({userid,belepUserid}) => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedGroup, setSelectedGroup] = useState("all");
   const [kivalasztott,setKivalasztott]=useState(0)
+  
 
 
   const formatRelativeTime = (iso) => {
@@ -51,15 +52,14 @@ const UserBejegyzesekOsszesen = ({userid,belepUserid}) => {
 
       if(kivalasztott===0){
 try {
-        const response = await fetch(Cim.Cim + "/bejegyEsFelhKategoria",{
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ "kategoria_id":kivalasztott })});
+        const response = await fetch(Cim.Cim +"/csoportjaimBejegyzesei/"+belepUserid);
         const data = await response.json();
         if (response.ok) {
+          
           setAdatok(data);
           setTolt(false);
         } else {
+          alert("Hibás"+":UserID:"+userid+"belpesUserId:"+belepUserid)
           setHiba(true);
           setTolt(false);
         }

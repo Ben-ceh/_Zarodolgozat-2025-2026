@@ -7,4 +7,59 @@ ON felhasznalo_csoportok.felhasznalok_id = felhasznalok.felhasznalok_id
 INNER JOIN csoportok
 ON csoportok.csoport_id = felhasznalo_csoportok.csoport_id;
 
+//Felhasználó a saját csoportjai összes bejegyzését látja
+app.get('/csoportjaimBejegyzesei/:user_id', (req, res) => {
+        const {user_id} =req.params
+        
+        const sql=`
+            SELECT *
+FROM bejegyzesek
+WHERE csoport_id IN (
+    SELECT csoport_id
+    FROM felhasznalo_csoportok
+    WHERE felhasznalok_id = ?
+)
+ORDER BY letrehozva DESC;
+                `
+        pool.query(sql,[user_id], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({error:"Hiba"})
+        }
+        if (result.length===0){
+            return res.status(404).json({error:"Nincs adat"})
+        }
 
+        return res.status(200).json(result)
+        })
+})
+
+
+//Felhasználó a saját csoportjai bejegyzését látja Kategória szerint
+app.post('/csoportjaimBejegyzeseiKat/:user_id', (req, res) => {
+        const {user_id} =req.params
+        const {kategoria_id} =req.body
+        
+        const sql=`
+            SELECT *
+FROM bejegyzesek
+WHERE csoport_id IN (
+    SELECT csoport_id
+    FROM felhasznalo_csoportok
+    WHERE felhasznalok_id = ?
+)
+AND bejegyzesek.kategoria = ?
+ORDER BY letrehozva DESC;
+                `
+        pool.query(sql,[user_id,kategoria_id], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({error:"Hiba"})
+        }
+        if (result.length===0){
+            return res.status(404).json({error:"Nincs adat"})
+        }
+
+        return res.status(200).json(result)
+        })
+})

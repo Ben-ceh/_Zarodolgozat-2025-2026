@@ -91,12 +91,12 @@ try {
     leToltes();
   }, [kivalasztott]);
 
-const szovegem = "0";
-const CommentingWithOutALogin = async (szoveg) => {
-    if (szovegem === "0") {
+
+const CommentingWithOutALogin = async () => {
+     
       Swal.fire(`${szoveg}`,'Ismeretlen ként tudsz majd kommentelni, kérlek légy tisztelet teljes.<br></br>','Kérlek jelenkezz be <a href="/login">itt</a>.')
-        szovegem ="1";
-    };
+       
+  
   };
 
   const formatDate = (mysqlDate) =>
