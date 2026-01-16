@@ -24,6 +24,9 @@ import HozzaszolasTorlese from './BejegyzesTorles/HozzaszolasTorlese';
 //Felhasznalók törlése
 import FelhasznaloTorlese from './BejegyzesTorles/FelhasznaloTorlese';
 
+import Profil from './Profil/Profil';
+import ProfilAdmin from './Profil/ProfilAdmin';
+
 const ProtectedRoute = ({ children, role }) => {
   const token = localStorage.getItem("token");
   const userRole = localStorage.getItem("role");
@@ -81,8 +84,6 @@ function App() {
             }
           />
 
-
-
           <Route 
             path="/HozzaszolasTorlese"
             element={
@@ -101,6 +102,25 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route 
+            path="/Profil"
+            element={
+              <ProtectedRoute role="user">
+                <Profil />
+              </ProtectedRoute>
+            }
+          />
+
+           <Route 
+            path="/ProfilAdmin"
+            element={
+              <ProtectedRoute role="admin">
+                <ProfilAdmin />
+              </ProtectedRoute>
+            }
+          />
+
 {/* Bejelentkezés vége*/}
 
         </Routes>

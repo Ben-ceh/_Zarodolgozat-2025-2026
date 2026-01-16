@@ -33,12 +33,16 @@ const Navbar = () => {
           <Link to="/FoOldal" className="link" onClick={() => setMenuOpen(false)}>
             FőOldal
           </Link>
+
+          
+
           {loggedIn && role === "admin" && (
             <Link to="/admin" className="link" onClick={() => setMenuOpen(false)}>
               Admin
             </Link>
             
           )}
+
           <div className="dropdown">
                 {loggedIn && role === "admin" && (
                 <button className="dropdown-btn">
@@ -79,6 +83,8 @@ const Navbar = () => {
                 </div>
               </div>
            
+              
+
           {loggedIn && role === "user" && (
             <Link to="/user" className="link" onClick={() => setMenuOpen(false)}>
               User menü
@@ -87,17 +93,37 @@ const Navbar = () => {
         </div>
       </div>
 
+          
+          
+
       <div className="navbar-right">
+
+         {loggedIn && role === "admin" && (
+            <Link to="/ProfilAdmin" className="link" onClick={() => setMenuOpen(false)}>
+             Profil
+            </Link>
+            
+          )}
+           {loggedIn && role === "user" && (
+            <Link to="/Profil" className="link" onClick={() => setMenuOpen(false)}>
+              Profil
+            </Link>
+            
+          )}
         {loggedIn ? (
           <button className="logoutButton" onClick={handleLogout}>
             Kijelentkezés
           </button>
+          
         ) : (
           <Link to="/login" className="loginButton">
             Bejelentkezés
           </Link>
         )}
       </div>
+
+        
+
     </nav>
   );
 };
