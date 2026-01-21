@@ -396,14 +396,14 @@ app.post("/bejegyzesFelv", (req, res) => {
 
 
 // felhasznalok tábla módosítása, a parameterben az idegen, email,bio, felhasznalónév
-app.put('/profilModosit/:idegen_felhasznalo_id', (req, res) => {
-        const {idegen_felhasznalo_id} =req.params
+app.put('/profilModosit/:userid', (req, res) => {
+        const {userid} =req.params
         const {email,bio,felhasznalonev}=req.body
         const sql=`update felhasznalok
                     set email=?, bio=?, felhasznalonev=?
-                    where felhasznalok_id=?
+                    where idegen_felhasznalo_id=?
                     `
-        pool.query(sql,[email,bio,felhasznalonev,idegen_felhasznalo_id], (err, result) => {
+        pool.query(sql,[email,bio,felhasznalonev,userid], (err, result) => {
         if (err) {
             console.log(err)
             return res.status(500).json({error:"Hiba"})
