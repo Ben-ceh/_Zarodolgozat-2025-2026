@@ -320,6 +320,23 @@ app.delete('/csoportKilepes/:id', (req, res) => {
         return res.status(200).json({message:"Sikeres törlés"})
         })
 });
+//Helyszin
+app.get('/helyszin', (req, res) => {
+        const sql=`SELECT * from telepules;
+  ;
+`
+        pool.query(sql, (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({error:"Hiba"})
+        }
+        if (result.length===0){
+            return res.status(404).json({error:"Nincs adat"})
+        }
+
+        return res.status(200).json(result)
+        })
+})
 //Kategoria
 app.get('/kategoria', (req, res) => {
         const sql=`SELECT * from bejegyzesek_kategoria
@@ -337,6 +354,44 @@ app.get('/kategoria', (req, res) => {
         return res.status(200).json(result)
         })
 })
+
+//Új bejegyzés
+app.post("/bejegyzesFelv", (req, res) => {
+  const {
+    cim,
+    tartalom,
+    kategoria,
+    kep_url,
+    helyszin
+  } = req.body;
+
+  const felhasznalo_id = 2; // TEMP (later from token)
+  const csoport_id = 1;
+
+  const sql = `
+    INSERT INTO bejegyzesek
+    (felhasznalo_id, cim, tartalom, kategoria, kep_url, helyszin, csoport_id, letrehozva)
+    VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
+  `;
+
+  db.query(
+    sql,
+    [
+      felhasznalo_id,
+      cim,
+      tartalom,
+      kategoria,
+      kep_url || null,
+      helyszin || null,
+      csoport_id
+    ],
+    (err) => {
+      if (err) return res.status(500).json(err);
+      res.json({ message: "Post created successfully" });
+    }
+  );
+});
+
 //Sanyi végpontjai---------------------------------------------------------------------
 
 

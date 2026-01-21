@@ -34,6 +34,8 @@ import UserFoOldal from './User/UserFoOldal';
 import user from '@testing-library/user-event';
 import Profil from './Profil/Profil';
 import ProfilAdmin from './Profil/ProfilAdmin';
+//BejegyFelv
+import UserBejegyFelv from './User/UserBejegyFelv';
 
 const ProtectedRoute = ({ children, role }) => {
   const token = localStorage.getItem("token");
@@ -81,6 +83,7 @@ function App() {
           <Route path="/UserFoOldal" element={<UserFoOldal />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          
 
           <Route
             path="/admin"
@@ -151,6 +154,16 @@ function App() {
             }
           />
 
+<Route 
+            path="/UserBejegyFelv"
+            element={
+              <ProtectedRoute role="user">
+                <MainLayout>
+                  <UserBejegyFelv/>
+                </MainLayout>
+              </ProtectedRoute>
+            }
+          />
 {/* Bejelentkezés vége*/}
 
         </Routes>

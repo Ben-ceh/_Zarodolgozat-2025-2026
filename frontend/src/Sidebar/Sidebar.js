@@ -12,7 +12,7 @@ const Sidebar = () => {
         </li>
         
         <li>
-          <Link to="/uj-bejegyzes" className="sidebar-link">➕ Új bejegyzés</Link>
+          <Link to="/UserBejegyFelv" className="sidebar-link">➕ Új bejegyzés</Link>
         </li>
         <li style={{textAlign:"center"}}><b>-</b></li>
         <li>

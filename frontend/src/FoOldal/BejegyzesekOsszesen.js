@@ -6,6 +6,7 @@ import "./feed.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
 import LenyiloKategoria from "./LenyiloKategoria";
+import UserBejegyFelv from "../User/UserBejegyFelv";
 
 const BejegyzesekOsszesen = () => {
   const [adatok, setAdatok] = useState([]);
@@ -92,7 +93,7 @@ try {
   }, [kivalasztott]);
 
 
-const CommentingWithOutALogin = async () => {
+const CommentingWithOutALogin = async (szoveg) => {
      
       Swal.fire(`${szoveg}`,'Ismeretlen ként tudsz majd kommentelni, kérlek légy tisztelet teljes.<br></br>','Kérlek jelenkezz be <a href="/login">itt</a>.')
        
