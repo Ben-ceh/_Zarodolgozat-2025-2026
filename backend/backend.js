@@ -357,40 +357,33 @@ app.get('/kategoria', (req, res) => {
 
 //Új bejegyzés
 app.post("/bejegyzesFelv", (req, res) => {
-  const {
-    cim,
-    tartalom,
-    kategoria,
-    kep_url,
-    helyszin
-  } = req.body;
+  const { felhasznalo_id, cim, tartalom, kategoria, helyszin, csoport_id } = req.body;
 
-  const felhasznalo_id = 2; // TEMP (later from token)
-  const csoport_id = 1;
+//   if (!cim || !tartalom || !kategoria || !csoport_id) {
+//     return res.status(400).json({ error: "Missing required fields" });
+//   }
+
+//   const felhasznalo_id = 2; // TEMP
+
 
   const sql = `
     INSERT INTO bejegyzesek
-    (felhasznalo_id, cim, tartalom, kategoria, kep_url, helyszin, csoport_id, letrehozva)
-    VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
+    (felhasznalo_id, cim, tartalom, helyszin, kategoria, letrehozva, csoport_id)
+    VALUES (?, ?, ?, ?, ?, NOW(), ?)
   `;
 
-  db.query(
-    sql,
-    [
-      felhasznalo_id,
-      cim,
-      tartalom,
-      kategoria,
-      kep_url || null,
-      helyszin || null,
-      csoport_id
-    ],
-    (err) => {
-      if (err) return res.status(500).json(err);
-      res.json({ message: "Post created successfully" });
+  pool.query(sql,[felhasznalo_id,cim,tartalom,helyszin,kategoria,csoport_id],
+    (err, result) => {
+      if (err) {
+        console.error("DB ERROR:", err);
+        return res.status(500).json(err);
+      }
+
+      res.json({ message: "Post created successfully", id: result.insertId });
     }
   );
 });
+
 
 //Sanyi végpontjai---------------------------------------------------------------------
 

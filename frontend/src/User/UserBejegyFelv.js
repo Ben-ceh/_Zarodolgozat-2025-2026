@@ -2,23 +2,31 @@ import { useState, useEffect } from "react";
 import Cim from "../Cim";
 import UserLenyiloKategoria from "./UserLenyiloKategoria";
 import UserLenyiloHelyszin from "./UserLenyiloHelyszin";
+import UserLenyiloCsoportjaim from "./UserLenyiloCsoportjaim";
 
 const UserBejegyFelv = ({ onSuccess }) => {
   const [cim, setCim] = useState("");
   const [tartalom, setTartalom] = useState("");
   const [kategoria, setKategoria] = useState("");
   const [helyszin, setHelyszin] = useState("");
+  const [csoportjaim, setcsoportjaim] = useState("");
+
+  const [belepUserid] = useState(localStorage.getItem("belepUserid"));
+  const [userid] = useState(localStorage.getItem("userid"));
   //Kép const
-  const [kategoriak, setKategoriak] = useState([]);
-    const [kivalasztottKat,setKivalasztottKat]=useState(0)
-    const [kivalasztottHely,setKivalasztottHely]=useState(0)
+    const [kategoriak, setKategoriak] = useState([]);
+    const [kivalasztottKat,setKivalasztottKat]=useState(1)
+    const [kivalasztottHely,setKivalasztottHely]=useState(1)
+    const [kivalasztottCsop,setKivalasztottCsop]=useState(1)
   useEffect(() => {
+    
     fetch(`${Cim.Cim}/kategoria`)
       .then(res => res.json())
       .then(data => setKategoriak(data));
   }, []);
 
   const submit = async () => {
+    alert(kivalasztottKat)
   if (!cim || !tartalom || kivalasztottKat === 0) {
     alert("Please fill all required fields");
     return;
@@ -28,10 +36,12 @@ const UserBejegyFelv = ({ onSuccess }) => {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      cim,
-      tartalom,
+      felhasznalo_id:belepUserid,
+      cim:cim,
+      tartalom:tartalom,
       kategoria: kivalasztottKat,
-      helyszin: kivalasztottHely
+      helyszin: kivalasztottHely,
+      csoport_id:kivalasztottCsop
     })
   });
 
@@ -42,14 +52,15 @@ const UserBejegyFelv = ({ onSuccess }) => {
 
   setCim("");
   setTartalom("");
-  setKivalasztottKat(0);
-  setKivalasztottHely(0);
+
+
 
   onSuccess && onSuccess();
 };
 
 
   return (
+  
     <div className="card p-3 mb-3">
       <h5>Új bejegyzés</h5>
 
@@ -68,16 +79,17 @@ const UserBejegyFelv = ({ onSuccess }) => {
         onChange={(e) => setTartalom(e.target.value)}
       />
         {/*Kategória */}
-        <UserLenyiloKategoria value={kategoria} kivalasztott={setKivalasztottKat} onChange={(e) => setKategoria(e.target.value)}/>
+        <UserLenyiloKategoria value={kategoria} kivalasztott={setKivalasztottKat} />
        
         {/*Település*/}
-        <UserLenyiloHelyszin value={helyszin} kivalasztott={setKivalasztottHely} onChange={(e) => setHelyszin(e.target.value)}/>
+        <UserLenyiloHelyszin value={helyszin} kivalasztott={setKivalasztottHely} />
 
-      
+        {/*Csoportjaim*/}
+        <UserLenyiloCsoportjaim value={csoportjaim} userid={userid} kivalasztott={setKivalasztottCsop} />
       
 
       <button className="btn btn-primary" onClick={submit}>
-        Post
+        Poszt
       </button>
     </div>
   );

@@ -63,3 +63,28 @@ ORDER BY letrehozva DESC;
         return res.status(200).json(result)
         })
 })
+
+//Bejegyzés felvitel/////////////////////
+app.post("/bejegyzesFelv", (req, res) => {
+  const {cim,tartalom,kategoria,helyszin,csoport_id} = req.body;
+
+  const felhasznalo_id = 2; // TEMP (later from token)
+  //const csoport_id = 1;
+    const kep_url = "Alma.jpg";
+    
+  const sql = `
+    INSERT INTO bejegyzesek
+    (felhasznalo_id, cim, tartalom,kep_url, helyszin, kategoria, letrehozva,csoport_id )
+    VALUES (?, ?, ?, ?, ?, ?, NOW(), ?)
+  `;
+
+  db.query(
+    sql,
+    [felhasznalo_id,cim,tartalom,kep_url || null,helyszin || null, kategoria,csoport_id],
+    (err) => {
+      if (err) return res.status(500).json(err);
+      res.json({ message: "Post created successfully" });
+    }
+  );
+});
+//////////////////////////////////////////////

@@ -10,7 +10,7 @@ const Csoportjaim=()=>{
 
         
         <div>
-            <div>{userid}</div>
+            {/* <div>{userid}</div> */}
             <div style={{textAlign:"center",marginBottom:20}}></div>
             
                 
