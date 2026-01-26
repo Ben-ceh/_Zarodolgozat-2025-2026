@@ -22,7 +22,7 @@ const UserLenyiloCsoportjaim=({userid,kivalasztott})=>{
                 {
                     setAdatok(data)
                     setTolt(false)}
-            else 
+            else
                 {
                     setHiba(true)
                     setTolt(false)

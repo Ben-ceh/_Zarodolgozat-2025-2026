@@ -259,8 +259,10 @@ app.get('/csoportjaimBejegyzesei/:user_id', (req, res) => {
         ON bejegyzesek_kategoria.kategoria_id = bejegyzesek.kategoria
         INNER JOIN telepules
         ON telepules.telepules_id = bejegyzesek.helyszin
-WHERE csoport_id IN (
-    SELECT csoport_id
+        INNER JOIN csoportok
+        ON csoportok.csoport_id = bejegyzesek.csoport_id
+WHERE csoportok.csoport_id IN (
+    SELECT felhasznalo_csoportok.csoport_id
     FROM felhasznalo_csoportok
     WHERE felhasznalok_id = ?
 )

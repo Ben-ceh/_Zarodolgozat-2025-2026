@@ -2,6 +2,7 @@
 import { useState,useEffect } from "react"
 import Cim from "../Cim"
 import "../App.css";
+import { Link, useNavigate } from 'react-router-dom';
 
 const CsoportjaimOssz=({kivalasztott})=>{
     const [adatok,setAdatok]=useState([])
@@ -10,6 +11,9 @@ const CsoportjaimOssz=({kivalasztott})=>{
     const [siker,setSiker]=useState(false)
     const [userid] = useState(localStorage.getItem("userid"));
 
+    const navigate = useNavigate();
+
+ 
     const leToltes=async ()=>{
         try{
             const response=await fetch(Cim.Cim+"/csoportjaim/"+userid)
@@ -36,10 +40,25 @@ const CsoportjaimOssz=({kivalasztott})=>{
     useEffect(()=>{
         leToltes()
     },[siker])
+    const megtekintesFuggveny = async (id, szoveg) => {
+      const biztos = window.confirm(
+      `Biztosan meg szeretnéd tekinteni a csoportot?\n\n"${szoveg}"`
+    );
+    if (biztos) {
+    navigate("/FoOldal", {
+      state: {
+        csoportId: id,
+        csoportSzoveg: szoveg
+      }
+    });
+    }
+    }
 const torlesFuggveny = async (id, szoveg) => {
     const biztos = window.confirm(
       `Biztosan ki szeretnél lépni a csoportból?\n\n"${szoveg}"`
     );
+  
+
 
     if (biztos) {
       const response = await fetch(
@@ -57,7 +76,9 @@ const torlesFuggveny = async (id, szoveg) => {
       }
     }
   };
+  
     if (tolt)
+     
         return (
             <div style={{textAlign:"center"}}>Adatok betöltése folyamatban...</div>
                 )
@@ -76,6 +97,7 @@ const torlesFuggveny = async (id, szoveg) => {
       <tr>
         <th>Csoport neve</th>
         <th>Dátum</th>
+        <th>Megtekintés</th>
         <th>Kilépés</th>
       </tr>
     </thead>
@@ -85,6 +107,18 @@ const torlesFuggveny = async (id, szoveg) => {
         <tr key={index}>
           <td>{elem.csoport_nev}</td>
           <td>{elem.csatlakozva}</td>
+          <td>
+            
+            <button
+              className="view-btn"
+              onClick={() =>
+                megtekintesFuggveny(elem.id, elem.csoport_nev)
+              }
+            >
+              👀
+            </button>
+         
+          </td>
           <td>
             <button
               className="delete-btn"

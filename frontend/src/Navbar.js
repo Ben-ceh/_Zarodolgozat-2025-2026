@@ -14,13 +14,22 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
-    navigate("/menu1");
+    navigate("/FoOldal");
   };
 
   const toggleMenu = () => {
     setMenuOpen(prev => !prev);
   };
 
+  // const jelenkezveE = () => {
+  //   if (!loggedIn) {
+  //     <Link to="/FoOldal" className="link" onClick={() => setMenuOpen(false)}>
+  //           FőOldal
+  //         </Link>
+  //   }else{
+
+  //   }
+  // }
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container">
@@ -32,9 +41,16 @@ const Navbar = () => {
           <Link to="/FoOldal" className="link" onClick={() => setMenuOpen(false)}>
             FőOldal
           </Link>
+          
           {loggedIn && role === "user" && (
             <Link to="/csoportjaim"  className="link NavBarNevek" onClick={() => setMenuOpen(false)}>
               Csoportjaim
+            </Link>
+            
+          )}
+          {loggedIn && role === "user" && (
+            <Link to="/user" className="link" onClick={() => setMenuOpen(false)}>
+              User menü
             </Link>
             
           )}
@@ -53,6 +69,12 @@ const Navbar = () => {
           {loggedIn && role === "admin" && (
             <Link to="/csoportjaim" className="link" onClick={() => setMenuOpen(false)}>
               Csoportjaim
+            </Link>
+            
+          )}
+          {loggedIn && role === "user" && (
+            <Link to="/Profil" className="link" onClick={() => setMenuOpen(false)}>
+              Profil
             </Link>
             
           )}
@@ -95,15 +117,17 @@ const Navbar = () => {
                   )}
                   
                 </div>
+
+
+
               </div>
            
               
 
-          {loggedIn && role === "user" && (
-            <Link to="/user" className="link" onClick={() => setMenuOpen(false)}>
-              User menü
-            </Link>
-          )}
+          
+
+          
+        
         </div>
       </div>
 
@@ -118,22 +142,17 @@ const Navbar = () => {
             </Link>
             
           )}
-           {loggedIn && role === "user" && (
-            <Link to="/Profil" className="link" onClick={() => setMenuOpen(false)}>
-              Profil
-            </Link>
-            
-          )}
-        {loggedIn ? (
+           {/* {loggedIn ? (
           <button className="logoutButton" onClick={handleLogout}>
             Kijelentkezés
           </button>
+        
           
         ) : (
           <Link to="/login" className="loginButton">
             Bejelentkezés
           </Link>
-        )}
+        )} */}
       </div>
 
         

@@ -244,7 +244,7 @@ try {
                 {formatDate(elem.letrehozva)} · {elem.telepules_nev}
                 <br />
           <span className="badge bg-warning ms-2">
-            {elem.kategoria_nev}
+            {elem.kategoria_nev},{elem.csoport_nev}
           </span>
           
               </div>

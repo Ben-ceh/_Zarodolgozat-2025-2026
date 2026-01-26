@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from 'react-router-dom';
 import "../App.css";
-const Sidebar = () => {
-  const navigate = useNavigate();
+const Sidebar1 = () => {
+const navigate = useNavigate();
 
   const token = localStorage.getItem("token");
   const role = localStorage.getItem("role");
@@ -14,36 +14,41 @@ const Sidebar = () => {
     localStorage.removeItem("role");
     navigate("/menu1");
   };
+
   return (
     <div className="sidebar">
       <h5 className="mb-4">Okos Közösség</h5>
 
       <ul className="list-unstyled">
         <li>
-          <Link to="/" className="sidebar-link">🏠 Főoldal</Link>
+          <Link to="/FoOldal" className="sidebar-link">🏠 Főoldal</Link>
         </li>
         
-        <li>
-          <Link to="/UserBejegyFelv" className="sidebar-link">➕ Új bejegyzés</Link>
-        </li>
+        {/* <li>
+          <Link to="/login" className="sidebar-link">➕ Új bejegyzés</Link>
+        </li> */}
         <li style={{textAlign:"center"}}><b>-</b></li>
-        <li>
-          <Link to="/csoportjaim" className="sidebar-link">👥 Csoportjaim</Link>
+        {/* <li>
+          <Link to="/login" className="sidebar-link">👥 Csoportjaim</Link>
         </li>
         <li>
-          <Link to="/profil" className="sidebar-link">👤 Profilom</Link>
-        </li>
+          <Link to="/login" className="sidebar-link">👤 Profilom</Link>
+        </li> */}
+        
         <li>
           <Link to="/beallitasok" className="sidebar-link">⚙ Beállítások</Link>
         </li>
+
         {loggedIn ? (
-          <li className="">
+          <li>
           <button className="logoutButton" onClick={handleLogout}>
           🚪 Kijelentkezés
           </button>
           </li>
+        
+          
         ) : (
-          <li className="">
+          <li>
           <Link to="/login" className="loginButton">
           🚪 Bejelentkezés
           </Link>
@@ -54,4 +59,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default Sidebar1;
