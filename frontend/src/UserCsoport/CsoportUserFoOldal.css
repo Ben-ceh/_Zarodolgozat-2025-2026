@@ -1,0 +1,20 @@
+.home {
+  display: flex;
+  justify-content: center;
+  padding: 24px;
+}
+
+.feed-container {
+  width: 100%;
+  max-width: 720px; /* this matches most Figma feed designs */
+}
+
+.feed-title {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #4040ab;
+}
+
+.feed-container {
+  max-width: 680px;
+}

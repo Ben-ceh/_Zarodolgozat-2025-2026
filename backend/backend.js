@@ -385,6 +385,35 @@ app.post("/bejegyzesFelv", (req, res) => {
     }
   );
 });
+//Egy Bizonyos Csoport Bejegyzései!
+
+app.post('/egyCsopBej', (req, res) => {
+    
+    const { csoportId } = req.body
+
+    const sql = `
+       SELECT 
+        *
+        from bejegyzesek 
+        inner JOIN felhasznalok 
+        on bejegyzesek.felhasznalo_id = felhasznalok.felhasznalok_id
+        INNER JOIN bejegyzesek_kategoria
+        ON bejegyzesek_kategoria.kategoria_id = bejegyzesek.kategoria
+        INNER JOIN telepules
+        ON telepules.telepules_id = bejegyzesek.helyszin
+        
+        Where bejegyzesek.csoport_id = ?;
+    `
+
+    pool.query(sql, [csoportId], (err, result) => {
+        if (err) {
+            console.error(err)
+            return res.status(500).json({ error: "Adatbázis hiba" })
+        }
+
+        return res.status(200).json(result)
+    })
+})
 
 
 //Sanyi végpontjai---------------------------------------------------------------------

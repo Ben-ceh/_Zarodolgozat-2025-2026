@@ -40,6 +40,8 @@ import Profil from './Profil/Profil';
 import ProfilAdmin from './Profil/ProfilAdmin';
 //BejegyFelv
 import UserBejegyFelv from './User/UserBejegyFelv';
+//Csoport FoOldal
+import CsoportUserFoOldal from './UserCsoport/CsoportUserFoOldal';
 
 const ProtectedRoute = ({ children, role }) => {
   const token = localStorage.getItem("token");
@@ -47,7 +49,7 @@ const ProtectedRoute = ({ children, role }) => {
 
   if (!token) return <Navigate to="/login" />;
 
-  if (role && userRole !== role) return <Navigate to="/menu1" />;
+  if (role && userRole !== role) return <Navigate to="/FoOldal" />;
 
   return children;
 };
@@ -80,6 +82,14 @@ function App() {
   element={
     <MainLayout>
       <UserFoOldal />
+    </MainLayout>
+  }
+/>
+<Route
+  path="/CsoportUserFoOldal"
+  element={
+    <MainLayout>
+      <CsoportUserFoOldal />
     </MainLayout>
   }
 />

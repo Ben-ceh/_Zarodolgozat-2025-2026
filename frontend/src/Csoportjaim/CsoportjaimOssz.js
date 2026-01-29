@@ -2,7 +2,7 @@
 import { useState,useEffect } from "react"
 import Cim from "../Cim"
 import "../App.css";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const CsoportjaimOssz=({kivalasztott})=>{
     const [adatok,setAdatok]=useState([])
@@ -16,6 +16,7 @@ const CsoportjaimOssz=({kivalasztott})=>{
  
     const leToltes=async ()=>{
         try{
+          
             const response=await fetch(Cim.Cim+"/csoportjaim/"+userid)
             const data=await response.json()
             // alert(JSON.stringify(data))
@@ -45,7 +46,7 @@ const CsoportjaimOssz=({kivalasztott})=>{
       `Biztosan meg szeretnéd tekinteni a csoportot?\n\n"${szoveg}"`
     );
     if (biztos) {
-    navigate("/FoOldal", {
+    navigate("/CsoportUserFoOldal", {
       state: {
         csoportId: id,
         csoportSzoveg: szoveg
@@ -112,7 +113,7 @@ const torlesFuggveny = async (id, szoveg) => {
             <button
               className="view-btn"
               onClick={() =>
-                megtekintesFuggveny(elem.id, elem.csoport_nev)
+                megtekintesFuggveny(elem.csoport_id, elem.csoport_nev)
               }
             >
               👀

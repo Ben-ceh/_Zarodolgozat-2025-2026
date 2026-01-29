@@ -12,7 +12,7 @@ const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
-    navigate("/menu1");
+    navigate("/FoOldal");
   };
 
   return (
