@@ -30,7 +30,7 @@ const Login = () => {
       localStorage.setItem('userid', data.userid);
       localStorage.setItem('belepUserid', data.belepUserid);
       alert('Sikeres bejelentkezés!');
-      navigate('/menu1');
+      navigate('/FoOldal');
     } catch (err) {
       setError(err.message);
     }

@@ -14,7 +14,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
-    navigate("/menu1");
+    navigate("/FoOldal");
   };
 
   const toggleMenu = () => {
@@ -95,8 +95,14 @@ const Navbar = () => {
                   )}
                   
                 </div>
-              </div>
+          </div>
            
+           {loggedIn && role === "admin" && (
+            <Link to="/UzenetKuldes" className="link" onClick={() => setMenuOpen(false)}>
+              Üzenet küldés
+            </Link>
+            
+          )}
               
 
           {loggedIn && role === "user" && (
@@ -107,6 +113,7 @@ const Navbar = () => {
         </div>
       </div>
 
+          
           
           
 

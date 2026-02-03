@@ -10,7 +10,7 @@ import Login from './Login';
 //Register
 import Register from './Register';
 //Bejelentkezés nélküli menük
-import Menu1 from './Menu1/Menu1';
+
 //Admin menük
 import Admin from './Admin/Admin';
 //FőOldal menü
@@ -34,6 +34,7 @@ import UserFoOldal from './User/UserFoOldal';
 import user from '@testing-library/user-event';
 import Profil from './Profil/Profil';
 import ProfilAdmin from './Profil/ProfilAdmin';
+import UzenetKuldes from './Uzenet/UzenetKuldes';
 
 const ProtectedRoute = ({ children, role }) => {
   const token = localStorage.getItem("token");
@@ -41,7 +42,7 @@ const ProtectedRoute = ({ children, role }) => {
 
   if (!token) return <Navigate to="/login" />;
 
-  if (role && userRole !== role) return <Navigate to="/menu1" />;
+  if (role && userRole !== role) return <Navigate to="/FoOldal" />;
 
   return children;
 };
@@ -150,6 +151,16 @@ function App() {
               </ProtectedRoute>
             }
           />
+
+          <Route 
+            path="/UzenetKuldes"
+            element={
+              <ProtectedRoute role="admin">
+                <UzenetKuldes />
+              </ProtectedRoute>
+              
+            }
+          /> 
 
 {/* Bejelentkezés vége*/}
 

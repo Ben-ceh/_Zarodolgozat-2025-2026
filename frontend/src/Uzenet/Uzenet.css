@@ -1,0 +1,56 @@
+.msg-btn {
+  background: linear-gradient(135deg, #4e54c8, #8f94fb);
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+.msg-btn:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* Üzenet doboz */
+.message-box {
+  max-width: 420px;
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: 12px;
+  background: #f8f9fa;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.message-box h5 {
+  margin-bottom: 10px;
+}
+
+.message-box span {
+  color: #4e54c8;
+  font-weight: bold;
+}
+
+/* SLIDE-IN animáció */
+.slide-in {
+  animation: slideIn 0.4s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message-box span {
+  font-size: 1.4rem;   
+  font-weight: 700;
+  color: #4e54c8;
+}

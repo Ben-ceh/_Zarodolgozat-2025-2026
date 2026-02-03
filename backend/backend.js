@@ -337,7 +337,26 @@ app.get('/kategoria', (req, res) => {
         return res.status(200).json(result)
         })
 })
+
+
 //Sanyi végpontjai---------------------------------------------------------------------
+
+
+app.post('/uzenetFelvitel', (req, res) => {
+        const {uzenet_iro,uzenet_kinek,uzenet_datum,uzenet_szoveg}=req.body
+        const sql=`insert into uzenet 
+                    values (null,?,?,?,?)
+                    `
+        pool.query(sql,[uzenet_iro,uzenet_kinek,uzenet_datum,uzenet_szoveg], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({error:"Hiba"})
+        }
+
+        return res.status(200).json({message:"Sikeres felvitel"})
+        })
+})
+
 
 
 // felhasznalok tábla módosítása, a parameterben az idegen, email,bio, felhasznalónév
@@ -380,7 +399,7 @@ app.post('/idegenKeres', (req, res) => {
         })
 })
 
-//Sanyi végpontjai
+
 app.get('/bejegyzesek', (req, res) => {
         const sql=`SELECT *
                    from bejegyzesek
