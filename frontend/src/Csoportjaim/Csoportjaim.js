@@ -10,7 +10,9 @@ const Csoportjaim=()=>{
 
         
         <div>
-            <div>{userid}</div>
+            {/* <div>{userid}</div> */}
+            
+
             <div style={{textAlign:"center",marginBottom:20}}></div>
             
                 
@@ -18,7 +20,13 @@ const Csoportjaim=()=>{
                     <CsoportjaimOssz kivalasztott={kivalasztott} userid={userid} belepUserid={belepUserid}/>
                 </div>
                 
+                {/* <div style={{textAlign:"center",marginBottom:20}}></div>
             
+                
+                <div className="">
+                    <CsoportjaimOssz kivalasztott={kivalasztott} userid={userid} belepUserid={belepUserid}/>
+                </div>
+             */}
         </div>
 
     )

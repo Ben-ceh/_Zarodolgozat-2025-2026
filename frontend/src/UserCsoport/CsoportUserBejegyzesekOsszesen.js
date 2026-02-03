@@ -2,12 +2,13 @@
 import { useState, useEffect } from "react";
 import Cim from "../Cim";
 import "../App.css";
-import "./Userfeed.css";
+import "./CsoportUserfeed.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
-import UserLenyiloKategoria from "./UserLenyiloKategoria";
+import CsoportUserLenyiloKategoria from "./CsoportUserLenyiloKategoria";
+import { Alert } from "bootstrap/dist/js/bootstrap.bundle.min";
 
-const UserBejegyzesekOsszesen = ({userid,belepUserid}) => {
+const CsoportUserBejegyzesekOsszesen = ({userid,belepUserid,csoportId,csoportSzoveg}) => {
   const [adatok, setAdatok] = useState([]);
   const [tolt, setTolt] = useState(true);
   const [hiba, setHiba] = useState(false);
@@ -47,23 +48,35 @@ const UserBejegyzesekOsszesen = ({userid,belepUserid}) => {
 
   useEffect(() => {
     const leToltes = async () => {
-
+      // alert("kivalasztott"+kivalasztott+"|"+ "csoportId:csoportSzoveg"+csoportId + ":" +csoportSzoveg)
       // alert(kivalasztott)
 
       if(kivalasztott===0){
+        
 try {
-        const response = await fetch(Cim.Cim +"/csoportjaimBejegyzesei/"+belepUserid);
+let bemenet={
+                "csoportId":csoportId
+            }
+
+        const response = await fetch(Cim.Cim +"/egyCsopBej",{
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(bemenet)
+            });
         const data = await response.json();
         if (response.ok) {
-          
+          // alert("Okés")
           setAdatok(data);
           setTolt(false);
         } else {
-          alert("Hibás"+":UserID:"+userid+"belpesUserId:"+belepUserid)
+          // alert("Hibás"+":csoportId:"+csoportId+"csoportSzoveg:"+csoportSzoveg)
           setHiba(true);
           setTolt(false);
         }
       } catch (error) {
+        // alert("baj van :(")
         console.error(error);
         setHiba(true);
       }
@@ -188,11 +201,11 @@ try {
 
   return (
     <div className="card mb-3 p-3">
-      <h2>Csoportjaim bejegyzései</h2>
+      <h2>{csoportSzoveg}</h2>
   <div className="d-flex gap-3 flex-wrap">
 
     {/* Category filter */}
-    <UserLenyiloKategoria kivalasztott={setKivalasztott}/>
+    <CsoportUserLenyiloKategoria kivalasztott={setKivalasztott}/>
 
     {/* <select
       className="form-select"
@@ -367,4 +380,4 @@ try {
   );
 };
 
-export default UserBejegyzesekOsszesen;
+export default CsoportUserBejegyzesekOsszesen;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Jan 16. 10:37
+-- Létrehozás ideje: 2026. Feb 03. 08:43
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Adatbázis: `okos_kozosseg`
 --
+CREATE DATABASE IF NOT EXISTS `okos_kozosseg` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `okos_kozosseg`;
 
 -- --------------------------------------------------------
 
@@ -53,7 +55,11 @@ INSERT INTO `bejegyzesek` (`bejegyzesek_id`, `felhasznalo_id`, `cim`, `tartalom`
 (7, 2, 'Havazik', 'Havazik', NULL, 1, 1, '2026-01-06 07:57:48', 3),
 (8, 3, 'Sport', 'Sportolni kezdtem.', NULL, 1, 6, '2026-01-15 09:24:21', 4),
 (9, 3, 'Sport', 'Sport', NULL, 42, 2, '2026-01-15 09:42:08', 4),
-(10, 3, 'Sport', 'Sport', NULL, 30, 2, '2026-01-15 09:43:16', 3);
+(10, 3, 'Sport', 'Sport', NULL, 30, 2, '2026-01-15 09:43:16', 3),
+(14, 4, 'Csokoládé', 'Csokoládé@gmail.com', NULL, 1, 1, '2026-01-22 11:07:08', 1),
+(17, 4, 'Teszt', 'TesztTeszt', NULL, 2, 2, '2026-01-22 11:10:26', 2),
+(18, 4, 'TesztTeszt', 'TesztTesztTeszt', NULL, 1, 1, '2026-01-22 11:12:45', 1),
+(19, 4, 'adasd', 'adasd', NULL, 1, 1, '2026-01-26 11:46:51', 1);
 
 -- --------------------------------------------------------
 
@@ -71,13 +77,12 @@ CREATE TABLE `bejegyzesek_kategoria` (
 --
 
 INSERT INTO `bejegyzesek_kategoria` (`kategoria_id`, `kategoria_nev`) VALUES
-(1, 'Összes'),
-(2, 'Közlekedés'),
-(3, 'Események '),
-(4, 'Veszélyhelyzetek'),
-(5, 'Elveszetett tárgyak'),
-(6, 'Helyi hírek'),
-(7, 'Általános');
+(1, 'Közlekedés'),
+(2, 'Események'),
+(3, 'Veszélyhelyzetek'),
+(4, 'Elveszett tárgyak'),
+(5, 'Helyi hírek'),
+(6, 'Összes');
 
 -- --------------------------------------------------------
 
@@ -177,9 +182,10 @@ CREATE TABLE `felhasznalo_csoportok` (
 INSERT INTO `felhasznalo_csoportok` (`id`, `felhasznalok_id`, `csoport_id`, `csatlakozva`) VALUES
 (4, 2, 3, '2026-01-08 10:59:43'),
 (8, 4, 1, '2026-01-08 12:02:43'),
-(9, 4, 2, '2026-01-08 12:02:43'),
-(10, 4, 3, '2026-01-08 12:02:43'),
-(12, 3, 4, '2026-01-15 09:23:32');
+(12, 3, 4, '2026-01-15 09:23:32'),
+(13, 3, 1, '2026-01-16 11:44:47'),
+(14, 3, 2, '2026-01-16 11:44:47'),
+(15, 4, 2, '2026-01-22 08:05:43');
 
 -- --------------------------------------------------------
 
@@ -239,7 +245,11 @@ INSERT INTO `hozzaszolasok` (`hozzaszolasok_id`, `bejegyzes_id`, `felhasznalo_id
 (47, 1, 5, 'Ismeretlen', '2026-01-14 10:50:41'),
 (48, 1, 5, 'asduzliz', '2026-01-14 11:55:13'),
 (49, 5, 5, 'asdas', '2026-01-15 08:10:50'),
-(50, 2, 4, 'asd', '2026-01-15 09:46:00');
+(50, 2, 4, 'asd', '2026-01-15 09:46:00'),
+(51, 1, 4, 'asd', '2026-01-16 12:44:52'),
+(52, 1, 5, 'adsad', '2026-01-20 07:46:29'),
+(53, 5, 4, 'asdas', '2026-01-20 07:46:34'),
+(54, 1, 5, 'adasd', '2026-01-26 10:25:50');
 
 -- --------------------------------------------------------
 
@@ -355,6 +365,20 @@ INSERT INTO `telepules` (`telepules_id`, `telepules_nev`) VALUES
 (42, 'Hajdúszoboszló'),
 (43, 'Hajdúböszörmény');
 
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `uzenet`
+--
+
+CREATE TABLE `uzenet` (
+  `uzenet_id` int(11) NOT NULL,
+  `uzenet_iro` int(11) NOT NULL,
+  `uzenet_kinek` int(11) NOT NULL,
+  `uzenet_datum` datetime NOT NULL,
+  `uzenet_szoveg` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexek a kiírt táblákhoz
 --
@@ -366,7 +390,8 @@ ALTER TABLE `bejegyzesek`
   ADD PRIMARY KEY (`bejegyzesek_id`),
   ADD KEY `felhasznalo_id` (`felhasznalo_id`),
   ADD KEY `helyszin` (`helyszin`),
-  ADD KEY `bejegy_kategoria` (`kategoria`);
+  ADD KEY `bejegy_kategoria` (`kategoria`),
+  ADD KEY `csoport_id` (`csoport_id`);
 
 --
 -- A tábla indexei `bejegyzesek_kategoria`
@@ -440,6 +465,12 @@ ALTER TABLE `telepules`
   ADD PRIMARY KEY (`telepules_id`);
 
 --
+-- A tábla indexei `uzenet`
+--
+ALTER TABLE `uzenet`
+  ADD PRIMARY KEY (`uzenet_id`);
+
+--
 -- A kiírt táblák AUTO_INCREMENT értéke
 --
 
@@ -447,7 +478,7 @@ ALTER TABLE `telepules`
 -- AUTO_INCREMENT a táblához `bejegyzesek`
 --
 ALTER TABLE `bejegyzesek`
-  MODIFY `bejegyzesek_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `bejegyzesek_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT a táblához `bejegyzesek_kategoria`
@@ -477,13 +508,13 @@ ALTER TABLE `felhasznalok`
 -- AUTO_INCREMENT a táblához `felhasznalo_csoportok`
 --
 ALTER TABLE `felhasznalo_csoportok`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT a táblához `hozzaszolasok`
 --
 ALTER TABLE `hozzaszolasok`
-  MODIFY `hozzaszolasok_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `hozzaszolasok_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT a táblához `megosztasok`
@@ -510,6 +541,12 @@ ALTER TABLE `telepules`
   MODIFY `telepules_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
+-- AUTO_INCREMENT a táblához `uzenet`
+--
+ALTER TABLE `uzenet`
+  MODIFY `uzenet_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Megkötések a kiírt táblákhoz
 --
 
@@ -519,7 +556,8 @@ ALTER TABLE `telepules`
 ALTER TABLE `bejegyzesek`
   ADD CONSTRAINT `bejegyzesek_ibfk_1` FOREIGN KEY (`felhasznalo_id`) REFERENCES `felhasznalok` (`felhasznalok_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `bejegyzesek_ibfk_2` FOREIGN KEY (`helyszin`) REFERENCES `telepules` (`telepules_id`),
-  ADD CONSTRAINT `bejegyzesek_ibfk_3` FOREIGN KEY (`kategoria`) REFERENCES `bejegyzesek_kategoria` (`kategoria_id`);
+  ADD CONSTRAINT `bejegyzesek_ibfk_3` FOREIGN KEY (`kategoria`) REFERENCES `bejegyzesek_kategoria` (`kategoria_id`),
+  ADD CONSTRAINT `bejegyzesek_ibfk_4` FOREIGN KEY (`csoport_id`) REFERENCES `csoportok` (`csoport_id`);
 
 --
 -- Megkötések a táblához `belepes`

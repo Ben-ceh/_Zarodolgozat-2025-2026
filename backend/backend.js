@@ -259,8 +259,10 @@ app.get('/csoportjaimBejegyzesei/:user_id', (req, res) => {
         ON bejegyzesek_kategoria.kategoria_id = bejegyzesek.kategoria
         INNER JOIN telepules
         ON telepules.telepules_id = bejegyzesek.helyszin
-WHERE csoport_id IN (
-    SELECT csoport_id
+        INNER JOIN csoportok
+        ON csoportok.csoport_id = bejegyzesek.csoport_id
+WHERE csoportok.csoport_id IN (
+    SELECT felhasznalo_csoportok.csoport_id
     FROM felhasznalo_csoportok
     WHERE felhasznalok_id = ?
 )
@@ -320,6 +322,23 @@ app.delete('/csoportKilepes/:id', (req, res) => {
         return res.status(200).json({message:"Sikeres törlés"})
         })
 });
+//Helyszin
+app.get('/helyszin', (req, res) => {
+        const sql=`SELECT * from telepules;
+  ;
+`
+        pool.query(sql, (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({error:"Hiba"})
+        }
+        if (result.length===0){
+            return res.status(404).json({error:"Nincs adat"})
+        }
+
+        return res.status(200).json(result)
+        })
+})
 //Kategoria
 app.get('/kategoria', (req, res) => {
         const sql=`SELECT * from bejegyzesek_kategoria
@@ -336,6 +355,64 @@ app.get('/kategoria', (req, res) => {
 
         return res.status(200).json(result)
         })
+})
+
+//Új bejegyzés
+app.post("/bejegyzesFelv", (req, res) => {
+  const { felhasznalo_id, cim, tartalom, kategoria, helyszin, csoport_id } = req.body;
+
+//   if (!cim || !tartalom || !kategoria || !csoport_id) {
+//     return res.status(400).json({ error: "Missing required fields" });
+//   }
+
+//   const felhasznalo_id = 2; // TEMP
+
+
+  const sql = `
+    INSERT INTO bejegyzesek
+    (felhasznalo_id, cim, tartalom, helyszin, kategoria, letrehozva, csoport_id)
+    VALUES (?, ?, ?, ?, ?, NOW(), ?)
+  `;
+
+  pool.query(sql,[felhasznalo_id,cim,tartalom,helyszin,kategoria,csoport_id],
+    (err, result) => {
+      if (err) {
+        console.error("DB ERROR:", err);
+        return res.status(500).json(err);
+      }
+
+      res.json({ message: "Post created successfully", id: result.insertId });
+    }
+  );
+});
+//Egy Bizonyos Csoport Bejegyzései!
+
+app.post('/egyCsopBej', (req, res) => {
+    
+    const { csoportId } = req.body
+
+    const sql = `
+       SELECT 
+        *
+        from bejegyzesek 
+        inner JOIN felhasznalok 
+        on bejegyzesek.felhasznalo_id = felhasznalok.felhasznalok_id
+        INNER JOIN bejegyzesek_kategoria
+        ON bejegyzesek_kategoria.kategoria_id = bejegyzesek.kategoria
+        INNER JOIN telepules
+        ON telepules.telepules_id = bejegyzesek.helyszin
+        
+        Where bejegyzesek.csoport_id = ?;
+    `
+
+    pool.query(sql, [csoportId], (err, result) => {
+        if (err) {
+            console.error(err)
+            return res.status(500).json({ error: "Adatbázis hiba" })
+        }
+
+        return res.status(200).json(result)
+    })
 })
 
 

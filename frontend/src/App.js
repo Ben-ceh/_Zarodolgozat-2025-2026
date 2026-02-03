@@ -11,18 +11,23 @@ import Login from './Login';
 import Register from './Register';
 //Bejelentkezés nélküli menük
 
+// import Menu1 from './Menu1/Menu1';
 //Admin menük
 import Admin from './Admin/Admin';
 //FőOldal menü
 import FoOldal from './FoOldal/FoOldal';
 //Sidebar
-import Sidebar from "./Sidebar/Sidebar";
+// import Sidebar from "./Sidebar/Sidebar";
+//Sidebar1
+// import Sidebar1 from './Sidebar1/Sidebar1';
 //MainLayout menü
 import MainLayout from './MainLayout/MainLayout';
+//MainLayout1 menü
+import MainLayout1 from './MainLayout1/MainLayout1';
 // BejegyzésTörlése
 import BejegyzesTorles from './BejegyzesTorles/BejegyzesTorles';
 //Trágárszavak Törlése
-import TragarSzoKereso from './TragarSzoKereso/TragarSzoKereso';
+// import TragarSzoKereso from './TragarSzoKereso/TragarSzoKereso';
 //Hozzászólások Törlése
 import HozzaszolasTorlese from './BejegyzesTorles/HozzaszolasTorlese';
 //Felhasznalók törlése
@@ -35,6 +40,10 @@ import user from '@testing-library/user-event';
 import Profil from './Profil/Profil';
 import ProfilAdmin from './Profil/ProfilAdmin';
 import UzenetKuldes from './Uzenet/UzenetKuldes';
+//BejegyFelv
+import UserBejegyFelv from './User/UserBejegyFelv';
+//Csoport FoOldal
+import CsoportUserFoOldal from './UserCsoport/CsoportUserFoOldal';
 
 const ProtectedRoute = ({ children, role }) => {
   const token = localStorage.getItem("token");
@@ -65,9 +74,9 @@ function App() {
           <Route
   path="/FoOldal"
   element={
-    <MainLayout>
+    <MainLayout1>
       <FoOldal />
-    </MainLayout>
+    </MainLayout1>
   }
 />
 <Route
@@ -78,10 +87,19 @@ function App() {
     </MainLayout>
   }
 />
+<Route
+  path="/CsoportUserFoOldal"
+  element={
+    <MainLayout>
+      <CsoportUserFoOldal />
+    </MainLayout>
+  }
+/>
           <Route path="/Csoportjaim" element={<Csoportjaim />} />
           <Route path="/UserFoOldal" element={<UserFoOldal />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          
 
           <Route
             path="/admin"
@@ -162,6 +180,16 @@ function App() {
             }
           /> 
 
+<Route 
+            path="/UserBejegyFelv"
+            element={
+              <ProtectedRoute role="user">
+                <MainLayout>
+                  <UserBejegyFelv/>
+                </MainLayout>
+              </ProtectedRoute>
+            }
+          />
 {/* Bejelentkezés vége*/}
 
         </Routes>

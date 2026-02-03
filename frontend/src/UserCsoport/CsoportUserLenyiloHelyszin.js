@@ -2,7 +2,7 @@
 import { useState,useEffect } from "react"
 import Cim from "../Cim"
 
-const UserLenyiloKategoria=({kivalasztott})=>{
+const CsoportUserLenyiloHelyszin=({kivalasztott})=>{
     const [adatok,setAdatok]=useState([])
     const [tolt,setTolt]=useState(true)
     const [hiba,setHiba]=useState(false)
@@ -13,7 +13,7 @@ const UserLenyiloKategoria=({kivalasztott})=>{
     useEffect(()=>{
         const leToltes=async ()=>{
         try{
-            const response=await fetch(Cim.Cim+"/kategoria/")
+            const response=await fetch(Cim.Cim+"/helyszin/")
             const data=await response.json()
             // alert(JSON.stringify(data))
             
@@ -49,13 +49,16 @@ const UserLenyiloKategoria=({kivalasztott})=>{
     else return (
         <div>
             <select 
-            className="form-select mb-2"
+            className="form-select mb-2" 
+            
+            
+            
             onChange={(e)=>  kivalasztott(e.target.value)      }>
                 {adatok.map((elem,index)=>(
-                    <option key={index} value={elem.kategoria_id}> {elem.kategoria_nev} </option>
+                    <option key={index} value={elem.telepules_id}> {elem.telepules_nev} </option>
                 ))}
             </select>
         </div>
     )
 }
-export default UserLenyiloKategoria
+export default CsoportUserLenyiloHelyszin

@@ -2,7 +2,7 @@
 import { useState,useEffect } from "react"
 import Cim from "../Cim"
 
-const UserLenyiloKategoria=({kivalasztott})=>{
+const CsoportUserLenyiloKategoria=({kivalasztott})=>{
     const [adatok,setAdatok]=useState([])
     const [tolt,setTolt]=useState(true)
     const [hiba,setHiba]=useState(false)
@@ -58,4 +58,4 @@ const UserLenyiloKategoria=({kivalasztott})=>{
         </div>
     )
 }
-export default UserLenyiloKategoria
+export default CsoportUserLenyiloKategoria

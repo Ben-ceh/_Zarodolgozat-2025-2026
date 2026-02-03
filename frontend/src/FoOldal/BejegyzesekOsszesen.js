@@ -6,6 +6,7 @@ import "./feed.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
 import LenyiloKategoria from "./LenyiloKategoria";
+import UserBejegyFelv from "../User/UserBejegyFelv";
 
 const BejegyzesekOsszesen = () => {
   const [adatok, setAdatok] = useState([]);
@@ -191,6 +192,7 @@ const CommentingWithOutALogin = async (szoveg) => {
 
   return (
     <div className="card mb-3 p-3">
+      <h2>Általános</h2>
   <div className="d-flex gap-3 flex-wrap">
 
     {/* Category filter */}
