@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Jan 29. 11:06
+-- Létrehozás ideje: 2026. Feb 03. 08:43
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Adatbázis: `okos_kozosseg`
 --
+CREATE DATABASE IF NOT EXISTS `okos_kozosseg` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `okos_kozosseg`;
 
 -- --------------------------------------------------------
 
@@ -363,6 +365,20 @@ INSERT INTO `telepules` (`telepules_id`, `telepules_nev`) VALUES
 (42, 'Hajdúszoboszló'),
 (43, 'Hajdúböszörmény');
 
+-- --------------------------------------------------------
+
+--
+-- Tábla szerkezet ehhez a táblához `uzenet`
+--
+
+CREATE TABLE `uzenet` (
+  `uzenet_id` int(11) NOT NULL,
+  `uzenet_iro` int(11) NOT NULL,
+  `uzenet_kinek` int(11) NOT NULL,
+  `uzenet_datum` datetime NOT NULL,
+  `uzenet_szoveg` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 --
 -- Indexek a kiírt táblákhoz
 --
@@ -449,6 +465,12 @@ ALTER TABLE `telepules`
   ADD PRIMARY KEY (`telepules_id`);
 
 --
+-- A tábla indexei `uzenet`
+--
+ALTER TABLE `uzenet`
+  ADD PRIMARY KEY (`uzenet_id`);
+
+--
 -- A kiírt táblák AUTO_INCREMENT értéke
 --
 
@@ -517,6 +539,12 @@ ALTER TABLE `reakciok`
 --
 ALTER TABLE `telepules`
   MODIFY `telepules_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+
+--
+-- AUTO_INCREMENT a táblához `uzenet`
+--
+ALTER TABLE `uzenet`
+  MODIFY `uzenet_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Megkötések a kiírt táblákhoz
