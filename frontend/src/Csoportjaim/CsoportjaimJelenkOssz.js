@@ -4,11 +4,12 @@ import Cim from "../Cim"
 import "../App.css";
 import { useNavigate } from 'react-router-dom';
 
-const CsoportjaimOssz=({kivalasztott,userid,belepUserid})=>{
+const CsoportjaimJelenkOssz=({kivalasztottCs,userid,belepUserid})=>{
     const [adatok,setAdatok]=useState([])
     const [tolt,setTolt]=useState(true)
     const [hiba,setHiba]=useState(false)
     const [siker,setSiker]=useState(false)
+    // const [userid] = useState(localStorage.getItem("userid"));
     
 
     const navigate = useNavigate();
@@ -17,7 +18,7 @@ const CsoportjaimOssz=({kivalasztott,userid,belepUserid})=>{
     const leToltes=async ()=>{
         try{
           
-            const response=await fetch(Cim.Cim+"/csoportjaim/"+userid)
+            const response=await fetch(Cim.Cim+"/csoportjaimNem/"+userid)
             const data=await response.json()
             // alert(JSON.stringify(data))
             
@@ -91,51 +92,13 @@ const torlesFuggveny = async (id, szoveg) => {
     else return (
 
 
-        
-<div className="row">
-  <table className="styled-table">
-    <thead>
-      <tr>
-        <th>Csoport neve</th>
-        <th>Dátum</th>
-        <th>Megtekintés</th>
-        <th>Kilépés</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      {adatok.map((elem, index) => (
-        <tr key={index}>
-          <td>{elem.csoport_nev}</td>
-          <td>{elem.csatlakozva}</td>
-          <td>
-            
-            <button
-              className="view-btn"
-              onClick={() =>
-                megtekintesFuggveny(elem.csoport_id, elem.csoport_nev)
-              }
-            >
-              👀
-            </button>
-         
-          </td>
-          <td>
-            <button
-              className="delete-btn"
-              onClick={() =>
-                torlesFuggveny(elem.id, elem.csoport_nev)
-              }
-            >
-              ✕
-            </button>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
-
+     <div>
+            <select className="form-select" style={{ maxWidth: "200px" }} onChange={(e)=>  kivalasztottCs(e.target.value)      }>
+                {adatok.map((elem,index)=>(
+                    <option defaultValue={0} key={index} value={elem.csoport_id}> {elem.csoport_nev}</option>
+                ))}
+            </select>
+        </div>
 
 
 
@@ -148,4 +111,4 @@ const torlesFuggveny = async (id, szoveg) => {
         // </div>
     )
 }
-export default CsoportjaimOssz
+export default CsoportjaimJelenkOssz

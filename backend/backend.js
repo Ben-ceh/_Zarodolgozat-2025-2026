@@ -195,11 +195,11 @@ app.get('/csoportjaim/:user_id', (req, res) => {
         })
 })
 //Azok a csoportok lekérdezése amelyekben a felhasználó nincs bejelenkezve.
-app.get('/csoportjaim/:user_id', (req, res) => {
+app.get('/csoportjaimNem/:user_id', (req, res) => {
         const {user_id} =req.params //belep user_id
         
         const sql=`
-            SELECT * 
+            SELECT * FROM csoportok WHERE csoportok.csoport_id not IN (SELECT csoportok.csoport_id
             FROM belepes
             INNER JOIN felhasznalok
             on felhasznalok.idegen_felhasznalo_id = belepes.felhasznalo_id
@@ -208,7 +208,7 @@ app.get('/csoportjaim/:user_id', (req, res) => {
             INNER JOIN csoportok
             ON csoportok.csoport_id = felhasznalo_csoportok.csoport_id
             Where ? = belepes.felhasznalo_id
-            ORDER BY felhasznalo_csoportok.csatlakozva;
+            ORDER BY felhasznalo_csoportok.csatlakozva);
                 `
         pool.query(sql,[user_id], (err, result) => {
         if (err) {

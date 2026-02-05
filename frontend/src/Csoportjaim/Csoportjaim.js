@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import CsoportjaimOssz from './CsoportjaimOssz';
+import CsoportjaimJelenkOssz from './CsoportjaimJelenkOssz';
 const Csoportjaim=()=>{
     
     const [userid] = useState(localStorage.getItem("userid"));
     const [belepUserid] = useState(localStorage.getItem("belepUserid"));
     const [kivalasztott,setKivalasztott]=useState(1)
+    const [kivalasztottCs,setKivalasztottCs]=useState(1)
 
     return (
 
@@ -17,8 +19,12 @@ const Csoportjaim=()=>{
             
                 
                 <div className="">
-                    <CsoportjaimOssz kivalasztott={kivalasztott} userid={userid} belepUserid={belepUserid}/>
+                    <CsoportjaimOssz kivalasztott={setKivalasztott} userid={userid} belepUserid={belepUserid}/>
+                    <CsoportjaimJelenkOssz kivalasztottCs={setKivalasztottCs} userid={userid} belepUserid={belepUserid}/> 
+                    {kivalasztottCs}
                 </div>
+            
+              
                 
                 {/* <div style={{textAlign:"center",marginBottom:20}}></div>
             
