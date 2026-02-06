@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Feb 03. 08:43
+-- Létrehozás ideje: 2026. Feb 06. 12:35
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -59,7 +59,8 @@ INSERT INTO `bejegyzesek` (`bejegyzesek_id`, `felhasznalo_id`, `cim`, `tartalom`
 (14, 4, 'Csokoládé', 'Csokoládé@gmail.com', NULL, 1, 1, '2026-01-22 11:07:08', 1),
 (17, 4, 'Teszt', 'TesztTeszt', NULL, 2, 2, '2026-01-22 11:10:26', 2),
 (18, 4, 'TesztTeszt', 'TesztTesztTeszt', NULL, 1, 1, '2026-01-22 11:12:45', 1),
-(19, 4, 'adasd', 'adasd', NULL, 1, 1, '2026-01-26 11:46:51', 1);
+(19, 4, 'adasd', 'adasd', NULL, 1, 1, '2026-01-26 11:46:51', 1),
+(20, 4, 'Kátyús utak', 'A Létai út egyik felén betömték az kátyúkat de a másik felén nem, vigyázatok!', NULL, 1, 1, '2026-02-05 07:47:52', 5);
 
 -- --------------------------------------------------------
 
@@ -108,7 +109,8 @@ INSERT INTO `belepes` (`felhasznalo_id`, `felhasznalo_nev`, `felhasznalo_jelszo`
 (9, 'Proba', '$2b$10$eAcFZ8OKIz8KgAzEGhsJxeZyLcNb4Lfe2bfgfTmygINASTzN9jCxq', 1),
 (10, 'gg', '$2b$10$.AmZdgjyIr7QbCVvfLkTwO/Kd.FQ7DP4AZAjb4wgpt/8lorEXEd4.', 1),
 (11, 'komoczib', '$2b$10$qcOHMHi97SEEkhC9CpyrgePeYNEeiUXCvBZxhA8ozH6Qjq3433fZK', 2),
-(13, 'Ismeretlen', '$2y$10$.XpqvywlmUJIED7lu4uFt.uXXAd5AbuSE6rwEXDc5Rlc3YsVk0dtO', 1);
+(13, 'Ismeretlen', '$2y$10$.XpqvywlmUJIED7lu4uFt.uXXAd5AbuSE6rwEXDc5Rlc3YsVk0dtO', 1),
+(14, 'Nagy Ferenc', '$2b$10$f3PAfzmCJxhsGT8Krpqh5eGemlyF3e/JLBCJLsXcLCj0bzoe5myWW', 1);
 
 -- --------------------------------------------------------
 
@@ -133,7 +135,8 @@ INSERT INTO `csoportok` (`csoport_id`, `csoport_nev`, `csoport_leiras`, `csoport
 (1, 'Általános', 'Általános', 1, NULL, '2025-12-11 13:06:27'),
 (2, 'Homokkerti barát', 'Homokkerti barát', 1, NULL, '2025-12-11 13:14:08'),
 (3, 'Időjárás', 'Dugóvan az utakon', 1, NULL, '2026-01-06 07:56:14'),
-(4, 'Sport', 'Sport', 1, NULL, '2026-01-15 09:22:59');
+(4, 'Sport', 'Sport', 1, NULL, '2026-01-15 09:22:59'),
+(5, 'Szabadság telepi csoport', NULL, 1, NULL, '2026-02-05 07:45:23');
 
 -- --------------------------------------------------------
 
@@ -160,7 +163,8 @@ INSERT INTO `felhasznalok` (`felhasznalok_id`, `email`, `profil_kep`, `bio`, `ne
 (2, 'NagySandor@gmail.com', NULL, 'A nevem Nagy Sándor. Egy weboldalt próbálok készíteni.', 1, 'Nagy Sándor', 6),
 (3, 'BaniMíra@gmail.com', NULL, 'A nevem Banai Míra. Nem szeretem a jókedvet.', 2, 'Bani Míra', 5),
 (4, 'Manci@gmail.com', 'manci.jpg', 'Manci.', 2, 'Manci Nagy', 8),
-(5, 'Ismeretlen@gmail.com', NULL, 'Ismeretlen', 1, 'Ismeretlen', 13);
+(5, 'Ismeretlen@gmail.com', NULL, 'Ismeretlen', 1, 'Ismeretlen', 13),
+(6, 'NagyFerenc@gmail.com', NULL, NULL, 1, 'Nagy Ferenc', 14);
 
 -- --------------------------------------------------------
 
@@ -185,7 +189,10 @@ INSERT INTO `felhasznalo_csoportok` (`id`, `felhasznalok_id`, `csoport_id`, `csa
 (12, 3, 4, '2026-01-15 09:23:32'),
 (13, 3, 1, '2026-01-16 11:44:47'),
 (14, 3, 2, '2026-01-16 11:44:47'),
-(15, 4, 2, '2026-01-22 08:05:43');
+(15, 4, 2, '2026-01-22 08:05:43'),
+(16, 4, 5, '2026-02-05 07:45:43'),
+(17, 6, 1, '2026-02-05 07:57:57'),
+(18, 4, 4, '2026-02-06 08:45:52');
 
 -- --------------------------------------------------------
 
@@ -249,7 +256,8 @@ INSERT INTO `hozzaszolasok` (`hozzaszolasok_id`, `bejegyzes_id`, `felhasznalo_id
 (51, 1, 4, 'asd', '2026-01-16 12:44:52'),
 (52, 1, 5, 'adsad', '2026-01-20 07:46:29'),
 (53, 5, 4, 'asdas', '2026-01-20 07:46:34'),
-(54, 1, 5, 'adasd', '2026-01-26 10:25:50');
+(54, 1, 5, 'adasd', '2026-01-26 10:25:50'),
+(55, 19, 6, 'Teszt', '2026-02-05 07:58:18');
 
 -- --------------------------------------------------------
 
@@ -376,8 +384,15 @@ CREATE TABLE `uzenet` (
   `uzenet_iro` int(11) NOT NULL,
   `uzenet_kinek` int(11) NOT NULL,
   `uzenet_datum` datetime NOT NULL,
-  `uzenet_szoveg` int(11) NOT NULL
+  `uzenet_szoveg` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- A tábla adatainak kiíratása `uzenet`
+--
+
+INSERT INTO `uzenet` (`uzenet_id`, `uzenet_iro`, `uzenet_kinek`, `uzenet_datum`, `uzenet_szoveg`) VALUES
+(1, 6, 4, '2026-02-06 12:35:08', 'Teszt');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -468,7 +483,9 @@ ALTER TABLE `telepules`
 -- A tábla indexei `uzenet`
 --
 ALTER TABLE `uzenet`
-  ADD PRIMARY KEY (`uzenet_id`);
+  ADD PRIMARY KEY (`uzenet_id`),
+  ADD KEY `uzenet_iro` (`uzenet_iro`),
+  ADD KEY `uzenet_kinek` (`uzenet_kinek`);
 
 --
 -- A kiírt táblák AUTO_INCREMENT értéke
@@ -478,7 +495,7 @@ ALTER TABLE `uzenet`
 -- AUTO_INCREMENT a táblához `bejegyzesek`
 --
 ALTER TABLE `bejegyzesek`
-  MODIFY `bejegyzesek_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `bejegyzesek_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT a táblához `bejegyzesek_kategoria`
@@ -490,31 +507,31 @@ ALTER TABLE `bejegyzesek_kategoria`
 -- AUTO_INCREMENT a táblához `belepes`
 --
 ALTER TABLE `belepes`
-  MODIFY `felhasznalo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `felhasznalo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT a táblához `csoportok`
 --
 ALTER TABLE `csoportok`
-  MODIFY `csoport_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `csoport_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT a táblához `felhasznalok`
 --
 ALTER TABLE `felhasznalok`
-  MODIFY `felhasznalok_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `felhasznalok_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT a táblához `felhasznalo_csoportok`
 --
 ALTER TABLE `felhasznalo_csoportok`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT a táblához `hozzaszolasok`
 --
 ALTER TABLE `hozzaszolasok`
-  MODIFY `hozzaszolasok_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `hozzaszolasok_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT a táblához `megosztasok`
@@ -544,7 +561,7 @@ ALTER TABLE `telepules`
 -- AUTO_INCREMENT a táblához `uzenet`
 --
 ALTER TABLE `uzenet`
-  MODIFY `uzenet_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `uzenet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Megkötések a kiírt táblákhoz
@@ -598,6 +615,13 @@ ALTER TABLE `megosztasok`
 ALTER TABLE `reakciok`
   ADD CONSTRAINT `reakciok_ibfk_1` FOREIGN KEY (`bejegyzes_id`) REFERENCES `bejegyzesek` (`bejegyzesek_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `reakciok_ibfk_2` FOREIGN KEY (`felhasznalo_id`) REFERENCES `felhasznalok` (`felhasznalok_id`) ON DELETE CASCADE;
+
+--
+-- Megkötések a táblához `uzenet`
+--
+ALTER TABLE `uzenet`
+  ADD CONSTRAINT `uzenet_ibfk_1` FOREIGN KEY (`uzenet_iro`) REFERENCES `belepes` (`felhasznalo_id`),
+  ADD CONSTRAINT `uzenet_ibfk_2` FOREIGN KEY (`uzenet_kinek`) REFERENCES `felhasznalok` (`felhasznalok_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
