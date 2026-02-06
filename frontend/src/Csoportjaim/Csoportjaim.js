@@ -25,10 +25,11 @@ const Csoportjaim=()=>{
                 </div>
 
                 <div>
-                    <CsoportjaimJelenkOssz kivalasztottCs={setKivalasztottCs} userid={userid} belepUserid={belepUserid}/> 
+
+                    
 
                     {kivalasztottCs}
-                    <CsoportjaimOsszKat kivalasztottCs={setKivalasztottCs} userid={userid} belepUserid={belepUserid}/> 
+                    <CsoportjaimOsszKat kivalasztottCs={kivalasztottCs} userid={userid} belepUserid={belepUserid}/> 
 
                 </div>
             

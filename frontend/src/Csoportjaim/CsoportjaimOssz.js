@@ -3,6 +3,7 @@ import { useState,useEffect } from "react"
 import Cim from "../Cim"
 import "../App.css";
 import { useNavigate } from 'react-router-dom';
+import CsoportjaimJelenkOssz from "./CsoportjaimJelenkOssz";
 
 const CsoportjaimOssz=({kivalasztott,userid,belepUserid})=>{
     const [adatok,setAdatok]=useState([])
@@ -134,6 +135,7 @@ const torlesFuggveny = async (id, szoveg) => {
       ))}
     </tbody>
   </table>
+  <CsoportjaimJelenkOssz kivalasztottCs={setKivalasztottCs} userid={userid} belepUserid={belepUserid}/> 
 </div>
 
 
