@@ -443,7 +443,44 @@ app.post('/egyCsopBej', (req, res) => {
     })
 })
 
+//Egy bizonyos csoport lekérdezése
 
+app.post('/csoportKeres', (req, res) => {
+        const {csoport_id} =req.body
+        const sql=`
+                SELECT * FROM csoportok WHERE csoportok.csoport_id = ?;
+                `
+        pool.query(sql,[csoport_id], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({error:"Hiba"})
+        }
+        
+
+        return res.status(200).json(result)
+        })
+})
+//Csoport-hoz csatlakozás 
+app.post("/csoportCsat", (req, res) => {
+  const { felhasznalok_id,csoport_id,csatlakozva} = req.body;
+
+  const sql = `
+   INSERT INTO felhasznalo_csoportok
+    (felhasznalok_id, csoport_id, csatlakozva)
+    VALUES (?, ?, NOW())
+  `;
+
+  pool.query(sql,[felhasznalok_id,csoport_id,csatlakozva],
+    (err, result) => {
+      if (err) {
+        console.error("DB ERROR:", err);
+        return res.status(500).json(err);
+      }
+
+      res.json({ message: "Post created successfully", id: result.insertId });
+    }
+  );
+});
 //Sanyi végpontjai---------------------------------------------------------------------
 
 
