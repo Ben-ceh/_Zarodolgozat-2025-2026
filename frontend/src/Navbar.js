@@ -33,7 +33,7 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container">
-        <button className="hamburger" onClick={toggleMenu}>
+        <button className="hamburger" onClick={toggleMenu}> 
           ☰
         </button>
         <div style={{margin:"auto"}} className={`menu ${menuOpen ? "open" : ""}`}>
@@ -42,12 +42,12 @@ const Navbar = () => {
             FőOldal
           </Link>
           
-          {loggedIn && role === "user" && (
+          {/* {loggedIn && role === "user" && (
             <Link to="/csoportjaim"  className="link NavBarNevek" onClick={() => setMenuOpen(false)}>
               Csoportjaim
             </Link>
             
-          )}
+          )} */}
           {loggedIn && role === "user" && (
             <Link to="/user" className="link" onClick={() => setMenuOpen(false)}>
               User menü
@@ -72,12 +72,12 @@ const Navbar = () => {
             </Link>
             
           )}
-          {loggedIn && role === "user" && (
+          {/* {loggedIn && role === "user" && (
             <Link to="/Profil" className="link" onClick={() => setMenuOpen(false)}>
               Profil
             </Link>
             
-          )}
+          )} */}
 
           {loggedIn && role === "user" && (
             <Link to="/UserUzenet" className="link" onClick={() => setMenuOpen(false)}>

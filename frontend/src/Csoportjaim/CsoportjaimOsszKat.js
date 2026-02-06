@@ -4,7 +4,7 @@ import Cim from "../Cim"
 import "../App.css";
 import { useNavigate } from 'react-router-dom';
 
-const CsoportjaimOssz=({kivalasztott,userid,belepUserid})=>{
+const CsoportjaimOsszKat=({kivalasztottCs,userid,belepUserid})=>{
     const [adatok,setAdatok]=useState([])
     const [tolt,setTolt]=useState(true)
     const [hiba,setHiba]=useState(false)
@@ -17,7 +17,11 @@ const CsoportjaimOssz=({kivalasztott,userid,belepUserid})=>{
     const leToltes=async ()=>{
         try{
           
-            const response=await fetch(Cim.Cim+"/csoportjaim/"+userid)
+            const response=await fetch(Cim.Cim+"/csoportKeres",{
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ "csoport_id":kivalasztottCs }),
+      });
             const data=await response.json()
             // alert(JSON.stringify(data))
             
@@ -54,16 +58,16 @@ const CsoportjaimOssz=({kivalasztott,userid,belepUserid})=>{
     });
     }
     }
-const torlesFuggveny = async (id, szoveg) => {
+const csatlakozásGomb = async (felhasznalo_id,csoport_id, csatlakozva) => {
     const biztos = window.confirm(
-      `Biztosan ki szeretnél lépni a csoportból?\n\n"${szoveg}"`
+      `Biztosan szertnél csatlakozni a csoport-hoz?\n\n"${szoveg}"`
     );
   
 
 
     if (biztos) {
       const response = await fetch(
-        Cim.Cim + "/csoportKilepes/" + id,
+        Cim.Cim + "/csoportKilepes/" + felhasznalo_id,
         { method: "delete" }
       );
 
@@ -113,7 +117,7 @@ const torlesFuggveny = async (id, szoveg) => {
             <button
               className="view-btn"
               onClick={() =>
-                megtekintesFuggveny(elem.csoport_id, elem.csoport_nev)
+                megtekintesFuggveny(userid,elem.csoport_id)
               }
             >
               👀
@@ -124,7 +128,7 @@ const torlesFuggveny = async (id, szoveg) => {
             <button
               className="delete-btn"
               onClick={() =>
-                torlesFuggveny(elem.id, elem.csoport_nev)
+                csatlakozásGomb(userid,elem.csoport_id)
               }
             >
               ✕
@@ -148,4 +152,4 @@ const torlesFuggveny = async (id, szoveg) => {
         // </div>
     )
 }
-export default CsoportjaimOssz
+export default CsoportjaimOsszKat

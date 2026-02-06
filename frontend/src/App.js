@@ -40,6 +40,8 @@ import user from '@testing-library/user-event';
 import Profil from './Profil/Profil';
 import ProfilAdmin from './Profil/ProfilAdmin';
 import UzenetKuldes from './Uzenet/UzenetKuldes';
+
+import CsoportjaimJelenkOssz from './Csoportjaim/CsoportjaimJelenkOssz';
 //BejegyFelv
 import UserBejegyFelv from './User/UserBejegyFelv';
 //Csoport FoOldal
@@ -97,6 +99,7 @@ function App() {
   }
 />
           <Route path="/Csoportjaim" element={<Csoportjaim />} />
+          <Route path="/CsoportjaimJelenkOssz" element={<CsoportjaimJelenkOssz />} />
           <Route path="/UserFoOldal" element={<UserFoOldal />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

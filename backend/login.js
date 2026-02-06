@@ -104,7 +104,7 @@ router.post('/register', (req, res) => {
       }
 
       // Új felhasználó beszúrása
-      const insertQuery = 'INSERT INTO felhasznalo VALUES (null, ?, ?, ?)';
+      const insertQuery = 'INSERT INTO belepes VALUES (null, ?, ?, ?)';
       pool.query(insertQuery, [username, hashedPassword, 1], (err, result) => {
         if (err) {
           console.error('Adatbázis hiba:', err);
