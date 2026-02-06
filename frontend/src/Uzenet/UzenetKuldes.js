@@ -42,6 +42,7 @@ const UzenetKuldes = ({ kivalasztott }) => {
 
   // -----------------------------
   const felvitel = async () => {
+    alert(uzenet)
     if (uzenet.trim() === "") return;
 
     const biztos = window.confirm(

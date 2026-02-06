@@ -79,6 +79,13 @@ const Navbar = () => {
             
           )} */}
 
+          {loggedIn && role === "user" && (
+            <Link to="/UserUzenet" className="link" onClick={() => setMenuOpen(false)}>
+              🔔
+            </Link>
+            
+          )}
+
           <div className="dropdown">
                 {loggedIn && role === "admin" && (
                 <button className="dropdown-btn">

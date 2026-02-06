@@ -46,6 +46,7 @@ import CsoportjaimJelenkOssz from './Csoportjaim/CsoportjaimJelenkOssz';
 import UserBejegyFelv from './User/UserBejegyFelv';
 //Csoport FoOldal
 import CsoportUserFoOldal from './UserCsoport/CsoportUserFoOldal';
+import UserUzenet from './Uzenet/UserUzenet';
 
 const ProtectedRoute = ({ children, role }) => {
   const token = localStorage.getItem("token");
@@ -164,7 +165,7 @@ function App() {
             }
           />
 
-           <Route 
+          <Route 
             path="/ProfilAdmin"
             element={
               <ProtectedRoute role="admin">
@@ -182,6 +183,15 @@ function App() {
               
             }
           /> 
+
+          <Route 
+            path="/UserUzenet"
+            element={
+              <ProtectedRoute role="user">
+                <UserUzenet />
+              </ProtectedRoute>
+            }
+          />
 
 <Route 
             path="/UserBejegyFelv"
