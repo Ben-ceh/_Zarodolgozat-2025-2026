@@ -9,21 +9,21 @@ const UserUzenet = ({ kivalasztott }) => {
   const [hiba, setHiba] = useState(false);
   const [siker, setSiker] = useState(false);
 
-const [userid] = useState(localStorage.getItem("userid"));
+const [belepUserid] = useState(localStorage.getItem("belepUserid"));
 
   // 🔍 NÉV KERESÉS
   const [nevKereses, setNevKereses] = useState("");
 
   useEffect(() => {
-    
+    alert(belepUserid)
     const leToltes = async () => {
       
       try {
-        const response = await fetch(Cim.Cim + "/UzenetJelenit");
+        const response = await fetch(Cim.Cim + "/UzenetJelenit/"+ belepUserid);
         const data = await response.json();
 
         if (response.ok) {
-          alert(userid)
+          alert(belepUserid)
           setAdatok(data);
           setTolt(false);
         } else {

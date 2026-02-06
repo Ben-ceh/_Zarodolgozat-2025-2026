@@ -814,25 +814,26 @@ app.get("/felhasznalok", (req, res) => {
 
 
 //Üzenet megjelenít
-// app.get('/UzenetJelenit', (req, res) => {
-//         const sql=`SELECT * FROM uzenet
-//                    INNER JOIN belepes
-//                    ON belepes.felhasznalo_id = uzenet.uzenet_iro 
-//                    INNER JOIN felhasznalok
-//                    ON felhasznalok.felhasznalok_id = uzenet.uzenet_kinek
-//                    WHERE uzenet_kinek = ?;`
-//         pool.query(sql, (err, result) => {
-//         if (err) {
-//             console.log(err)
-//             return res.status(500).json({error:"Hiba"})
-//         }
-//         if (result.length===0){
-//             return res.status(404).json({error:"Nincs adat"})
-//         }
+app.get('/UzenetJelenit/:id', (req, res) => {
+        const id = parseInt(req.params.id);
+        const sql=`SELECT * FROM uzenet
+                   INNER JOIN belepes
+                   ON belepes.felhasznalo_id = uzenet.uzenet_iro 
+                   INNER JOIN felhasznalok
+                   ON felhasznalok.felhasznalok_id = uzenet.uzenet_kinek
+                   WHERE uzenet_kinek = ?;`
+        pool.query(sql,[id], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({error:"Hiba"})
+        }
+        if (result.length===0){
+            return res.status(404).json({error:"Nincs adat"})
+        }
 
-//         return res.status(200).json(result)
-//         })
-// })
+        return res.status(200).json(result)
+        })
+})
 
 
 

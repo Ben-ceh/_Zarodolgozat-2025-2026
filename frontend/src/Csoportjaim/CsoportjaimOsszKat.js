@@ -60,7 +60,7 @@ const CsoportjaimOsszKat=({kivalasztottCs,userid,belepUserid})=>{
     }
 const csatlakozásGomb = async (felhasznalo_id,csoport_id, csatlakozva) => {
     const biztos = window.confirm(
-      `Biztosan szertnél csatlakozni a csoport-hoz?\n\n"${szoveg}"`
+      // `Biztosan szertnél csatlakozni a csoport-hoz?\n\n"${szoveg}"`
     );
   
 
