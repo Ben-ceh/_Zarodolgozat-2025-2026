@@ -5,7 +5,7 @@ import "../App.css";
 import { useNavigate } from 'react-router-dom';
 import CsoportjaimJelenkOssz from "./CsoportjaimJelenkOssz";
 
-const CsoportjaimOssz=({kivalasztott,userid,belepUserid})=>{
+const CsoportjaimOsszNem=({kivalasztott,userid,belepUserid})=>{
     const [adatok,setAdatok]=useState([])
     const [tolt,setTolt]=useState(true)
     const [hiba,setHiba]=useState(false)
@@ -13,12 +13,13 @@ const CsoportjaimOssz=({kivalasztott,userid,belepUserid})=>{
     
 
     const navigate = useNavigate();
+
 const ido = (evHoNap) => evHoNap.split("T")[0];
  
     const leToltes=async ()=>{
         try{
           
-            const response=await fetch(Cim.Cim+"/csoportjaim/"+userid)
+            const response=await fetch(Cim.Cim+"/csoportjaimNem/"+userid)
             const data=await response.json()
             // alert(JSON.stringify(data))
             
@@ -42,48 +43,63 @@ const ido = (evHoNap) => evHoNap.split("T")[0];
     useEffect(()=>{
         leToltes()
     },[siker])
-    const megtekintesFuggveny = async (id, szoveg) => {
+    const megtekintesFuggveny = async (id, nev,leiras,telepules,kep,letrehozva) => {
       const biztos = window.confirm(
-      `Biztosan meg szeretnéd tekinteni a csoportot?\n\n"${szoveg}"`
+      `Biztosan meg szeretnéd tekinteni a csoportot?\n\n"${nev}"`
     );
     if (biztos) {
-    navigate("/CsoportUserFoOldal", {
+    navigate("/CsoportUserMegtekintes", {
       state: {
         csoportId: id,
-        csoportSzoveg: szoveg
+        csoportNev: nev,
+        csoportLeiras: leiras,
+        csoportTelepules: telepules,
+        csoportKep: `${Cim.Cim}/csoportKepek/${kep}`,
+        csoportLetrehozva: letrehozva
       }
     });
     }
     }
-const torlesFuggveny = async (id, szoveg) => {
-    const biztos = window.confirm(
-      `Biztosan ki szeretnél lépni a csoportból?\n\n"${szoveg}"`
-    );
+// const torlesFuggveny = async (id, szoveg) => {
+//     const biztos = window.confirm(
+//       `Biztosan ki szeretnél lépni a csoportból?\n\n"${szoveg}"`
+//     );
   
 
 
-    if (biztos&&szoveg!="Általános") {
-      const response = await fetch(
-        Cim.Cim + "/csoportKilepes/" + id,
-        { method: "delete" }
-      );
+//     if (biztos) {
+//       const response = await fetch(
+//         Cim.Cim + "/csoportKilepes/" + id,
+//         { method: "delete" }
+//       );
 
-      const data = await response.json();
+//       const data = await response.json();
 
-      if (response.ok) {
-        alert(data.message);
-        setSiker(!siker);
-      } else {
-        alert(data.error);
-      }
-    }
-  };
+//       if (response.ok) {
+//         alert(data.message);
+//         setSiker(!siker);
+//       } else {
+//         alert(data.error);
+//       }
+//     }
+//   };
   
     if (tolt)
      
         return (
             <div style={{textAlign:"center"}}>Adatok betöltése folyamatban...</div>
                 )
+                if (adatok.length === 0) {
+  return<div className="empty-state">
+  <div className="empty-icon">😎</div>
+  <h2>Kész vagy!</h2>
+  <p>Már minden csoportban bent vagy. Jó közösségi életet! 😉</p>
+  <button className="btn btn-outline-primary mt-2" onClick={() => window.location.reload()}>
+    Frissítés
+  </button>
+</div>;
+}
+
     else if (hiba)
         return (
             <div>Hiba</div>
@@ -100,7 +116,7 @@ const torlesFuggveny = async (id, szoveg) => {
         <th>Csoport neve</th>
         <th>Dátum</th>
         <th>Megtekintés</th>
-        <th>Kilépés</th>
+        
       </tr>
     </thead>
 
@@ -108,29 +124,20 @@ const torlesFuggveny = async (id, szoveg) => {
       {adatok.map((elem, index) => (
         <tr key={index}>
           <td>{elem.csoport_nev}</td>
-          <td>{ido(elem.csatlakozva)}</td>
+          <td>{ido(elem.csoport_letrehozva)}</td>
           <td>
             
             <button
               className="view-btn"
               onClick={() =>
-                megtekintesFuggveny(elem.csoport_id, elem.csoport_nev)
+                megtekintesFuggveny(elem.csoport_id, elem.csoport_nev,elem.csoport_leiras,elem.csoport_telepules,elem.csoport_kep,elem.csoport_letrehozva)
               }
             >
               👀
             </button>
          
           </td>
-          <td>
-            <button
-              className="delete-btn"
-              onClick={() =>
-                torlesFuggveny(elem.id, elem.csoport_nev)
-              }
-            >
-              ✕
-            </button>
-          </td>
+          
         </tr>
       ))}
     </tbody>
@@ -150,4 +157,4 @@ const torlesFuggveny = async (id, szoveg) => {
         // </div>
     )
 }
-export default CsoportjaimOssz
+export default CsoportjaimOsszNem

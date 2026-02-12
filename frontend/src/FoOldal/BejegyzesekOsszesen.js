@@ -48,13 +48,14 @@ const BejegyzesekOsszesen = () => {
   useEffect(() => {
     const leToltes = async () => {
 
-      // alert(kivalasztott)
+      alert(kivalasztott)
 
       if(kivalasztott===0){
 try {
         const response = await fetch(Cim.Cim + "/bejegyEsFelh");
         const data = await response.json();
         if (response.ok) {
+          
           setAdatok(data);
           setTolt(false);
         } else {
@@ -65,7 +66,27 @@ try {
         console.error(error);
         setHiba(true);
       }
-      }else{
+      }
+      // if(kivalasztott===5)
+      //   {
+      //     try {
+      //   const response = await fetch(Cim.Cim + "/bejegyEsFelh");
+      //   const data = await response.json();
+      //   if (response.ok) {
+          
+      //     setAdatok(data);
+      //     setTolt(false);
+      //   } else {
+      //     setHiba(true);
+      //     setTolt(false);
+      //   }
+      // } catch (error) {
+      //   console.error(error);
+      //   setHiba(true);
+      // }
+
+      // }
+      else{
         try {
         const response = await fetch(Cim.Cim + "/bejegyEsFelhKategoria",{
         method: "POST",
