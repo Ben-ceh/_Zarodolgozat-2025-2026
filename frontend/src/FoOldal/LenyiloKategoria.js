@@ -19,6 +19,7 @@ const LenyiloKategoria=({kivalasztott})=>{
             
             if (response.ok)
                 {
+                    
                     setAdatok(data)
                     setTolt(false)}
             else 

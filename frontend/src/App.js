@@ -41,6 +41,7 @@ import Profil from './Profil/Profil';
 import ProfilAdmin from './Profil/ProfilAdmin';
 import UzenetKuldes from './Uzenet/UzenetKuldes';
 
+import CsoportUserMegtekintes from './UserCsoport/CsoportUserMegtekintes';
 import CsoportjaimJelenkOssz from './Csoportjaim/CsoportjaimJelenkOssz';
 import CsoportjaimOsszKat from './Csoportjaim/CsoportjaimOsszKat';
 //BejegyFelv
@@ -102,6 +103,7 @@ function App() {
           <Route path="/Csoportjaim" element={<Csoportjaim />} />
           <Route path="/CsoportjaimJelenkOssz" element={<CsoportjaimJelenkOssz />} />
           <Route path="/CsoportjaimOsszKat" element={<CsoportjaimOsszKat />} />
+          <Route path="/CsoportUserMegtekintes" element={<CsoportUserMegtekintes />} />
           <Route path="/UserFoOldal" element={<UserFoOldal />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

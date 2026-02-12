@@ -246,14 +246,14 @@ app.get('/csoportjaimNem/:user_id', (req, res) => {
             ORDER BY felhasznalo_csoportok.csatlakozva);
                 `
         pool.query(sql,[user_id], (err, result) => {
+        
+        if (result.length===0){
+            return res.status(404).json({error:"Nincs adat"})
+        }
         if (err) {
             console.log(err)
             return res.status(500).json({error:"Hiba"})
         }
-        if (result.length===0){
-            return res.status(404).json({error:"Nincs adat"})
-        }
-
         return res.status(200).json(result)
         })
 })
@@ -537,6 +537,9 @@ app.post("/csoportCsat", (req, res) => {
 
   pool.query(sql,[felhasznalok_id,csoport_id,csatlakozva],
     (err, result) => {
+        if (err?.code === "ER_DUP_ENTRY") {
+  return res.status(409).json({ error: "Már csatlakoztál ehhez a csoporthoz" });
+            }
       if (err) {
         console.error("DB ERROR:", err);
         return res.status(500).json(err);
@@ -546,6 +549,7 @@ app.post("/csoportCsat", (req, res) => {
     }
   );
 });
+//Egy bizonyos csoport lekérdezése  SELECT * FROM csoportok WHERE csoport_id= 1;
 //Sanyi végpontjai---------------------------------------------------------------------
 
 
