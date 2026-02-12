@@ -135,7 +135,7 @@ const torlesFuggveny = async (id, szoveg) => {
       ))}
     </tbody>
   </table>
-  <CsoportjaimJelenkOssz kivalasztottCs={setKivalasztottCs} userid={userid} belepUserid={belepUserid}/> 
+  {/* <CsoportjaimJelenkOssz kivalasztottCs={setKivalasztottCs} userid={userid} belepUserid={belepUserid}/>  */}
 </div>
 
 

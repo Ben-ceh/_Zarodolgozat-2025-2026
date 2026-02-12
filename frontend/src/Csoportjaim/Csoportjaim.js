@@ -28,8 +28,8 @@ const Csoportjaim=()=>{
 
                     
 
-                    {kivalasztottCs}
-                    <CsoportjaimOsszKat kivalasztottCs={kivalasztottCs} userid={userid} belepUserid={belepUserid}/> 
+                    {/* {kivalasztottCs} */}
+                    {/* <CsoportjaimOsszKat kivalasztottCs={kivalasztottCs} userid={userid} belepUserid={belepUserid}/>  */}
 
                 </div>
             

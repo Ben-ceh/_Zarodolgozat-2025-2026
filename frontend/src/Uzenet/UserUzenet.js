@@ -11,26 +11,57 @@ const UserUzenet = ({ kivalasztott }) => {
 
 const [belepUserid] = useState(localStorage.getItem("belepUserid"));
 
+
+
   // 🔍 NÉV KERESÉS
   const [nevKereses, setNevKereses] = useState("");
 
+const torlesFuggveny = async (bejegyzesek_id, tartalom) => {
+    const biztos = window.confirm(
+      `Biztosan törölni szeretnéd "${tartalom}" bejegyzését?`
+    );
+
+    if (biztos) {
+      const response = await fetch(
+        Cim.Cim + "/bejegyzesekTorlese/" + bejegyzesek_id,
+        {
+          method: "delete",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert(data.message);
+        setSiker(!siker);
+      } else {
+        alert(data.error);
+      }
+    }
+  };
+  
   useEffect(() => {
-    alert(belepUserid)
+    //alert(belepUserid)
     const leToltes = async () => {
-      
-      try {
+
+      try 
+      {
         const response = await fetch(Cim.Cim + "/UzenetJelenit/"+ belepUserid);
         const data = await response.json();
 
         if (response.ok) {
-          alert(belepUserid)
+          //alert(belepUserid)
           setAdatok(data);
           setTolt(false);
         } else {
           setHiba(true);
           setTolt(false);
         }
-      } catch (error) {
+      } 
+      catch (error) {
         console.log(error);
         setHiba(true);
       }
@@ -44,32 +75,7 @@ const [belepUserid] = useState(localStorage.getItem("belepUserid"));
     Swal.fire(nev, `${email} <br/> ${bio}`, "info");
   };
 
-  // const torlesFuggveny = async (felhasznalok_id, felhasznalonev, email) => {
-  //   const biztos = window.confirm(
-  //     `Biztosan törölni szeretnéd ${felhasznalonev} (${email}) felhasználót?`
-  //   );
-
-  //   if (biztos) {
-  //     const response = await fetch(
-  //       Cim.Cim + "/FelhasznalokTorlese/" + felhasznalok_id,
-  //       {
-  //         method: "delete",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-
-  //     const data = await response.json();
-
-  //     if (response.ok) {
-  //       alert(data.message);
-  //       setSiker(!siker);
-  //     } else {
-  //       alert(data.error);
-  //     }
-  //   }
-  // };
+  const ido = (evHoNap) => evHoNap.split("T")[0];
 
   // -----------------------------
   
@@ -111,8 +117,9 @@ const [belepUserid] = useState(localStorage.getItem("belepUserid"));
       <table className="styled-table">
         <thead>
           <tr>
-            <th>Felhasználó neve</th>
-            <th>Emailek</th>
+            <th>Címzet</th>
+            <th>Üzenetek</th>
+            <th>Üzenet dátuma</th>
           </tr>
         </thead>
 
@@ -136,9 +143,21 @@ const [belepUserid] = useState(localStorage.getItem("belepUserid"));
               </td>
 
               <td>
-                <b>{elem.email}</b>
+                <b>{elem.uzenet_szoveg}</b>
               </td>
 
+              <td>
+                <b>{ido(elem.uzenet_datum)}</b>
+              </td>
+              <td>
+                <button
+                onClick={() =>
+                    torlesFuggveny(elem.bejegyzesek_id, elem.tartalom)
+                  }
+                >
+                  
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
