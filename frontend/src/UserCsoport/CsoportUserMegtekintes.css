@@ -1,18 +1,11 @@
+/* =========================
+   LAYOUT
+========================= */
+
 .home {
   display: flex;
   justify-content: center;
   padding: 24px;
-}
-
-/* .feed-container {
-  width: 100%;
-  max-width: 720px; 
-} */
-
-.feed-title {
-  text-align: center;
-  margin-bottom: 24px;
-  color: #4040ab;
 }
 
 .feed-container {
@@ -22,55 +15,122 @@
   padding: 16px;
 }
 
-/* Kártya konténer */
+/* =========================
+   VISSZA GOMB
+========================= */
+
+.csoport-topbar {
+  margin-bottom: 15px;
+}
+
+.vissza-btn {
+  border: none;
+  background: #f1f3f5;
+  padding: 8px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.vissza-btn:hover {
+  background: #e2e6ea;
+  transform: translateX(-3px);
+}
+
+.vissza-btn:active {
+  transform: scale(0.95);
+}
+
+/* =========================
+   CSOPORT KÁRTYA
+========================= */
+
 .csoport-card {
   margin: 0 auto 24px auto;
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
 }
 
-/* Háttérkép */
+/* =========================
+   BORÍTÓ (ÚJ RENDSZER)
+========================= */
+
 .csoport-cover {
   position: relative;
-  height: 280px;
+  width: 100%;
+  height: 340px;
   background-size: cover;
   background-position: center;
+  display: flex;
+  align-items: flex-end;
 }
 
-/* Sötét overlay az olvashatóságért */
-.csoport-overlay {
+/* ha nincs kép */
+.csoport-cover.no-cover {
+  background: #0f0f10;
+}
+
+/* sötét átmenet */
+.csoport-gradient {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(0, 0, 0, 0.7),
-    rgba(0, 0, 0, 0.2)
+    rgba(0,0,0,0.9) 0%,
+    rgba(0,0,0,0.6) 35%,
+    rgba(0,0,0,0.25) 65%,
+    rgba(0,0,0,0.05) 85%,
+    rgba(0,0,0,0) 100%
   );
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
+}
+
+/* tartalom a borítón */
+.csoport-header-content {
+  position: relative;
+  color: white;
   padding: 24px;
+  width: 100%;
 }
 
+/* cím */
 .csoport-title {
-  font-size: 2rem;
-  margin: 0 0 6px 0;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+  font-size: 34px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  text-shadow: 0 3px 12px rgba(0,0,0,0.6);
 }
 
+/* leírás */
 .csoport-desc {
-  max-width: 800px;
-  font-size: 1rem;
+  max-width: 650px;
+  margin-bottom: 8px;
   opacity: 0.95;
-  margin-bottom: 12px;
+  font-size: 15px;
 }
 
-.csoport-actions {
-  display: flex;
-  gap: 8px;
+/* meta */
+.csoport-meta {
+  opacity: 0.85;
+  font-size: 14px;
+  margin-bottom: 16px;
 }
+
+.csoport-meta span {
+  margin-right: 6px;
+}
+
+/* gomb */
+.csoport-actions .btn {
+  border-radius: 12px;
+  padding: 8px 18px;
+  font-weight: 600;
+}
+
+/* =========================
+   EMPTY STATE
+========================= */
 
 .empty-state {
   margin-top: 80px;

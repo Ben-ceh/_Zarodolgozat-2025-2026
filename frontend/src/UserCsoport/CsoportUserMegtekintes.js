@@ -1,4 +1,4 @@
-import CsoportUserBejegyzesekOsszesen from "./CsoportUserBejegyzesekOsszesen";
+// import CsoportUserBejegyzesekOsszesen from "./CsoportUserBejegyzesekOsszesen";
 import "./CsoportUserMegtekintes.css";
 import Cim from "../Cim"
 import { useState } from "react";
@@ -81,53 +81,73 @@ const csatlakozasFugv = async (id, szoveg) => {
   }
 };
 
-  return (
-    <main className="home">
-      <section className="feed-container">
-        {/* Csoport kártya */}
-        <div className="csoport-card">
-          <div
-            className="csoport-cover"
-            style={{
-              backgroundImage: `url(${csoportKep || "/default-group.jpg"})`,
-            }}
-          >
-            <div className="csoport-overlay">
-              <h1 className="csoport-title">{csoportNev || "Csoport neve"}</h1>
-              <p className="csoport-desc">
-                {csoportLeiras || "Itt jelenik meg a csoport leírása."}
-              </p>
-              <p>{csoportTelepules}</p>
-              <p>{ido(csoportLetrehozva)}</p>
-              <div className="csoport-actions">
-                <button
-                  className={`btn ${csatlakozva ? "btn-secondary" : "btn-primary"}`}
-                  disabled={csatlakozva || loadingCsat}
-                  onClick={() => csatlakozasFugv(csoportId, csoportNev)}
-                >
-                  {loadingCsat
-                    ? "Csatlakozás..."
-                    : csatlakozva
-                    ? "Csatlakozva"
-                    : "Csatlakozás"}
-                </button>
-                
-              </div>
-            </div>
-          </div>
-        </div>
+ return (
+  <main className="home">
+    <section className="feed-container">
 
-        {/* Bejegyzések (ha majd aktiválod) */}
-        {/* 
-        <CsoportUserBejegyzesekOsszesen 
-          userid={userid} 
-          belepUserid={belepUserid} 
-          csoportId={csoportId} 
-        /> 
-        */}
-      </section>
-    </main>
-  );
+      {/* ===== FELSŐ NAV SÁV ===== */}
+      <div className="csoport-topbar">
+        <button
+          className="vissza-btn"
+          onClick={() => window.history.back()}
+        >
+          ← Vissza
+        </button>
+      </div>
+
+      {/* ===== CSOPORT KÁRTYA ===== */}
+      <div className="csoport-card">
+        {/* ===== BORÍTÓ ===== */}
+<div
+  className={`csoport-cover ${!csoportKep ? "no-cover" : ""}`}
+  style={csoportKep ? { backgroundImage: `url(${csoportKep})` } : {}}
+>
+  <div className="csoport-gradient"></div>
+
+  <div className="csoport-header-content">
+    <h1 className="csoport-title">{csoportNev || "Csoport neve"}</h1>
+
+    <p className="csoport-desc">
+      {csoportLeiras || "Itt jelenik meg a csoport leírása."}
+    </p>
+
+    <div className="csoport-meta">
+      <span>{csoportTelepules}</span>
+      <span>•</span>
+      <span>{ido(csoportLetrehozva)}</span>
+    </div>
+
+    <div className="csoport-actions">
+      <button
+        className={`btn ${csatlakozva ? "btn-secondary" : "btn-primary"}`}
+        disabled={csatlakozva || loadingCsat}
+        onClick={() => csatlakozasFugv(csoportId, csoportNev)}
+      >
+        {loadingCsat
+          ? "Csatlakozás..."
+          : csatlakozva
+          ? "Csatlakozva"
+          : "Csatlakozás"}
+      </button>
+    </div>
+  </div>
+</div>
+
+
+      </div>
+
+      {/* Bejegyzések */}
+      {/*
+      <CsoportUserBejegyzesekOsszesen 
+        userid={userid} 
+        belepUserid={belepUserid} 
+        csoportId={csoportId} 
+      /> 
+      */}
+
+    </section>
+  </main>
+);
 };
 
 export default CsoportUserMegtekintes;
