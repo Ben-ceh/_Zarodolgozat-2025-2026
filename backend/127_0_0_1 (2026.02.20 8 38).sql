@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Feb 12. 11:15
+-- Létrehozás ideje: 2026. Feb 20. 08:38
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -87,7 +87,7 @@ INSERT INTO `bejegyzesek_kategoria` (`kategoria_id`, `kategoria_nev`) VALUES
 (3, 'Veszélyhelyzetek'),
 (4, 'Elveszett tárgyak'),
 (5, 'Helyi hírek'),
-(6, 'Összes');
+(6, 'Kérdés');
 
 -- --------------------------------------------------------
 
@@ -128,19 +128,20 @@ CREATE TABLE `csoportok` (
   `csoport_leiras` text DEFAULT NULL,
   `csoport_telepules` int(11) NOT NULL,
   `csoport_kep` varchar(255) DEFAULT NULL,
-  `csoport_letrehozva` timestamp NOT NULL DEFAULT current_timestamp()
+  `csoport_letrehozva` timestamp NOT NULL DEFAULT current_timestamp(),
+  `csoportok_tulajdonos` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `csoportok`
 --
 
-INSERT INTO `csoportok` (`csoport_id`, `csoport_nev`, `csoport_leiras`, `csoport_telepules`, `csoport_kep`, `csoport_letrehozva`) VALUES
-(1, 'Általános', 'Általános', 1, NULL, '2025-12-11 13:06:27'),
-(2, 'Homokkerti barát', 'Homokkerti barátok akik szeretik a kertészetet.', 1, NULL, '2025-12-11 13:14:08'),
-(3, 'Időjárás', 'Dugóvan az utakon', 1, NULL, '2026-01-06 07:56:14'),
-(4, 'Sport', 'Sport', 1, NULL, '2026-01-15 09:22:59'),
-(5, 'Szabadság telepi csoport', NULL, 1, NULL, '2026-02-05 07:45:23');
+INSERT INTO `csoportok` (`csoport_id`, `csoport_nev`, `csoport_leiras`, `csoport_telepules`, `csoport_kep`, `csoport_letrehozva`, `csoportok_tulajdonos`) VALUES
+(1, 'Általános', 'Általános', 1, NULL, '2025-12-11 13:06:27', 2),
+(2, 'Homokkerti barát', 'Homokkerti barátok akik szeretik a kertészetet.', 1, NULL, '2025-12-11 13:14:08', 2),
+(3, 'Időjárás', 'Dugóvan az utakon', 1, NULL, '2026-01-06 07:56:14', 2),
+(4, 'Sport', 'Sport', 1, NULL, '2026-01-15 09:22:59', 2),
+(5, 'Szabadság telepi csoport', NULL, 1, NULL, '2026-02-05 07:45:23', 2);
 
 -- --------------------------------------------------------
 
@@ -197,10 +198,9 @@ INSERT INTO `felhasznalo_csoportok` (`id`, `felhasznalok_id`, `csoport_id`, `csa
 (16, 4, 5, '2026-02-05 07:45:43'),
 (17, 6, 1, '2026-02-05 07:57:57'),
 (18, 4, 4, '2026-02-06 08:45:52'),
-(34, 6, 2, '2026-02-12 09:31:09'),
-(35, 6, 3, '2026-02-12 09:31:14'),
-(37, 6, 5, '2026-02-12 09:31:26'),
-(38, 6, 4, '2026-02-12 09:40:42');
+(42, 6, 2, '2026-02-19 13:22:43'),
+(43, 6, 3, '2026-02-19 13:23:01'),
+(46, 6, 5, '2026-02-19 13:27:43');
 
 -- --------------------------------------------------------
 
@@ -401,7 +401,10 @@ CREATE TABLE `uzenet` (
 --
 
 INSERT INTO `uzenet` (`uzenet_id`, `uzenet_iro`, `uzenet_kinek`, `uzenet_datum`, `uzenet_szoveg`) VALUES
-(1, 6, 4, '2026-02-06 12:35:08', 'Teszt');
+(1, 6, 4, '2026-02-06 12:35:08', 'Teszt¤¤¤¤¤'),
+(2, 6, 6, '2026-01-26 00:00:00', '/ban Nagy Ferenc'),
+(3, 6, 6, '2026-01-26 00:00:00', '/unban Nagy Ferenc'),
+(4, 6, 3, '2026-01-26 00:00:00', 'Vége vna !44!');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -535,7 +538,7 @@ ALTER TABLE `felhasznalok`
 -- AUTO_INCREMENT a táblához `felhasznalo_csoportok`
 --
 ALTER TABLE `felhasznalo_csoportok`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT a táblához `hozzaszolasok`
@@ -571,7 +574,7 @@ ALTER TABLE `telepules`
 -- AUTO_INCREMENT a táblához `uzenet`
 --
 ALTER TABLE `uzenet`
-  MODIFY `uzenet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `uzenet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Megkötések a kiírt táblákhoz
