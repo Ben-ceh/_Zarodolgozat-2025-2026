@@ -900,6 +900,19 @@ app.get('/UzenetJelenit/:id', (req, res) => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 // multer/egyéb hibák kezelése
 app.use((err, req, res, next) => {
   if (err) return res.status(400).json({ error: err.message || "Hiba" });

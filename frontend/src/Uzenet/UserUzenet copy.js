@@ -123,7 +123,6 @@ const [belepUserid] = useState(localStorage.getItem("belepUserid"));
               <td>
                 <b>{ido(elem.uzenet_datum)}</b>
               </td>
-              
             </tr>
           ))}
         </tbody>
