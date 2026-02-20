@@ -48,7 +48,7 @@ const BejegyzesekOsszesen = () => {
   useEffect(() => {
     const leToltes = async () => {
 
-      alert(kivalasztott)
+      // alert(kivalasztott)
 
       if(kivalasztott===0){
 try {

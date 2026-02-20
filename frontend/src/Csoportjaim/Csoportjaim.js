@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import CsoportjaimOssz from './CsoportjaimOssz';
 import CsoportjaimJelenkOssz from './CsoportjaimJelenkOssz';
 import CsoportjaimOsszKat from './CsoportjaimOsszKat';
 import CsoportjaimOsszNem from './CsoportjaimOsszNem';
 const Csoportjaim=()=>{
-    
+    const navigate = useNavigate();
+
     const [userid] = useState(localStorage.getItem("userid"));
     const [belepUserid] = useState(localStorage.getItem("belepUserid"));
     const [kivalasztott,setKivalasztott]=useState(1)
@@ -18,7 +20,13 @@ const Csoportjaim=()=>{
             
 
             <div style={{textAlign:"center",marginBottom:20}}></div>
-            
+                <div className="create-card" 
+                onClick={() => navigate("/CsoportjaimLetrehoz")}  >
+                          
+                            <div className="create-icon">+</div>
+                            <div>Új csoport létrehozása</div>
+                </div>
+
                 
                 <div className="">
                     <h1>Elért csoportok</h1>
