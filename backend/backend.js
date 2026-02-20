@@ -345,31 +345,65 @@ ORDER BY letrehozva DESC;
 })
 
 //Felhasználó a saját csoportjai bejegyzését látja Kategória szerint
+// app.post('/csoportjaimBejegyzeseiKat/:user_id', (req, res) => {
+//     const { user_id } = req.params
+//     const { kategoria_id } = req.body
+
+//     const sql = `
+//         SELECT *
+//         FROM bejegyzesek
+//         WHERE csoport_id IN (
+//             SELECT csoport_id
+//             FROM felhasznalo_csoportok
+//             WHERE felhasznalok_id = ?
+//         )
+//         AND kategoria_id = ?
+//         ORDER BY letrehozva DESC
+//     `
+
+//     pool.query(sql, [user_id, kategoria_id], (err, result) => {
+//         if (err) {
+//             console.error(err)
+//             return res.status(500).json({ error: "Adatbázis hiba" })
+//         }
+
+//         return res.status(200).json(result)
+//     })
+// })
 app.post('/csoportjaimBejegyzeseiKat/:user_id', (req, res) => {
-    const { user_id } = req.params
-    const { kategoria_id } = req.body
+  const { user_id } = req.params;
+  const { kategoria_id } = req.body;
 
-    const sql = `
-        SELECT *
-        FROM bejegyzesek
-        WHERE csoport_id IN (
-            SELECT csoport_id
-            FROM felhasznalo_csoportok
-            WHERE felhasznalok_id = ?
-        )
-        AND kategoria_id = ?
-        ORDER BY letrehozva DESC
-    `
+  let sql = `
+    SELECT *
+    FROM bejegyzesek
+    WHERE csoport_id IN (
+      SELECT csoport_id
+      FROM felhasznalo_csoportok
+      WHERE felhasznalok_id = ?
+    )
+  `;
 
-    pool.query(sql, [user_id, kategoria_id], (err, result) => {
-        if (err) {
-            console.error(err)
-            return res.status(500).json({ error: "Adatbázis hiba" })
-        }
+  let params = [user_id];
 
-        return res.status(200).json(result)
-    })
-})
+  // HA NEM ÖSSZES
+  if (kategoria_id != 0) {
+    sql += ` AND bejegyzesek.kategoria = ?`;
+    params.push(kategoria_id);
+  }
+
+  sql += ` ORDER BY letrehozva DESC`;
+
+  pool.query(sql, params, (err, result) => {
+    if (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Hiba" });
+    }
+
+    return res.status(200).json(result);
+  });
+});
+
 
 
 //Csoport-ból kilépés
@@ -477,7 +511,32 @@ app.post("/fajlFelvitel", upload.single("kep"), (req, res) => {
     });
   });
 });
+//Csoport létrehozás
+app.post("/ujCsoportFelvitel", upload.single("kep"), (req, res) => {
+  const {felhasznalo_id,cim,tartalom,helyszin,kategoria,csoport_id} = req.body;
 
+  if (!cim || !tartalom) {
+    if (req.file) fs.unlink(req.file.path, () => {});
+    return res.status(400).json({ error: "film_cim és film_ev kötelező" });
+  }
+
+  // DB-be a fájlnév (vagy teheted: `/kepek/${req.file.filename}`)
+  const kep_url = req.file ? req.file.filename : null;
+
+  const sql = `INSERT INTO csoportok
+    VALUES (NULL,?, ?, ?, ?, ?, ?, NOW(), ?)`;
+  pool.query(sql, [felhasznalo_id,cim,tartalom,kep_url,helyszin,kategoria,csoport_id], (err) => {
+    if (err) {
+      if (req.file) fs.unlink(req.file.path, () => {});
+      return res.status(500).json({ error: "Hiba" });
+    }
+    return res.status(200).json({
+      message: "Sikeres felvitel",
+      kep_url,
+      url: kep_url ? `/kepek/${kep_url}` : null,
+    });
+  });
+});
 //Egy Bizonyos Csoport Bejegyzései!
 
 app.post('/egyCsopBej', (req, res) => {

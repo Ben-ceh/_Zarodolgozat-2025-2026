@@ -1,0 +1,35 @@
+.kategoriak {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 10px 4px 16px 4px;
+  margin-bottom: 14px;
+}
+
+/* görgetősáv eltüntetés */
+.kategoriak::-webkit-scrollbar {
+  display: none;
+}
+
+.kat-chip {
+  border: none;
+  background: #eef1f4;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.18s ease;
+}
+
+/* hover */
+.kat-chip:hover {
+  background: #dde3ea;
+}
+
+/* AKTÍV kategória */
+.kat-chip.active {
+  background: linear-gradient(135deg, #5865f2, #404eed);
+  color: white;
+  box-shadow: 0 4px 12px rgba(64,78,237,0.35);
+}

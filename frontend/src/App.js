@@ -41,6 +41,7 @@ import Profil from './Profil/Profil';
 import ProfilAdmin from './Profil/ProfilAdmin';
 import UzenetKuldes from './Uzenet/UzenetKuldes';
 
+import CsoportjaimLetrehoz from './Csoportjaim/CsoportjaimLetrehoz';
 import CsoportUserMegtekintes from './UserCsoport/CsoportUserMegtekintes';
 import CsoportjaimJelenkOssz from './Csoportjaim/CsoportjaimJelenkOssz';
 import CsoportjaimOsszKat from './Csoportjaim/CsoportjaimOsszKat';
@@ -101,6 +102,7 @@ function App() {
   }
 />
           <Route path="/Csoportjaim" element={<Csoportjaim />} />
+          <Route path="/CsoportjaimLetrehoz" element={<CsoportjaimLetrehoz />} />
           <Route path="/CsoportjaimJelenkOssz" element={<CsoportjaimJelenkOssz />} />
           <Route path="/CsoportjaimOsszKat" element={<CsoportjaimOsszKat />} />
           <Route path="/CsoportUserMegtekintes" element={<CsoportUserMegtekintes />} />
