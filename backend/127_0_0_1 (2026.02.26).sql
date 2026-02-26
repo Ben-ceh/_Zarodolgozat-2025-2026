@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Feb 20. 08:38
+-- Létrehozás ideje: 2026. Feb 26. 11:10
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -20,7 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Adatbázis: `okos_kozosseg`
 --
-
+CREATE DATABASE IF NOT EXISTS `okos_kozosseg` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `okos_kozosseg`;
 
 -- --------------------------------------------------------
 
@@ -63,7 +64,11 @@ INSERT INTO `bejegyzesek` (`bejegyzesek_id`, `felhasznalo_id`, `cim`, `tartalom`
 (21, 4, 'Teszt!!!', 'Teszt!!!Teszt!!!Teszt!!!', NULL, 1, 2, '2026-02-06 12:05:51', 1),
 (22, 4, 'Időjárás', 'Esik az eső!', '1_1770379700462_297998431.png', 1, 1, '2026-02-06 12:08:20', 1),
 (23, 6, 'TEsztTEsztTEszt', 'TEsztTEsztTEszt', NULL, 2, 2, '2026-02-09 12:54:17', 1),
-(24, 6, 'TesztTesztTesztTesztTesztTesztTesztTesztTeszt', 'TesztTesztTesztTesztTesztTesztTesztTesztTeszt', '1_1770642207514_123947073.png', 1, 1, '2026-02-09 13:03:27', 1);
+(24, 6, 'TesztTesztTesztTesztTesztTesztTesztTesztTeszt', 'TesztTesztTesztTesztTesztTesztTesztTesztTeszt', '1_1770642207514_123947073.png', 1, 1, '2026-02-09 13:03:27', 1),
+(25, 4, 'Időjárás', 'Esik az eső!', 'smile_1772098438145_89245270.png', 1, 1, '2026-02-26 09:33:58', 1),
+(26, 4, 'Időjárás', 'Esik az eső!', 'smile_1772098802268_113656087.png', 1, 1, '2026-02-26 09:40:02', 1),
+(27, 6, 'sadadsad', 'asdsadasd', NULL, 2, 2, '2026-02-26 09:50:42', 1),
+(28, 6, 'dfdfg', 'dfgdfg', NULL, 1, 2, '2026-02-26 09:55:44', 1);
 
 -- --------------------------------------------------------
 
@@ -140,7 +145,11 @@ INSERT INTO `csoportok` (`csoport_id`, `csoport_nev`, `csoport_leiras`, `csoport
 (2, 'Homokkerti barát', 'Homokkerti barátok akik szeretik a kertészetet.', 1, NULL, '2025-12-11 13:14:08', 2),
 (3, 'Időjárás', 'Dugóvan az utakon', 1, NULL, '2026-01-06 07:56:14', 2),
 (4, 'Sport', 'Sport', 1, NULL, '2026-01-15 09:22:59', 2),
-(5, 'Szabadság telepi csoport', NULL, 1, NULL, '2026-02-05 07:45:23', 2);
+(5, 'Szabadság telepi csoport', NULL, 1, NULL, '2026-02-05 07:45:23', 2),
+(11, 'Nagy diák teszt', 'TEszt', 1, NULL, '2026-02-26 09:42:07', 1),
+(16, 'asdads', 'adad', 4, 'smile_1772099686866_443931403.png', '2026-02-26 09:54:46', 6),
+(17, 'dsfsdfsdfsd', 'sdfsdfsd', 1, 'smile_1772099704087_267861578.png', '2026-02-26 09:55:04', 6),
+(20, 'fghfg', 'fghfghg', 1, NULL, '2026-02-26 09:58:23', 6);
 
 -- --------------------------------------------------------
 
@@ -507,7 +516,7 @@ ALTER TABLE `uzenet`
 -- AUTO_INCREMENT a táblához `bejegyzesek`
 --
 ALTER TABLE `bejegyzesek`
-  MODIFY `bejegyzesek_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `bejegyzesek_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT a táblához `bejegyzesek_kategoria`
@@ -525,7 +534,7 @@ ALTER TABLE `belepes`
 -- AUTO_INCREMENT a táblához `csoportok`
 --
 ALTER TABLE `csoportok`
-  MODIFY `csoport_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `csoport_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT a táblához `felhasznalok`

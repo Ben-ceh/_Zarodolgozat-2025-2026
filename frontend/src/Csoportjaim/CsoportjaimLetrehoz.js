@@ -6,11 +6,11 @@ import UserLenyiloHelyszin from "../User/UserLenyiloHelyszin";
 // import UserLenyiloCsoportjaim from "../User/UserLenyiloCsoportjaim";
 
 const CsoportjaimLetrehoz = ({ onSuccess }) => {
-  const [cim, setCim] = useState("");
-  const [tartalom, setTartalom] = useState("");
-  const [kategoria, setKategoria] = useState("");
-  const [helyszin, setHelyszin] = useState("");
-  const [csoportjaim, setcsoportjaim] = useState("");
+  const [csoportNev, setCsoportNev] = useState("");
+  const [csoportLeiras, setCsoportLeiras] = useState("");
+  const [csoportTelepules, setCsoportTelepules] = useState(1);
+  const [csoportTulajdonos, setCsoportTulajdonos] = useState("");
+  const [csoportjaim, setCsoportjaim] = useState("");
 
   const [belepUserid] = useState(localStorage.getItem("belepUserid"));
   const [userid] = useState(localStorage.getItem("userid"));
@@ -35,7 +35,7 @@ const CsoportjaimLetrehoz = ({ onSuccess }) => {
 
   const submit = async () => {
     alert(kivalasztottKat)
-  if (!cim || !tartalom || kivalasztottKat === 0) {
+  if (!csoportNev || !csoportLeiras || kivalasztottKat === 0) {
     alert("Please fill all required fields");
     return;
   }
@@ -52,18 +52,16 @@ const CsoportjaimLetrehoz = ({ onSuccess }) => {
   //     csoport_id:kivalasztottCsop
   //   })
   // });
-
+alert(csoportTelepules)
   const formData = new FormData();
-                        formData.append("felhasznalo_id", belepUserid);
-                        formData.append("cim", cim);
-                        formData.append("tartalom", tartalom);
-                        formData.append("kategoria", kivalasztottKat);
-                        formData.append("helyszin", kivalasztottHely);
-                        formData.append("csoport_id", kivalasztottCsop);
+                        
+                        formData.append("csoport_nev", csoportNev);
+                        formData.append("csoport_leiras", csoportLeiras);     
+                        formData.append("csoport_telepules", csoportTelepules);
+                        formData.append("csoport_tulajdonos", belepUserid);
 
                         formData.append("kep", file); 
-
-                        const res = await fetch(Cim.Cim + "/fajlFelvitel", {
+                        const res = await fetch(Cim.Cim + "/ujCsoportFelvitel", {
                             method: "POST",
                             body: formData 
                         });
@@ -73,8 +71,8 @@ const CsoportjaimLetrehoz = ({ onSuccess }) => {
     return;
   }
 
-  setCim("");
-  setTartalom("");
+  setCsoportNev("");
+  setCsoportLeiras("");
 
 
 
@@ -90,22 +88,23 @@ const CsoportjaimLetrehoz = ({ onSuccess }) => {
       <input
         className="form-control mb-2"
         placeholder="Név"
-        value={cim}
-        onChange={(e) => setCim(e.target.value)}
+        value={csoportNev}
+        onChange={(e) => setCsoportNev(e.target.value)}
       />
 
       <textarea
         className="form-control mb-2"
         rows={4}
         placeholder="Leírás"
-        value={tartalom}
-        onChange={(e) => setTartalom(e.target.value)}
+        value={csoportLeiras}
+        onChange={(e) => setCsoportLeiras(e.target.value)}
       />
         {/*Kategória */}
         
        
         {/*Település*/}
-        <UserLenyiloHelyszin value={helyszin} kivalasztott={setKivalasztottHely} />
+        
+        <UserLenyiloHelyszin value={csoportTelepules} kivalasztott={setCsoportTelepules} />
 
         {/*Csoportjaim*/}
         {/* <UserLenyiloCsoportjaim value={csoportjaim} userid={userid} kivalasztott={setKivalasztottCsop} /> */}

@@ -513,27 +513,27 @@ app.post("/fajlFelvitel", upload.single("kep"), (req, res) => {
 });
 //Csoport létrehozás
 app.post("/ujCsoportFelvitel", upload.single("kep"), (req, res) => {
-  const {felhasznalo_id,cim,tartalom,helyszin,kategoria,csoport_id} = req.body;
+  const {csoport_nev,csoport_leiras,csoport_telepules,csoport_tulajdonos} = req.body;
 
-  if (!cim || !tartalom) {
+  if (!csoport_nev || !csoport_leiras) {
     if (req.file) fs.unlink(req.file.path, () => {});
-    return res.status(400).json({ error: "film_cim és film_ev kötelező" });
+    return res.status(400).json({ error: "Csoport nevet és leírást kitölteni kötelező!" });
   }
 
   // DB-be a fájlnév (vagy teheted: `/kepek/${req.file.filename}`)
-  const kep_url = req.file ? req.file.filename : null;
+  const csoport_kep = req.file ? req.file.filename : null;
 
   const sql = `INSERT INTO csoportok
-    VALUES (NULL,?, ?, ?, ?, ?, ?, NOW(), ?)`;
-  pool.query(sql, [felhasznalo_id,cim,tartalom,kep_url,helyszin,kategoria,csoport_id], (err) => {
+    VALUES (NULL,?, ?, ?, ?, NOW(),?)`;
+  pool.query(sql, [csoport_nev,csoport_leiras,csoport_telepules,csoport_kep,csoport_tulajdonos], (err) => {
     if (err) {
       if (req.file) fs.unlink(req.file.path, () => {});
-      return res.status(500).json({ error: "Hiba" });
+      return res.status(500).json({ error: err });
     }
     return res.status(200).json({
       message: "Sikeres felvitel",
-      kep_url,
-      url: kep_url ? `/kepek/${kep_url}` : null,
+      csoport_kep,
+      url: csoport_kep ? `/kepek/${csoport_kep}` : null,
     });
   });
 });
