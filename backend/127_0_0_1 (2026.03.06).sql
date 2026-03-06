@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Feb 26. 11:10
+-- Létrehozás ideje: 2026. Már 06. 13:40
 -- Kiszolgáló verziója: 10.4.28-MariaDB
 -- PHP verzió: 8.2.4
 
@@ -118,7 +118,10 @@ INSERT INTO `belepes` (`felhasznalo_id`, `felhasznalo_nev`, `felhasznalo_jelszo`
 (10, 'gg', '$2b$10$.AmZdgjyIr7QbCVvfLkTwO/Kd.FQ7DP4AZAjb4wgpt/8lorEXEd4.', 1),
 (11, 'komoczib', '$2b$10$qcOHMHi97SEEkhC9CpyrgePeYNEeiUXCvBZxhA8ozH6Qjq3433fZK', 2),
 (13, 'Ismeretlen', '$2y$10$.XpqvywlmUJIED7lu4uFt.uXXAd5AbuSE6rwEXDc5Rlc3YsVk0dtO', 1),
-(14, 'Nagy Ferenc', '$2b$10$f3PAfzmCJxhsGT8Krpqh5eGemlyF3e/JLBCJLsXcLCj0bzoe5myWW', 1);
+(14, 'Nagy Ferenc', '$2b$10$f3PAfzmCJxhsGT8Krpqh5eGemlyF3e/JLBCJLsXcLCj0bzoe5myWW', 1),
+(26, 'asdasd', '$2b$10$WTV3Du6m9suX7v8n9qhl7uFjUxlwjX.73uv3pmG0re4CJdqbDoDTK', 1),
+(27, 'qweqwe', '$2b$10$XyHAM8JeV2J4J7HeYS9Ete8ct5CxgSIEwZZyT064C/SzWS1mUKxTq', 1),
+(28, 'ertert', '$2b$10$dWDwjMmtVYCojLZLKR/.Bu7QgDKDAVDqxnHfG5wKIl5Ih.x.Z4HGS', 1);
 
 -- --------------------------------------------------------
 
@@ -159,25 +162,30 @@ INSERT INTO `csoportok` (`csoport_id`, `csoport_nev`, `csoport_leiras`, `csoport
 
 CREATE TABLE `felhasznalok` (
   `felhasznalok_id` int(11) NOT NULL,
-  `email` varchar(150) NOT NULL,
+  `email` varchar(150) DEFAULT NULL,
   `profil_kep` varchar(255) DEFAULT NULL,
   `bio` text DEFAULT NULL,
   `neme` int(11) NOT NULL,
   `felhasznalonev` varchar(255) NOT NULL,
-  `idegen_felhasznalo_id` int(11) NOT NULL
+  `idegen_felhasznalo_id` int(11) NOT NULL,
+  `profil_kesz` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_hungarian_ci;
 
 --
 -- A tábla adatainak kiíratása `felhasznalok`
 --
 
-INSERT INTO `felhasznalok` (`felhasznalok_id`, `email`, `profil_kep`, `bio`, `neme`, `felhasznalonev`, `idegen_felhasznalo_id`) VALUES
-(1, 'BenceTibor@gmail.com', '1.jfif', 'A nevem Komóczi Bence Tibor.Egy weboldalt próbálok készíteni.', 1, 'Komóczi Bence Tibor', 11),
-(2, 'NagySandor@gmail.com', NULL, 'A nevem Nagy Sándor. Egy weboldalt próbálok készíteni.', 1, 'Nagy Sándor', 6),
-(3, 'BaniMíra@gmail.com', NULL, 'A nevem Banai Míra. Nem szeretem a jókedvet.', 2, 'Bani Míra', 5),
-(4, 'Manci@gmail.com', 'manci.jpg', 'Manci.', 2, 'Manci Nagy', 8),
-(5, 'Ismeretlen@gmail.com', NULL, 'Ismeretlen', 1, 'Ismeretlen', 13),
-(6, 'NagyFerenc@gmail.com', NULL, NULL, 1, 'Nagy Ferenc', 14);
+INSERT INTO `felhasznalok` (`felhasznalok_id`, `email`, `profil_kep`, `bio`, `neme`, `felhasznalonev`, `idegen_felhasznalo_id`, `profil_kesz`) VALUES
+(1, 'BenceTibor@gmail.com', '1.jfif', 'A nevem Komóczi Bence Tibor.Egy weboldalt próbálok készíteni.', 1, 'Komóczi Bence Tibor', 11, 1),
+(2, 'NagySandor@gmail.com', NULL, 'A nevem Nagy Sándor. Egy weboldalt próbálok készíteni.', 1, 'Nagy Sándor', 6, 1),
+(3, 'BaniMíra@gmail.com', NULL, 'A nevem Banai Míra. Nem szeretem a jókedvet.', 2, 'Bani Míra', 5, 1),
+(4, 'Manci@gmail.com', 'manci.jpg', 'Manci.', 2, 'Manci Nagy', 8, 1),
+(5, 'Ismeretlen@gmail.com', NULL, 'Ismeretlen', 1, 'Ismeretlen', 13, 1),
+(6, 'NagyFerenc@gmail.com', NULL, NULL, 1, 'Nagy Ferenc', 14, 0),
+(7, '', NULL, NULL, 0, 'Nagy Judit', 15, 0),
+(16, NULL, NULL, NULL, 0, 'asdasd', 26, 0),
+(17, NULL, NULL, NULL, 0, 'qweqwe', 27, 0),
+(18, NULL, NULL, NULL, 0, 'ertert', 28, 0);
 
 -- --------------------------------------------------------
 
@@ -208,7 +216,8 @@ INSERT INTO `felhasznalo_csoportok` (`id`, `felhasznalok_id`, `csoport_id`, `csa
 (18, 4, 4, '2026-02-06 08:45:52'),
 (42, 6, 2, '2026-02-19 13:22:43'),
 (43, 6, 3, '2026-02-19 13:23:01'),
-(46, 6, 5, '2026-02-19 13:27:43');
+(46, 6, 5, '2026-02-19 13:27:43'),
+(47, 18, 1, '2026-03-06 07:36:10');
 
 -- --------------------------------------------------------
 
@@ -528,7 +537,7 @@ ALTER TABLE `bejegyzesek_kategoria`
 -- AUTO_INCREMENT a táblához `belepes`
 --
 ALTER TABLE `belepes`
-  MODIFY `felhasznalo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `felhasznalo_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT a táblához `csoportok`
@@ -540,13 +549,13 @@ ALTER TABLE `csoportok`
 -- AUTO_INCREMENT a táblához `felhasznalok`
 --
 ALTER TABLE `felhasznalok`
-  MODIFY `felhasznalok_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `felhasznalok_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT a táblához `felhasznalo_csoportok`
 --
 ALTER TABLE `felhasznalo_csoportok`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT a táblához `hozzaszolasok`
