@@ -20,6 +20,8 @@ import FoOldal from './FoOldal/FoOldal';
 // import Sidebar from "./Sidebar/Sidebar";
 //Sidebar1
 // import Sidebar1 from './Sidebar1/Sidebar1';
+//ProfilKitoltese
+import ProfilKitoltese from './ProfilKitoltese';
 //MainLayout menü
 import MainLayout from './MainLayout/MainLayout';
 //MainLayout1 menü
@@ -99,6 +101,14 @@ function App() {
     <MainLayout>
       <CsoportUserFoOldal />
     </MainLayout>
+  }
+/>
+<Route
+  path="/ProfilKitoltese"
+  element={
+   
+      <ProfilKitoltese />
+    
   }
 />
           <Route path="/Csoportjaim" element={<Csoportjaim />} />

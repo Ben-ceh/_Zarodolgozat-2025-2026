@@ -56,8 +56,10 @@ try {
         const data = await response.json();
         if (response.ok) {
           
+          
           setAdatok(data);
           setTolt(false);
+          // alert(data.profil_kesz)
         } else {
           setHiba(true);
           setTolt(false);

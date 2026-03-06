@@ -54,7 +54,7 @@ const upload = multer({
 // const formatDate = (mysqlDate) => {
 //   return mysqlDate.split("T")[0]; // "2025-11-17"
 // }; {formatDate(elem.letrehozva)} 
-const login = require('./login');
+const login = require('./login LoginUBelepÉsNavigate');
 app.use('/login', login);
 
 app.get('/', (req, res) => {
@@ -62,6 +62,26 @@ app.get('/', (req, res) => {
 })
 
 //Bence végpontjai---------------------------------------------------------------------
+//A felhasznalo bejelenkezes adatai // Át írtam a backend lekérdezés címét. Korábban bejelenkezesAdati volt és javítani kell ahol ez meg van híva 
+app.post('/bejelenkezesAdatai', (req, res) => {
+        const {idegen_felhasznalo_id} =req.body
+        const sql=`
+                select *
+                from felhasznalok
+                where felhasznalok.idegen_felhasznalo_id=?
+                `
+        pool.query(sql,[idegen_felhasznalo_id], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({error:"Hiba"})
+        }
+        if (result.length===0){
+            return res.status(404).json({error:"Nincs adat"})
+        }
+
+        return res.status(200).json(result)
+        })
+})
 
 
 
@@ -434,7 +454,7 @@ app.get('/helyszin', (req, res) => {
         }
 
         return res.status(200).json(result)
-        })
+        }) 
 })
 //Kategoria
 app.get('/kategoria', (req, res) => {

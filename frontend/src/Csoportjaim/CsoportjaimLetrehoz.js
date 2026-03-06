@@ -27,14 +27,14 @@ const CsoportjaimLetrehoz = ({ onSuccess }) => {
     setFile(selectedFile);
   };
   useEffect(() => {
-    alert(userid+belepUserid)
+    // alert(userid+belepUserid)
     fetch(`${Cim.Cim}/kategoria`)
       .then(res => res.json())
       .then(data => setKategoriak(data));
   }, []);
 
   const submit = async () => {
-    alert(kivalasztottKat)
+    // alert(kivalasztottKat)
   if (!csoportNev || !csoportLeiras || kivalasztottKat === 0) {
     alert("Please fill all required fields");
     return;
@@ -52,7 +52,7 @@ const CsoportjaimLetrehoz = ({ onSuccess }) => {
   //     csoport_id:kivalasztottCsop
   //   })
   // });
-alert(csoportTelepules)
+// alert(csoportTelepules)
   const formData = new FormData();
                         
                         formData.append("csoport_nev", csoportNev);
