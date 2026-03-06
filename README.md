@@ -8,6 +8,14 @@ A rendszer lehetőséget biztosít arra, hogy a felhasználók különböző té
 
 A weboldal célja, hogy segítse az embereket a helyi vagy aktuális események gyors megosztásában. Például egy felhasználó jelezheti, ha egy utcát baleset miatt lezártak, ha valamilyen esemény történik a városban, vagy ha egy adott helyen fontos információval szeretné ellátni a közösséget.
 
+# Készítők
+
+- Komóczi Bence Tibor– Backend fejlesztés és adatbázis tervezés
+- Nagy Sándor – Frontend fejlesztés és admin funkciók  
+
+
+---
+
 ## Fő funkciók
 
 Az alkalmazás több alapvető funkcióval rendelkezik:
@@ -32,7 +40,15 @@ Az alkalmazás több alapvető funkcióval rendelkezik:
 * **Csoportok létrehozása**
   A felhasználók saját csoportokat is létrehozhatnak.
   Ezekhez bárki csatlakozhat, mivel a rendszer nem használ csatlakozási kérelmeket. A cél egy nyitott és közvetlen közösség kialakítása.
-
+* **Admin funkciók**
+- Felhasználók keresése
+- Felhasználók törlése
+- Bejegyzések törlése
+- Kommentek törlése
+- Figyelmeztetés küldése szabályt sértő felhasználóknak
+- Bejegyzések keresése személyenként
+- Szavakra keresés a kommentek belül és a bejegyzéseken belül
+---
 ## Adatbázis felépítése
 
 Az alkalmazás egy relációs adatbázist használ, amely MySQL alapokon működik.
@@ -40,97 +56,7 @@ Az adatbázis célja a felhasználók, bejegyzések és az ezekhez kapcsolódó 
 
 A rendszer több egymással kapcsolatban álló táblából épül fel.
 
-### Felhasználók
-
-A `felhasznalok` tábla tartalmazza a felhasználók profiladatait:
-
-* email
-* profilkép
-* bio (bemutatkozás)
-* nem
-* felhasználónév
-
-Ez a tábla kapcsolódik a `belepes` táblához, amely a bejelentkezési adatokat tartalmazza.
-
-
-### Bejelentkezési adatok
-
-A `belepes` tábla felelős az autentikációhoz szükséges adatok tárolásáért:
-
-* felhasználónév
-* titkosított jelszó
-* felhasználói rang
-
-A jelszavak titkosítva kerülnek tárolásra bcrypt segítségével, így a rendszer biztonságosabb.
-
-### Bejegyzések
-
-A `bejegyzesek` tábla tárolja a felhasználók által létrehozott posztokat.
-
-Egy bejegyzés tartalmazhat:
-
-* címet
-* szöveges tartalmat
-* képet
-* kategóriát
-* helyszínt
-* létrehozási időt
-* a létrehozó felhasználó azonosítóját
-
-A bejegyzések több más táblával is kapcsolatban állnak.
-
-### Kommentek
-
-A `hozzaszolasok` tábla tartalmazza a bejegyzésekhez írt kommenteket.
-
-Minden komment kapcsolódik:
-
-* egy bejegyzéshez
-* egy felhasználóhoz
-* egy létrehozási időponthoz
-
-Ez lehetővé teszi a felhasználók közötti kommunikációt a posztok alatt.
-
-### Reakciók
-
-A `reakciok` tábla tárolja a felhasználók reakcióit egy adott bejegyzésre.
-
-Ez például lehet:
-
-* tetszik
-* egyéb reakciók
-
-A rendszer így lehetőséget ad gyors visszajelzésre a posztokkal kapcsolatban.
-
-### Megosztások
-
-A `megosztasok` tábla tárolja, ha egy felhasználó megoszt egy bejegyzést.
-
-Ez segíti az információk gyorsabb terjedését a közösségen belül.
-
-### Csoportok
-
-A `csoportok` tábla tartalmazza a felhasználók által létrehozott közösségeket.
-
-Egy csoport rendelkezik:
-
-* névvel
-* leírással
-* csoportképpel
-* településsel
-* létrehozási idővel
-* tulajdonossal
-
-A felhasználók csatlakozását a `felhasznalo_csoportok` tábla kezeli.
-
-### Kategóriák
-
-A `bejegyzesek_kategoria` tábla tartalmazza a különböző posztkategóriákat, amelyek segítik a bejegyzések rendszerezését.
-
-### Települések
-
-A `telepules` tábla tartalmazza a rendszerben szereplő településeket.
-Ez lehetővé teszi, hogy a csoportok vagy bejegyzések egy adott helyhez kapcsolódjanak.
+![Adatbázis](kep/okoskozossegAdatbazisa.png)
 
 | GET | Magyarázat | POST | Magyarázat |
 |----------|----------|----------|----------|
@@ -180,7 +106,6 @@ Feladata:
 * adatok lekérése a backendről
 * felhasználói interakciók kezelése
 
-![Adatbázis](kep/okoskozossegAdatbazisa.png)
 
 ### Backend
 
@@ -194,6 +119,7 @@ Feladata:
 * adatellenőrzés
 
 ![Csoportjaim bejegyzései](kep/okoskozossegCsoportjaimBejegyzesei.png)
+
 ---
 
 ## A projekt célja a gyakorlatban
@@ -201,3 +127,10 @@ Feladata:
 Az Okos Közösség célja egy olyan online platform létrehozása, ahol a felhasználók könnyen megoszthatják egymással a mindennapi élethez kapcsolódó információkat.
 
 A rendszer támogatja a közösségi kommunikációt, a helyi információk gyors terjedését és az aktív felhasználói részvételt.
+
+**Az Okos Közösség webalkalmazás a saját szellemi termékünk, amely a projektmunka keretében, önálló tervezéssel és megvalósítással készült.**
+
+## Repository klónozása
+
+```bash
+git clone https://github.com/Ben-ceh/_Zarodolgozat-2025-2026.git
