@@ -1,1 +1,14 @@
-TesztELEKgit p
+|2026.03.10|
+A kepek mappából hívja le a képeket. 
+A profilképeket/bejegyzesképeket/csoportképeket.
+Az összes helyen ahol bejegyzés van át kell írni hogy minden képet
+a /kepek mappából hívja le ne a többi helyről mappából ami eddig van.
+
+Teljes regisztráció után nem user rangal dobb tovább,
+hanem úgy mintha be se lettünk volna regisztrálva vagy lépve mint
+felhasználó.
+
+Teljesen át kell dizájnolni a dolgot többségét.
+
+|2026.03.11| 
+Funkció legyen hogy a csoport tulajdonos eltávolítsa a saját csoportját.

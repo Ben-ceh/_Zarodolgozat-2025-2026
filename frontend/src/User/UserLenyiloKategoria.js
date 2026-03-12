@@ -19,10 +19,10 @@ const UserLenyiloKategoria = ({ kivalasztott }) => {
           setTolt(false);
 
           // első kategória automatikus kiválasztása
-          if (data.length > 0) {
-            setAktivKat(data[0].kategoria_id);
-            kivalasztott(data[0].kategoria_id);
-          }
+          // if (data.length > 0) {
+          //   setAktivKat(data[0].kategoria_id);
+          //   kivalasztott(data[0].kategoria_id);
+          // }
         } else {
           setHiba(true);
           setTolt(false);

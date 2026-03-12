@@ -10,8 +10,8 @@ A weboldal célja, hogy segítse az embereket a helyi vagy aktuális események 
 
 # Készítők
 
-- Komóczi Bence Tibor– Backend fejlesztés és adatbázis tervezés
-- Nagy Sándor – Frontend fejlesztés és admin funkciók  
+- Komóczi Bence Tibor– Backend fejlesztés és adatbázis tervezés.
+- Nagy Sándor – Frontend fejlesztés és admin funkciók.  
 
 
 ---

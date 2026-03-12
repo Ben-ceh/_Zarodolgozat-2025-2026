@@ -10,51 +10,32 @@ const Register = () => {
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
-  e.preventDefault();
-  setError('');
+    e.preventDefault();
+    setError('');
 
-  if (password !== passwordAgain) {
-    setError('A jelszavak nem egyeznek!');
-    return;
-  }
-
-  try {
-
-    // 1️⃣ REGISTER
-    const response = await fetch(Cim.Cim + '/login/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-    });
-
-    if (!response.ok) {
-      const errData = await response.json();
-      throw new Error(errData.message || 'Hiba a regisztráció során');
+    if (password !== passwordAgain) {
+      setError('A jelszavak nem egyeznek!');
+      return;
     }
 
-    // ⭐⭐⭐ 2️⃣ AUTOMATIKUS LOGIN
-    const loginResponse = await fetch(Cim.Cim + '/login/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
-    });
+    try {
+      const response = await fetch(Cim.Cim + '/login/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
 
-    const data = await loginResponse.json();
+      if (!response.ok) {
+        const errData = await response.json();
+        throw new Error(errData.message || 'Hiba a regisztráció során');
+      }
 
-    // 3️⃣ TOKEN MENTÉS
-    localStorage.setItem('token', data.token);
-
-    // 4️⃣ ÁTIRÁNYÍTÁS
-    if (data.profil_kesz === 0) {
-      navigate('/ProfilKitoltese');
-    } else {
-      navigate('/home');
+      alert('Sikeres regisztráció!');
+      navigate('/'); // vissza a login oldalra
+    } catch (err) {
+      setError(err.message);
     }
-
-  } catch (err) {
-    setError(err.message);
-  }
-};
+  };
 
   return (
     <div style={styles.container}>

@@ -54,8 +54,10 @@ const upload = multer({
 // const formatDate = (mysqlDate) => {
 //   return mysqlDate.split("T")[0]; // "2025-11-17"
 // }; {formatDate(elem.letrehozva)} 
-const login = require('./login LoginUBelepÉsNavigate');
+const login = require('./login');
 app.use('/login', login);
+
+app.use(express.json());
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
@@ -82,7 +84,45 @@ app.post('/bejelenkezesAdatai', (req, res) => {
         return res.status(200).json(result)
         })
 })
+//profilkitoltése a regisztráció után
+app.post("/profilKitoltes", (req, res) => {
 
+  const {
+    email,
+    bio,
+    neme,
+    felhasznalonev,
+    profil_kep,
+    user_id
+  } = req.body;
+
+  const sql = `
+    UPDATE felhasznalok
+    SET
+      email = ?,
+      bio = ?,
+      neme = ?,
+      felhasznalonev = ?,
+      profil_kep = ?,
+      profil_kesz = 1
+    WHERE idegen_felhasznalo_id = ?
+  `;
+
+  pool.query(
+    sql,
+    [email, bio, neme, felhasznalonev, profil_kep, user_id],
+    (err, result) => {
+
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ message: "Adatbázis hiba" });
+      }
+
+      res.json({ message: "Profil frissítve" });
+
+    }
+  );
+});
 
 
 //Bence végpontjai
@@ -123,17 +163,16 @@ app.post('/bejegyzesekKeresId', (req, res) => {
         })
 })
 app.get('/bejegyEsFelh', (req, res) => {
-        const sql=`SELECT 
-        *
-        from bejegyzesek 
+        const sql=`SELECT * from bejegyzesek 
         inner JOIN felhasznalok 
-        on bejegyzesek.felhasznalo_id = felhasznalok.felhasznalok_id
-        INNER JOIN bejegyzesek_kategoria
-        ON bejegyzesek_kategoria.kategoria_id = bejegyzesek.kategoria
-        INNER JOIN telepules
+        on bejegyzesek.felhasznalo_id = felhasznalok.felhasznalok_id 
+        INNER JOIN bejegyzesek_kategoria 
+        ON bejegyzesek_kategoria.kategoria_id = bejegyzesek.kategoria 
+        INNER JOIN telepules 
         ON telepules.telepules_id = bejegyzesek.helyszin
         
-        Where bejegyzesek.csoport_id = 1;
+        Where bejegyzesek.csoport_id = 1 
+        ORDER BY bejegyzesek.letrehozva DESC;
 `
         pool.query(sql, (err, result) => {
         if (err) {
@@ -160,7 +199,8 @@ app.post('/bejegyEsFelhKategoria', (req, res) => {
         INNER JOIN telepules
         ON telepules.telepules_id = bejegyzesek.helyszin
         
-        Where bejegyzesek.csoport_id = 1 and kategoria_id = ?;
+        Where bejegyzesek.csoport_id = 1 and kategoria_id = ?
+        ORDER BY bejegyzesek.letrehozva DESC;
                 `
         pool.query(sql,[kategoria_id], (err, result) => {
         if (err) {
@@ -511,7 +551,7 @@ app.post("/fajlFelvitel", upload.single("kep"), (req, res) => {
 
   if (!cim || !tartalom) {
     if (req.file) fs.unlink(req.file.path, () => {});
-    return res.status(400).json({ error: "film_cim és film_ev kötelező" });
+    return res.status(400).json({ error: "Címet és tartalmat megadni kötelező!" });
   }
 
   // DB-be a fájlnév (vagy teheted: `/kepek/${req.file.filename}`)
@@ -557,6 +597,40 @@ app.post("/ujCsoportFelvitel", upload.single("kep"), (req, res) => {
     });
   });
 });
+
+//Profilkitoltese a regisztráció után
+app.post("/profilReszletesKitoltese", upload.single("kep"), (req, res) => {
+  const {email,bio,neme,felhasznalonev,felhasznalok_id} = req.body;
+
+  if (!email || !felhasznalonev) {
+    if (req.file) fs.unlink(req.file.path, () => {});
+    return res.status(400).json({ error: "Felhasználó nevet és email címet megadni kötelező!" });
+  }
+
+  // DB-be a fájlnév (vagy teheted: `/kepek/${req.file.filename}`)
+  const profil_kep = req.file ? req.file.filename : null;
+
+  const sql = `UPDATE felhasznalok
+    SET
+      email = ?,
+      bio = ?,
+      neme = ?,
+      felhasznalonev = ?,
+      profil_kep = ?,
+      profil_kesz = 1
+    WHERE felhasznalok_id = ?`;
+  pool.query(sql, [email,bio,neme,felhasznalonev,profil_kep,felhasznalok_id], (err) => {
+    if (err) {
+      if (req.file) fs.unlink(req.file.path, () => {});
+      return res.status(500).json({ error: err +"Hiba"});
+    }
+    return res.status(200).json({
+      message: "Sikeres felvitel",
+      profil_kep,
+      url: profil_kep ? `/kepek/${profil_kep}` : null,
+    });
+  });
+});
 //Egy Bizonyos Csoport Bejegyzései!
 
 app.post('/egyCsopBej', (req, res) => {
@@ -574,7 +648,8 @@ app.post('/egyCsopBej', (req, res) => {
         INNER JOIN telepules
         ON telepules.telepules_id = bejegyzesek.helyszin
         
-        Where bejegyzesek.csoport_id = ?;
+        Where bejegyzesek.csoport_id = ?
+        ORDER BY bejegyzesek.letrehozva DESC;
     `
 
     pool.query(sql, [csoportId], (err, result) => {

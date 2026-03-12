@@ -193,23 +193,6 @@ try {
 
     {/* Category filter */}
     <UserLenyiloKategoria kivalasztott={setKivalasztott}/>
-
-    {/* <select
-      className="form-select"
-      style={{ maxWidth: "200px" }}
-      value={selectedCategory}
-      onChange={(e) => setSelectedCategory(e.target.value)}
-    >
-      <option value="all">Összes</option>
-      <option value="road"> Közlekedés</option>
-      <option value="news"> Események </option>
-      <option value="alert"> Veszélyhelyzetek</option>
-      <option value="lostItems"> Elveszett tárgyak</option>
-      <option value="localNews">Helyi hírek </option> 
-    </select> */}
-
-    
-
  
       {adatok.filter((elem) => {
       const categoryOk =
@@ -231,7 +214,7 @@ try {
               className="profilKep"
               src={
                 elem.profil_kep
-                  ? `${Cim.Cim}/kepekFelhasznalo/${elem.profil_kep}`
+                  ? `${Cim.Cim}/kepek/${elem.profil_kep}`
                   : elem.neme === 1
                   ? `${Cim.Cim}/kepekFelhasznalo/M.jpg`
                   : `${Cim.Cim}/kepekFelhasznalo/F.jpg`
@@ -261,7 +244,7 @@ try {
             <img
               src={
                 elem.kep_url
-                  ? `${Cim.Cim}/bejegyzesKepek/${elem.kep_url}`
+                  ? `${Cim.Cim}/kepek/${elem.kep_url}`
                   : `${Cim.Cim}/bejegyzesKepek/X.png`
               }
               alt=""

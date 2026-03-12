@@ -12,35 +12,7 @@ const CsoportUserMegtekintes = () => {
   const [siker,setSiker]=useState(false)
 
   const ido = (evHoNap) => evHoNap.split("T")[0];
-// const csatlakozasFugv = async (id, szoveg) => {
-//     const biztos = window.confirm(
-//       `Biztosan szeretnél csatlakozni a csoportba?\n\n"${szoveg}"`
-//     );
-  
 
-
-//     if (biztos) {
-//       const response = await fetch(Cim.Cim + "/csoportCsat", {
-//   method: "POST",
-//   headers: { "Content-Type": "application/json" },
-//   body: JSON.stringify({
-//     felhasznalok_id: belepUserid,
-//     csoport_id: id
-//   })
-
-
-
-// });
-//  const data = await response.json();
-
-//       if (response.ok) {
-//         alert(data.message);
-//         setSiker(!siker);
-//       } else {
-//         alert(data.error);
-//       }
-//     }
-//   };
      const [loadingCsat, setLoadingCsat] = useState(false);
      const [csatlakozva, setCsatlakozva] = useState(false);
 

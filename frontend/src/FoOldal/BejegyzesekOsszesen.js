@@ -47,10 +47,11 @@ const BejegyzesekOsszesen = () => {
 
   useEffect(() => {
     const leToltes = async () => {
+// console.log("Összes adat:", adatok.length);
+//       console.log("kivalasztott:"+ kivalasztott)
+//       console.log("selectedcategory:"+ selectedCategory)
 
-      // alert(kivalasztott)
-
-      if(kivalasztott===0){
+      if(kivalasztott==0){
 try {
         const response = await fetch(Cim.Cim + "/bejegyEsFelh");
         const data = await response.json();
@@ -221,22 +222,6 @@ const CommentingWithOutALogin = async (szoveg) => {
     {/* Category filter */}
     <LenyiloKategoria kivalasztott={setKivalasztott}/>
 
-    {/* <select
-      className="form-select"
-      style={{ maxWidth: "200px" }}
-      value={selectedCategory}
-      onChange={(e) => setSelectedCategory(e.target.value)}
-    >
-      <option value="all">Összes</option>
-      <option value="road"> Közlekedés</option>
-      <option value="news"> Események </option>
-      <option value="alert"> Veszélyhelyzetek</option>
-      <option value="lostItems"> Elveszett tárgyak</option>
-      <option value="localNews">Helyi hírek </option> 
-    </select> */}
-
-    
-
  
       {adatok.filter((elem) => {
       const categoryOk =
@@ -258,7 +243,7 @@ const CommentingWithOutALogin = async (szoveg) => {
               className="profilKep"
               src={
                 elem.profil_kep
-                  ? `${Cim.Cim}/kepekFelhasznalo/${elem.profil_kep}`
+                  ? `${Cim.Cim}/kepek/${elem.profil_kep}`
                   : elem.neme === 1
                   ? `${Cim.Cim}/kepekFelhasznalo/M.jpg`
                   : `${Cim.Cim}/kepekFelhasznalo/F.jpg`
@@ -288,8 +273,8 @@ const CommentingWithOutALogin = async (szoveg) => {
             <img
               src={
                 elem.kep_url
-                  ? `${Cim.Cim}/bejegyzesKepek/${elem.kep_url}`
-                  : `${Cim.Cim}/bejegyzesKepek/X.png`
+                  ? `${Cim.Cim}/kepek/${elem.kep_url}`
+                  : `${Cim.Cim}/bejegyzesKepek/X.png` //Ha nincs bejegyzéskép megadva akkor ez fog látszódni.
               }
               alt=""
             />
@@ -341,7 +326,7 @@ const CommentingWithOutALogin = async (szoveg) => {
                         className="profilKepKomment"
                         src={
                           k.profil_kep
-                            ? `${Cim.Cim}/kepekFelhasznalo/${k.profil_kep}`
+                            ? `${Cim.Cim}/kepek/${k.profil_kep}`
                             : k.neme === 1
                             ? `${Cim.Cim}/kepekFelhasznalo/M.jpg`
                             : `${Cim.Cim}/kepekFelhasznalo/F.jpg`

@@ -207,19 +207,6 @@ let bemenet={
     {/* Category filter */}
     <CsoportUserLenyiloKategoria kivalasztott={setKivalasztott}/>
 
-    {/* <select
-      className="form-select"
-      style={{ maxWidth: "200px" }}
-      value={selectedCategory}
-      onChange={(e) => setSelectedCategory(e.target.value)}
-    >
-      <option value="all">Összes</option>
-      <option value="road"> Közlekedés</option>
-      <option value="news"> Események </option>
-      <option value="alert"> Veszélyhelyzetek</option>
-      <option value="lostItems"> Elveszett tárgyak</option>
-      <option value="localNews">Helyi hírek </option> 
-    </select> */}
 
     
 
@@ -244,7 +231,7 @@ let bemenet={
               className="profilKep"
               src={
                 elem.profil_kep
-                  ? `${Cim.Cim}/kepekFelhasznalo/${elem.profil_kep}`
+                  ? `${Cim.Cim}/kepek/${elem.profil_kep}`
                   : elem.neme === 1
                   ? `${Cim.Cim}/kepekFelhasznalo/M.jpg`
                   : `${Cim.Cim}/kepekFelhasznalo/F.jpg`
@@ -274,7 +261,7 @@ let bemenet={
             <img
               src={
                 elem.kep_url
-                  ? `${Cim.Cim}/bejegyzesKepek/${elem.kep_url}`
+                  ? `${Cim.Cim}/kepek/${elem.kep_url}`
                   : `${Cim.Cim}/bejegyzesKepek/X.png`
               }
               alt=""
@@ -327,7 +314,7 @@ let bemenet={
                         className="profilKepKomment"
                         src={
                           k.profil_kep
-                            ? `${Cim.Cim}/kepekFelhasznalo/${k.profil_kep}`
+                            ? `${Cim.Cim}/kepek/${k.profil_kep}`
                             : k.neme === 1
                             ? `${Cim.Cim}/kepekFelhasznalo/M.jpg`
                             : `${Cim.Cim}/kepekFelhasznalo/F.jpg`
