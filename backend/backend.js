@@ -600,7 +600,7 @@ app.post("/ujCsoportFelvitel", upload.single("kep"), (req, res) => {
 
 //Profilkitoltese a regisztráció után
 app.post("/profilReszletesKitoltese", upload.single("kep"), (req, res) => {
-  const {email,bio,neme,felhasznalonev,felhasznalok_id} = req.body;
+  const {email,bio,neme,felhasznalonev,idegen_felhasznalo_id} = req.body;
 
   if (!email || !felhasznalonev) {
     if (req.file) fs.unlink(req.file.path, () => {});
@@ -618,8 +618,8 @@ app.post("/profilReszletesKitoltese", upload.single("kep"), (req, res) => {
       felhasznalonev = ?,
       profil_kep = ?,
       profil_kesz = 1
-    WHERE felhasznalok_id = ?`;
-  pool.query(sql, [email,bio,neme,felhasznalonev,profil_kep,felhasznalok_id], (err) => {
+    WHERE idegen_felhasznalo_id = ?`;
+  pool.query(sql, [email,bio,neme,felhasznalonev,profil_kep,idegen_felhasznalo_id], (err) => {
     if (err) {
       if (req.file) fs.unlink(req.file.path, () => {});
       return res.status(500).json({ error: err +"Hiba"});

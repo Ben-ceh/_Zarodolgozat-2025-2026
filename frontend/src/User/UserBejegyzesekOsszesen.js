@@ -245,7 +245,7 @@ try {
               src={
                 elem.kep_url
                   ? `${Cim.Cim}/kepek/${elem.kep_url}`
-                  : `${Cim.Cim}/bejegyzesKepek/X.png`
+                  : `${Cim.Cim}/bejegyzesKepek/xX.png`
               }
               alt=""
             />
@@ -297,7 +297,7 @@ try {
                         className="profilKepKomment"
                         src={
                           k.profil_kep
-                            ? `${Cim.Cim}/kepekFelhasznalo/${k.profil_kep}`
+                            ? `${Cim.Cim}/kepek/${k.profil_kep}`
                             : k.neme === 1
                             ? `${Cim.Cim}/kepekFelhasznalo/M.jpg`
                             : `${Cim.Cim}/kepekFelhasznalo/F.jpg`
