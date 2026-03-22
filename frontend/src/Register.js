@@ -11,13 +11,13 @@ const Register = () => {
 
 
   const handleRegister = async (e) => {
-  e.preventDefault();
-  setError('');
+    e.preventDefault();
+    setError('');
 
-  if (password !== passwordAgain) {
-    setError('A jelszavak nem egyeznek!');
-    return;
-  }
+    if (password !== passwordAgain) {
+      setError('A jelszavak nem egyeznek!');
+      return;
+    }
 
   try {
  
@@ -48,14 +48,17 @@ const Register = () => {
     localStorage.setItem("user_id", data.userid);
     console.log(`User id:${data.userid} | Belépuserid:${data.belepuserid} | Username:${username} | Password:${password}`);
 
+    localStorage.setItem("user_id", data.belepUserid);
     // 3️⃣ TOKEN MENTÉS
     localStorage.setItem('token', data.token);
 
     // 4️⃣ ÁTIRÁNYÍTÁS
     if (data.profil_kesz === 0) {
 
-      
-      navigate('/ProfilKitoltese');
+      console.log(`idegen_felhasznalo_id:${data.userid}`)
+      navigate('/ProfilKitoltese', {
+  state: { userid: data.userid }
+});
     } else {
       navigate('/home');
     }

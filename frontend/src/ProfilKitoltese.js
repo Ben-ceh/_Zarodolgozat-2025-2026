@@ -7,6 +7,8 @@ import Cim from "./Cim";
 
 const ProfilKitoltese = ({ onSuccess }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const userid = location.state?.userid;
   const [email, setEmail] = useState("");
   const [bio, setBio] = useState("");
   const [neme, setNeme] = useState("");
@@ -14,7 +16,7 @@ const ProfilKitoltese = ({ onSuccess }) => {
  
 
   const [belepUserid] = useState(localStorage.getItem("belepUserid"));
-  const [userid] = useState(localStorage.getItem("userid"));
+  // const [userid] = useState(localStorage.getItem("userid"));
   // //Kép const
   //   const [kategoriak, setKategoriak] = useState([]);
   //   const [kivalasztottKat,setKivalasztottKat]=useState(1)
@@ -35,7 +37,7 @@ const ProfilKitoltese = ({ onSuccess }) => {
   // }, []);
 
   const submit = async () => {
-    console.log(`Belépid|userid\n${belepUserid}|${userid}\nEmail|Bio|Neme|Felhasznalonev\n${email}|${bio}|${neme}|${felhasznalonev}`)
+    console.log(`Belépid|userid ${belepUserid}|${userid} Email|Bio|Neme|Felhasznalonev\n${email}|${bio}|${neme}|${felhasznalonev}`)
   if (!email || !bio || neme === 0 || !felhasznalonev.length) {
     alert("Please fill all required fields");
     return;
@@ -59,7 +61,7 @@ const ProfilKitoltese = ({ onSuccess }) => {
                         formData.append("bio", bio);
                         formData.append("neme", neme);
                         formData.append("felhasznalonev", felhasznalonev);
-                        formData.append("felhasznalok_id", belepUserid);
+                        formData.append("idegen_felhasznalo_id", userid);
                         
                         formData.append("kep", file); 
 
