@@ -215,13 +215,14 @@ const CommentingWithOutALogin = async (szoveg) => {
   if (hiba) return <div>Hiba történt</div>;
 
   return (
-    <div className="card mb-3 p-3">
+    <div className="feed-wrapper">
       <h2>Általános</h2>
-  <div className="d-flex gap-3 flex-wrap">
+  <div className="d-flex justify-content-between align-items-center mb-3">
 
     {/* Category filter */}
+    <div className="mb-3">
     <LenyiloKategoria kivalasztott={setKivalasztott}/>
-
+    </div>
  
       {adatok.filter((elem) => {
       const categoryOk =

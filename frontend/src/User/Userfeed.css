@@ -1,27 +1,116 @@
-.post-actions {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 12px;
-  padding-top: 8px;
-  border-top: 1px solid #eee;
+.user-feed-wrapper {
+    max-width: 680px;
+    margin: 0 auto;
+    background: #fff;
+}
+
+/* Posztoló rész */
+.create-post-container {
+    padding: 16px;
+    border-bottom: 8px solid #eff3f4; /* Twitter stílusú vastagabb elválasztó */
+}
+
+.create-post-layout { display: flex; gap: 12px; }
+
+.input-title-flat {
+    width: 100%;
+    border: none;
+    font-size: 18px;
+    font-weight: 700;
+    outline: none;
+    margin-bottom: 8px;
+}
+
+.input-text-flat {
+    width: 100%;
+    border: none;
+    font-size: 16px;
+    resize: none;
+    outline: none;
+}
+
+.create-post-selectors {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 12px 0;
+}
+
+.create-post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #eff3f4;
+    padding-top: 12px;
+}
+
+.post-submit-btn {
+    background: #1d9bf0;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* Feed Header */
+.feed-divider-title {
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eff3f4;
+}
+
+/* Post Card */
+.post-card {
+    padding: 16px;
+    border-bottom: 1px solid #eff3f4;
+}
+
+.post-layout { display: flex; gap: 12px; }
+
+.post-avatar { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; }
+
+.user-name { font-weight: 700; color: #0f1419; }
+
+.post-meta { color: #536471; font-size: 14px; }
+
+.post-badges { display: flex; gap: 8px; margin-top: 4px; }
+
+.badge-item {
+    font-size: 11px;
+    background: #f0f3f5;
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: #536471;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.post-title { font-size: 17px; font-weight: 800; margin: 8px 0 4px 0; }
+
+.post-media img {
+    width: 100%;
+    border-radius: 16px;
+    border: 1px solid #eff3f4;
+    margin-top: 12px;
+}
+
+.post-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
 }
 
 .action-btn {
-  background: none;
-  border: none;
-  font-size: 14px;
-  font-weight: 600;
-  color: #555;
-  cursor: pointer;
-}
-
-.action-btn:hover {
-  color: #000;
-}
-
-.comments-box {
-  margin-top: 16px;
-  padding: 12px;
-  background: #f9f9f9;
-  border-radius: 10px;
+    background: none;
+    border: none;
+    color: #536471;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
 }

@@ -46,6 +46,7 @@ const Register = () => {
 
     const data = await loginResponse.json();
     localStorage.setItem("user_id", data.userid);
+    console.log(`User id:${data.userid} | Belépuserid:${data.belepuserid} | Username:${username} | Password:${password}`);
 
     // 3️⃣ TOKEN MENTÉS
     localStorage.setItem('token', data.token);

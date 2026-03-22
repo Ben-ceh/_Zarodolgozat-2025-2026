@@ -1,0 +1,32 @@
+.app-layout {
+    display: flex;
+    justify-content: center; /* Középre igazítja az egész blokkot */
+    max-width: 1300px;      /* Twitter-szerű maximális szélesség */
+    margin: 0 auto;         /* Oldalsó margók automatikusak */
+    background-color: #ffffff;
+}
+
+.main-content {
+    flex: 1;
+    max-width: 600px;       /* A hírfolyam ideális szélessége */
+    border-right: 1px solid #e5e7eb;
+    min-height: 100vh;
+}
+
+/* Mobilon elrejtjük a jobb sávot, ha túl kicsi a kijelző */
+@media (max-width: 1000px) {
+    .right-sidebar-wrapper {
+        display: none;
+    }
+}
+
+/* Mobilon a bal sáv is lehet keskenyebb vagy alsó menü */
+@media (max-width: 700px) {
+    .app-layout {
+        flex-direction: column;
+    }
+    .main-content {
+        max-width: 100%;
+        border-right: none;
+    }
+}

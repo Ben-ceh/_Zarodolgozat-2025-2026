@@ -82,72 +82,44 @@ const UserBejegyFelv = ({ onSuccess }) => {
 
 
   return (
-  
-    <div className="card p-3 mb-3">
-      <h5>Új bejegyzés</h5>
-
-      <input
-        className="form-control mb-2"
-        placeholder="Cím"
-        value={cim}
-        onChange={(e) => setCim(e.target.value)}
-      />
-
-      <textarea
-        className="form-control mb-2"
-        rows={4}
-        placeholder="Mi jár a fejedben..."
-        value={tartalom}
-        onChange={(e) => setTartalom(e.target.value)}
-      />
-        {/*Kategória */}
-        <UserLenyiloKategoria value={kategoria} kivalasztott={setKivalasztottKat} />
-       
-        {/*Település*/}
-        <UserLenyiloHelyszin value={helyszin} kivalasztott={setKivalasztottHely} />
-
-        {/*Csoportjaim*/}
-        <UserLenyiloCsoportjaim value={csoportjaim} userid={userid} kivalasztott={setKivalasztottCsop} />
-      
-      {/* ---------------------tallozas-------------------------- */}
-
-<label
-        htmlFor="kepInput"
-        style={{
-          display: 'inline-block',
-          padding: '10px 16px',
-          backgroundColor: '#1976d2',
-          color: 'white',
-          cursor: 'pointer',
-          borderRadius: '6px'
-        }}
-      >
-        Kép tallózása
-      </label>
-
-      <input
-        id="kepInput"
-        type="file"
-        accept="image/*"
-        onChange={handleFileChange}
-        style={{ display: 'none' }}
-      />
-
-      {file && (
-        <div>
-          <p>Kiválasztott fájl: {file.name}</p>
-          {/* <img
-            src={URL.createObjectURL(file)}
-            alt="előnézet"
-            style={{ width: '200px', marginTop: '10px' }}
-          /> */}
+    <div className="create-post-container">
+      <div className="create-post-layout">
+        <div className="post-avatar-col">
+          {/* Itt érdemes lenne a bejelentkezett user képét megjeleníteni */}
+          <div className="user-placeholder-avatar">U</div>
         </div>
-      )}
+        <div className="create-post-main">
+          <input
+            className="input-title-flat"
+            placeholder="Adj egy címet a bejegyzésnek..."
+            value={cim}
+            onChange={(e) => setCim(e.target.value)}
+          />
+          <textarea
+            className="input-text-flat"
+            rows={3}
+            placeholder="Mi jár a fejedben?"
+            value={tartalom}
+            onChange={(e) => setTartalom(e.target.value)}
+          />
 
+          <div className="create-post-selectors">
+            <UserLenyiloKategoria kivalasztott={setKivalasztottKat} />
+            <UserLenyiloHelyszin kivalasztott={setKivalasztottHely} />
+            <UserLenyiloCsoportjaim userid={userid} kivalasztott={setKivalasztottCsop} />
+          </div>
 
-      <button className="btn btn-primary" onClick={submit}>
-        Poszt
-      </button>
+          <div className="create-post-footer">
+            <label htmlFor="kepInput" className="upload-label">
+               📷 Kép hozzáadása
+               {file && <span className="file-ready"> ({file.name})</span>}
+            </label>
+            <input id="kepInput" type="file" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
+            
+            <button className="post-submit-btn" onClick={submit}>Közzététel</button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

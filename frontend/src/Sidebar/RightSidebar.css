@@ -1,0 +1,130 @@
+/* Jobb oldali sáv konténer */
+.right-sidebar-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 320px;
+    padding: 20px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    background-color: #ffffff;
+    border-left: 1px solid #e5e7eb;
+    font-family: sans-serif;
+    overflow-y: auto;
+}
+
+/* Kártya stílus (Widgetek) */
+.sidebar-widget {
+    background-color: #f7f9f9;
+    border-radius: 16px;
+    padding: 16px;
+    border: 1px solid #eff3f4;
+}
+
+.widget-title {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    color: #0f1419;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Trending elemek */
+.trending-item {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    text-decoration: none;
+}
+
+.trending-item:hover {
+    opacity: 0.7;
+}
+
+.trending-category {
+    font-size: 13px;
+    color: #536471;
+}
+
+.trending-topic {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0f1419;
+    margin: 2px 0;
+}
+
+.trending-count {
+    font-size: 13px;
+    color: #536471;
+}
+
+/* Csoport javaslatok */
+.group-suggestion {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.group-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background-color: #2563eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.group-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.group-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #0f1419;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.group-members {
+    font-size: 12px;
+    color: #536471;
+    margin: 0;
+}
+
+.join-button {
+    background-color: #0f1419;
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 9999px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.join-button:hover {
+    background-color: #272c30;
+}
+
+/* Footer linkek */
+.sidebar-footer-text {
+    font-size: 13px;
+    color: #536471;
+    padding: 0 16px;
+    line-height: 1.5;
+}
