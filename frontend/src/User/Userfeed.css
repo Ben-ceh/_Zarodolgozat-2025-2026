@@ -114,3 +114,152 @@
     gap: 6px;
     cursor: pointer;
 }
+/* Mutass többet gomb */
+
+/* Mutass többet / Kevesebb gomb */
+.text-btn {
+    background: none;
+    border: none;
+    color: #1d9bf0; /* A már megszokott kék színünk */
+    font-weight: 700;
+    font-size: 14px;
+    padding: 2px 6px;
+    margin-left: 4px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s, color 0.2s;
+    display: inline-flex;
+    align-items: center;
+}
+
+.text-btn:hover {
+    background-color: #e8f5fd; /* Finom kék háttér érintéskor */
+    color: #1a8cd8;
+    text-decoration: underline;
+}
+
+.text-btn:active {
+    background-color: #d0eaff;
+}
+
+/* Mutass többet gomb vége */
+
+/* Kommetek rész kezdete */
+
+/* Komment szekció alapja */
+.comment-section-wrapper {
+    background-color: #fcfcfc;
+    border-top: 1px solid #eff3f4;
+    padding: 12px 16px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+
+.comment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+/* Egy komment elem */
+.comment-item {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+.c-avatar-small {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-top: 2px;
+}
+
+/* A buborék stílusa */
+.comment-bubble {
+    background-color: #f0f2f5;
+    padding: 8px 12px;
+    border-radius: 18px;
+    max-width: 85%;
+    position: relative;
+}
+
+.c-user-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #050505;
+}
+
+.c-text {
+    font-size: 14px;
+    color: #050505;
+    line-height: 1.4;
+}
+
+.c-time {
+    font-size: 11px;
+    color: #65676b;
+    margin-top: 2px;
+}
+
+/* Beviteli mező konténer */
+.comment-input-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-top: 12px;
+    border-top: 1px solid #eff3f4;
+}
+
+.input-with-button {
+    flex-grow: 1;
+    display: flex;
+    background-color: #f0f2f5;
+    border-radius: 20px;
+    padding: 4px 4px 4px 12px;
+    align-items: center;
+}
+
+.input-with-button input {
+    border: none;
+    background: transparent;
+    outline: none;
+    padding: 6px 0;
+    font-size: 14px;
+    width: 100%;
+}
+
+.c-send-btn {
+    background-color: #1d9bf0;
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.c-send-btn:disabled {
+    background-color: #cfd9de;
+    cursor: default;
+}
+
+.c-send-btn:not(:disabled):hover {
+    transform: scale(1.1);
+    background-color: #1a8cd8;
+}
+
+.c-avatar-tiny {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    
+}
+
+/* Kommentek rész vége */

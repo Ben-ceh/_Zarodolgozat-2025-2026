@@ -1,35 +1,85 @@
-.kategoriak {
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-  padding: 10px 4px 16px 4px;
-  margin-bottom: 14px;
+/* Csoportválasztó konténer */
+.group-selector-container {
+    margin: 10px 0;
+    width: 100%;
 }
 
-/* görgetősáv eltüntetés */
-.kategoriak::-webkit-scrollbar {
-  display: none;
+.selector-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #536471;
+    margin-bottom: 8px;
 }
 
-.kat-chip {
-  border: none;
-  background: #eef1f4;
-  padding: 8px 16px;
-  border-radius: 999px;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.18s ease;
+/* Vízszintes görgetés a chipeknek */
+.group-chips-wrapper {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto; /* Engedélyezi a vízszintes görgetést */
+    flex-wrap: nowrap; /* Kényszeríti az egy sorba rendezést */
+    padding-bottom: 12px; /* Kell a hely a csúszkának, hogy ne takarja a szöveget */
+    
+    /* Visszahozzuk a görgetősávot Firefox-ban */
+    scrollbar-width: thin; 
+    scrollbar-color: #1d9bf0 #f0f3f5;
 }
 
-/* hover */
-.kat-chip:hover {
-  background: #dde3ea;
+.group-chips-wrapper::-webkit-scrollbar {
+    height: 6px; /* A csúszka magassága */
+    display: block; /* Biztosan látható legyen */
 }
 
-/* AKTÍV kategória */
-.kat-chip.active {
-  background: linear-gradient(135deg, #5865f2, #404eed);
-  color: white;
-  box-shadow: 0 4px 12px rgba(64,78,237,0.35);
+.group-chips-wrapper::-webkit-scrollbar-track {
+    background: #f0f3f5; /* A csúszka útja (világosszürke) */
+    border-radius: 10px;
+}
+
+.group-chips-wrapper::-webkit-scrollbar-thumb {
+    background: #1d9bf0; /* A húzható rész (kék) */
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.group-chips-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #1a8cd8; /* Sötétebb kék, ha ráviszed az egeret */
+}
+
+/* Egyedi Chip gombok stílusa (egységesítve) */
+.group-chip {
+    flex-shrink: 0; /* Ez akadályozza meg, hogy a gombok összenyomódjanak */
+    flex: 0 0 auto; /* Megakadályozza, hogy a gombok "összemenjenek" */
+    background: #f7f9f9;
+    border: 1px solid #dcf0ff;
+    color: #0f1419;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap; /* A szöveg se törjön több sorba a gombon belül */
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.group-chip:hover {
+    background: #e8f5fd;
+    border-color: #1d9bf0;
+}
+
+/* Aktív (kijelölt) állapot */
+.group-chip.active {
+    background: #1d9bf0;
+    color: white;
+    border-color: #1d9bf0;
+    box-shadow: 0 2px 8px rgba(29, 155, 240, 0.3);
+}
+
+.small-loader {
+    font-size: 12px;
+    color: #888;
+    font-style: italic;
 }

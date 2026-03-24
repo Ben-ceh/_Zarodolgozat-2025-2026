@@ -1,20 +1,29 @@
-.home {
-  display: flex;
-  justify-content: center;
-  padding: 24px;
+.user-home-bg {
+    background-color: #ffffff; /* Fehér háttér a Twitter-stílushoz */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
 }
 
-.feed-container {
-  width: 100%;
-  max-width: 720px; /* this matches most Figma feed designs */
+.user-feed-container {
+    width: 100%;
+    max-width: 680px; /* Ideális olvasási szélesség */
+    border-left: 1px solid #eff3f4;
+    border-right: 1px solid #eff3f4;
 }
 
-.feed-title {
-  text-align: center;
-  margin-bottom: 24px;
-  color: #4040ab;
+.user-feed-header {
+    padding: 16px;
+    position: sticky; /* Görgetésnél felül marad a cím */
+    top: 0;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    z-index: 10;
+    border-bottom: 1px solid #eff3f4;
 }
 
-.feed-container {
-  max-width: 680px;
+.user-feed-header h2 {
+    font-size: 20px;
+    font-weight: 800;
+    margin: 0;
 }

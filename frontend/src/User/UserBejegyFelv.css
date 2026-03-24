@@ -1,0 +1,130 @@
+/* Előnézet konténer */
+.cp-preview-container {
+    position: relative;
+    margin: 12px 0;
+    border-radius: 12px;
+    overflow: hidden;
+    max-height: 300px;
+    border: 1px solid #eff3f4;
+}
+
+.cp-preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Törlés gomb az előnézeten (X a sarokban) */
+.cp-remove-preview {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.cp-remove-preview:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+/* Feltöltés gomb stílusa */
+.cp-upload-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #1d9bf0;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 20px;
+    transition: background 0.2s;
+}
+
+.cp-upload-btn:hover {
+    background: #e8f5fd;
+}
+
+/* Post gomb ikonnal */
+.cp-submit-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #1d9bf0;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.cp-submit-btn:hover {
+    background: #1a8cd8;
+}
+
+/* Cím és Tartalom dizájn */
+
+/* Posztoló kártya alapja */
+.create-post-card {
+    background: #fff;
+    border: 1px solid #eff3f4;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+/* A CÍM beviteli mezője */
+.cp-title-input {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    color: #0f1419;
+}
+
+.cp-title-input::placeholder {
+    color: #536471;
+    font-weight: 700;
+}
+
+/* A TARTALOM szövegmezője */
+.cp-text-input {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    line-height: 1.5;
+    resize: none; /* Ne lehessen kézzel rángatni a sarkát */
+    min-height: 100px;
+    color: #0f1419;
+}
+
+/* Szelektorok (Kategória, Helyszín, Csoport) elrendezése */
+.cp-selectors {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #f7f9f9;
+}
+
+/* Helyszín specifikus stílus (hogy ne ütközzön a csoporttal) */
+.location-chip.active {
+    background: #00ba7c; /* Zöldes szín a helyszínnek, hogy elváljon a kék csoporttól */
+    color: white;
+    border-color: #00ba7c;
+}

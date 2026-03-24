@@ -1,64 +1,64 @@
+import { useState, useEffect } from "react";
+import Cim from "../Cim";
+import { MapPin, Check } from "lucide-react";
 
-import { useState,useEffect } from "react"
-import Cim from "../Cim"
+const UserLenyiloHelyszin = ({ kivalasztott }) => {
+    const [adatok, setAdatok] = useState([]);
+    const [tolt, setTolt] = useState(true);
+    const [hiba, setHiba] = useState(false);
+    const [aktivId, setAktivId] = useState(null);
 
-const UserLenyiloHelyszin=({kivalasztott})=>{
-    const [adatok,setAdatok]=useState([])
-    const [tolt,setTolt]=useState(true)
-    const [hiba,setHiba]=useState(false)
-    
-
-    
-
-    useEffect(()=>{
-        const leToltes=async ()=>{
-        try{
-            const response=await fetch(Cim.Cim+"/helyszin/")
-            const data=await response.json()
-            // alert(JSON.stringify(data))
-            
-            if (response.ok)
-                {
-                    setAdatok(data)
-                    setTolt(false)}
-            else 
-                {
-                    setHiba(true)
-                    setTolt(false)
+    useEffect(() => {
+        const leToltes = async () => {
+            try {
+                const response = await fetch(Cim.Cim + "/helyszin/");
+                const data = await response.json();
+                
+                if (response.ok) {
+                    setAdatok(data);
+                    if (data.length > 0) {
+                        setAktivId(data[0].telepules_id);
+                        kivalasztott(data[0].telepules_id);
+                    }
+                    setTolt(false);
+                } else {
+                    setHiba(true);
+                    setTolt(false);
                 }
+            } catch (error) {
+                setHiba(true);
             }
-        catch (error){
-            console.log(error)
-            setHiba(true)
-        }
-        
-    }
+        };
+        leToltes();
+    }, []);
 
-        leToltes()
-    },[])
+    const valasztas = (id) => {
+        setAktivId(id);
+        kivalasztott(id);
+    };
 
-    if (tolt)
-        return (
-            <div style={{textAlign:"center"}}>Adatok betöltése folyamatban...</div>
-                )
-    else if (hiba)
-        return (
-            <div>Hiba</div>
-                )       
-    
-    else return (
-        <div>
-            <select 
-            className="form-select mb-2" 
-            
-            
-            
-            onChange={(e)=>  kivalasztott(e.target.value)      }>
-                {adatok.map((elem,index)=>(
-                    <option key={index} value={elem.telepules_id}> {elem.telepules_nev} </option>
+    if (tolt) return <div className="small-loader">Helyszínek betöltése...</div>;
+
+    return (
+        <div className="group-selector-container">
+            <label className="selector-label">
+                <MapPin size={14} /> Hol történt?
+            </label>
+            <div className="group-chips-wrapper">
+                {adatok.map((elem) => (
+                    <button
+                        key={elem.telepules_id}
+                        type="button"
+                        className={`group-chip location-chip ${aktivId === elem.telepules_id ? 'active' : ''}`}
+                        onClick={() => valasztas(elem.telepules_id)}
+                    >
+                        {aktivId === elem.telepules_id && <Check size={14} className="me-1" />}
+                        {elem.telepules_nev}
+                    </button>
                 ))}
-            </select>
+            </div>
         </div>
-    )
-}
-export default UserLenyiloHelyszin
+    );
+};
+
+export default UserLenyiloHelyszin;

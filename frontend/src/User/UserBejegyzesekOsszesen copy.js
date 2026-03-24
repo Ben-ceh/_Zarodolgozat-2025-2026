@@ -3,8 +3,8 @@ import Cim from "../Cim";
 import "./Userfeed.css"; 
 import Swal from "sweetalert2";
 import UserLenyiloKategoria from "./UserLenyiloKategoria";
-import UserBejegyFelv from "./UserBejegyFelv"; 
-import { MessageCircle, MapPin, Tag, Users, Send } from "lucide-react";
+import UserBejegyFelv from "./UserBejegyFelv"; // Importáltam a posztolót
+import { MessageCircle, MapPin, Tag, Users } from "lucide-react";
 
 const UserBejegyzesekOsszesen = ({ userid, belepUserid }) => {
   const [adatok, setAdatok] = useState([]);
@@ -17,9 +17,8 @@ const UserBejegyzesekOsszesen = ({ userid, belepUserid }) => {
   const [commentInputs, setCommentInputs] = useState({});
   const [kivalasztott, setKivalasztott] = useState(0);
 
-  // --- IDŐ FORMÁZÁSOK ---
+  // --- LOGIKA MEGMARADT ---
   const formatRelativeTime = (iso) => {
-    if (!iso) return "";
     const now = new Date();
     const date = new Date(iso);
     const diff = (now - date) / 1000;
@@ -27,17 +26,6 @@ const UserBejegyzesekOsszesen = ({ userid, belepUserid }) => {
     if (diff < 3600) return `${Math.floor(diff / 60)}p`;
     if (diff < 86400) return `${Math.floor(diff / 3600)}ó`;
     return `${Math.floor(diff / 86400)}n`;
-  };
-
-  // HIÁNYZÓ FÜGGVÉNY 1: Pontos dátum hover (föléhúzás) esetére
-  const formatExactDate = (iso) => {
-    if (!iso) return "";
-    return new Date(iso).toLocaleString("hu-HU");
-  };
-
-  // HIÁNYZÓ FÜGGVÉNY 2: A komment gépelésének kezelése
-  const onCommentInputChange = (bejegyId, value) => {
-    setCommentInputs(prev => ({ ...prev, [bejegyId]: value }));
   };
 
   const betoltes = async () => {
@@ -102,7 +90,7 @@ const UserBejegyzesekOsszesen = ({ userid, belepUserid }) => {
       <UserBejegyFelv onSuccess={betoltes} />
 
       <div className="feed-divider-title">
-        <h3>Bejegyzések:</h3>
+        <h3>Csoportjaim bejegyzései</h3>
         <UserLenyiloKategoria kivalasztott={setKivalasztott} />
       </div>
 
@@ -111,7 +99,6 @@ const UserBejegyzesekOsszesen = ({ userid, belepUserid }) => {
         <div key={elem.bejegyzesek_id} className="post-card">
           <div className="post-layout">
             <div className="post-avatar-col">
-              {/* JAVÍTVA: A profilkép a 'kepek', az alap avatar a 'kepekFelhasznalo' mappából jön */}
               <img 
                 src={elem.profil_kep ? `${Cim.Cim}/kepek/${elem.profil_kep}` : `${Cim.Cim}/kepekFelhasznalo/${elem.neme === 1 ? 'M.jpg' : 'F.jpg'}`} 
                 className="post-avatar" alt="avatar" 
@@ -152,70 +139,28 @@ const UserBejegyzesekOsszesen = ({ userid, belepUserid }) => {
 
               {/* Kommentek rész */}
               {expanded2[index] && (
-              <div className="comment-section-wrapper">
-                <div className="comment-list">
-                  {loadingKomment[elem.bejegyzesek_id] ? (
-                    <div className="comment-loading">
-                      <div className="spinner-border spinner-border-sm text-primary" role="status"></div>
-                      <span> Kommentek ébredése...</span>
-                    </div>
-                  ) : (
-                    /* JAVÍTVA: Ellenőrizzük, hogy tömböt kaptunk-e. Ha nem, kiírjuk, hogy nincs komment. */
-                    Array.isArray(kommentek[elem.bejegyzesek_id]) && kommentek[elem.bejegyzesek_id].length > 0 ? (
-                      kommentek[elem.bejegyzesek_id].map((k, i) => (
-                        <div key={i} className="comment-item">
-                          {/* JAVÍTVA: Kommentelő profilképének útvonala */}
-                          <img
-                            className="c-avatar-small"
-                            src={k.profil_kep 
-                              ? `${Cim.Cim}/kepek/${k.profil_kep}` 
-                              : `${Cim.Cim}/kepekFelhasznalo/${k.neme === 1 ? 'M.jpg' : 'F.jpg'}`}
-                            alt=""
-                          />
-                          <div className="comment-bubble">
-                            <div className="c-user-name">{k.felhasznalonev}</div>
-                            <div className="c-text">{k.hozzaszolas_szoveg}</div>
-                            <div className="c-time" title={formatExactDate(k.letrehozva)}>
-                              {formatRelativeTime(k.letrehozva)}
-                            </div>
-                          </div>
-                        </div>
-                      ))
-                    ) : (
-                      <div className="text-center text-muted small py-2">
-                        Még nincs hozzászólás. Legyél te az első!
-                      </div>
-                    )
-                  )}
+                <div className="comment-section">
+                   {loadingKomment[elem.bejegyzesek_id] ? "Betöltés..." : (
+                     kommentek[elem.bejegyzesek_id]?.map((k, i) => (
+                       <div key={i} className="comment-item">
+                         <img src={k.profil_kep ? `${Cim.Cim}/kepekFelhasznalo/${k.profil_kep}` : `${Cim.Cim}/kepekFelhasznalo/${k.neme === 1 ? 'M.jpg' : 'F.jpg'}`} className="c-avatar" alt="" />
+                         <div className="c-body">
+                            <strong>{k.felhasznalonev}</strong>
+                            <p>{k.hozzaszolas_szoveg}</p>
+                         </div>
+                       </div>
+                     ))
+                   )}
+                   <div className="c-input-wrapper">
+                      <input 
+                        placeholder="Írj egy kommentet..." 
+                        value={commentInputs[elem.bejegyzesek_id] || ""}
+                        onChange={(e) => setCommentInputs(p => ({...p, [elem.bejegyzesek_id]: e.target.value}))}
+                      />
+                      <button onClick={() => submitComment(elem.bejegyzesek_id)}>Küldés</button>
+                   </div>
                 </div>
-
-                {/* Modern beviteli mező */}
-                <div className="comment-input-container">
-                  <img 
-                    className="c-avatar-tiny" 
-                    src={elem.profil_kep ? `${Cim.Cim}/kepek/${elem.profil_kep}` : `${Cim.Cim}/kepekFelhasznalo/${elem.neme === 1 ? 'M.jpg' : 'F.jpg'}`} 
-                    alt="" 
-                  />
-                  <div className="input-with-button">
-                    <input
-                      type="text"
-                      placeholder="Írj egy hozzászólást..."
-                      value={commentInputs[elem.bejegyzesek_id] || ""}
-                      onChange={(e) => onCommentInputChange(elem.bejegyzesek_id, e.target.value)}
-                      onKeyDown={(e) => e.key === 'Enter' && submitComment(elem.bejegyzesek_id)}
-                    />
-                    <button 
-                      className="c-send-btn" 
-                      onClick={() => submitComment(elem.bejegyzesek_id)}
-                      disabled={!(commentInputs[elem.bejegyzesek_id] || "").trim()}
-                    >
-                      <Send size={16} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-            {/* Kommentek rész vége */}
+              )}
             </div>
           </div>
         </div>

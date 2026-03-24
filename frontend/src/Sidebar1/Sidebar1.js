@@ -1,60 +1,70 @@
-import { Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { useNavigate } from 'react-router-dom';
-import "../App.css";
+import React from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Home, PlusCircle, Users, User, Settings, LogOut, LogIn } from "lucide-react";
+import "./Sidebar1.css"; // Győződj meg róla, hogy az elérési út jó!
+
 const Sidebar1 = () => {
-const navigate = useNavigate();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const token = localStorage.getItem("token");
-  const role = localStorage.getItem("role");
   const loggedIn = !!token;
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
-    navigate("/FoOldal");
+    navigate("/login");
   };
 
+  const NAV_ITEMS = [
+    { icon: Home, label: "Főoldal", href: "/" },
+   
+   
+    
+    { icon: Settings, label: "Beállítások", href: "/beallitasok" },
+  ];
+
   return (
-    <div className="sidebar">
-      <h5 className="mb-4">Okos Közösség</h5>
+    <div className="sidebar-container">
+      {/* Logo Szekció */}
+      <Link to="/" className="sidebar-logo-section">
+        <div className="logo-circle">
+          <span className="logo-text-icon">O</span>
+        </div>
+        <span className="logo-title">Okos Közösség</span>
+      </Link>
 
-      <ul className="list-unstyled">
-        <li>
-          <Link to="/FoOldal" className="sidebar-link">🏠 Főoldal</Link>
-        </li>
-        
-        {/* <li>
-          <Link to="/login" className="sidebar-link">➕ Új bejegyzés</Link>
-        </li> */}
-        <li style={{textAlign:"center"}}><b>-</b></li>
-        {/* <li>
-          <Link to="/login" className="sidebar-link">👥 Csoportjaim</Link>
-        </li>
-        <li>
-          <Link to="/login" className="sidebar-link">👤 Profilom</Link>
-        </li> */}
-        
-        <li>
-          <Link to="/beallitasok" className="sidebar-link">⚙ Beállítások</Link>
-        </li>
+      {/* Navigáció */}
+      <nav className="sidebar-nav">
+        {NAV_ITEMS.map((item) => {
+          const isActive = location.pathname === item.href;
+          return (
+            <Link
+              key={item.href}
+              to={item.href}
+              className={`sidebar-item ${isActive ? "active" : ""}`}
+            >
+              <item.icon className="sidebar-icon" />
+              <span>{item.label}</span>
+            </Link>
+          );
+        })}
+      </nav>
 
+      {/* Footer / Auth */}
+      <div className="sidebar-footer">
         {loggedIn ? (
-          <li>
-          <button className="logoutButton" onClick={handleLogout}>
-          🚪 Kijelentkezés
+          <button onClick={handleLogout} className="auth-button logout-style">
+            <LogOut className="sidebar-icon" />
+            <span>Kijelentkezés</span>
           </button>
-          </li>
-        
-          
         ) : (
-          <li>
-          <Link to="/login" className="loginButton">
-          🚪 Bejelentkezés
+          <Link to="/login" className="auth-button login-style">
+            <LogIn className="sidebar-icon" />
+            <span>Bejelentkezés</span>
           </Link>
-          </li>
         )}
-      </ul>
+      </div>
     </div>
   );
 };
