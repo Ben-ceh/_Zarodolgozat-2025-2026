@@ -187,12 +187,10 @@ app.get('/bejegyEsFelh', (req, res) => {
         })
 })
 app.post('/bejegyEsFelhKategoria', (req, res) => {
-        const {kategoria_id,felhasznalo_id} =req.body
+        const {kategoria_id} =req.body
         const sql=`
                 SELECT 
-        *,
-    (SELECT COUNT(*) FROM reakciok WHERE bejegyzes_id = bejegyzesek.bejegyzesek_id) as like_count,
-    (SELECT COUNT(*) FROM reakciok WHERE bejegyzes_id = bejegyzesek.bejegyzesek_id AND felhasznalo_id = ?) as user_liked
+        *
         from bejegyzesek 
         inner JOIN felhasznalok 
         on bejegyzesek.felhasznalo_id = felhasznalok.felhasznalok_id
@@ -204,9 +202,14 @@ app.post('/bejegyEsFelhKategoria', (req, res) => {
         Where bejegyzesek.csoport_id = 1 and kategoria_id = ?
         ORDER BY bejegyzesek.letrehozva DESC;
                 `
-        pool.query(sql,[felhasznalo_id,kategoria_id  ], (err, result) => {
-        if (err) return res.status(500).json(err);
-        res.status(200).json(result);
+        pool.query(sql,[kategoria_id], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json({error:"Hiba"})
+        }
+        
+
+        return res.status(200).json(result)
         })
 })
 //Komment Keres Bejegyzes Id Alapjan
@@ -417,7 +420,7 @@ WHERE csoportok.csoport_id IN (
 )
 ORDER BY letrehozva DESC;
                 `
-        pool.query(sql,[user_id,user_id], (err, result) => {
+        pool.query(sql,[user_id], (err, result) => {
         if (err) {
             console.log(err)
             return res.status(500).json({error:"Hiba"})

@@ -17,7 +17,7 @@ const UserBejegyzesekOsszesen = ({ userid, belepUserid }) => {
   const [commentInputs, setCommentInputs] = useState({});
   const [kivalasztott, setKivalasztott] = useState(0);
   const [userLikes, setUserLikes] = useState({}); // { bejegy_id: true/false }
-  // alert(belepUserid)
+  alert(belepUserid)
   // --- IDŐ FORMÁZÁSOK ---
   const formatRelativeTime = (iso) => {
     if (!iso) return "";
@@ -43,39 +43,21 @@ const UserBejegyzesekOsszesen = ({ userid, belepUserid }) => {
 
   const betoltes = async () => {
     try {
-        setTolt(true);
-        const url = kivalasztott === 0 
-            ? `${Cim.Cim}/csoportjaimBejegyzesei/${belepUserid}` 
-            : `${Cim.Cim}/bejegyEsFelhKategoria`;
+      const url = kivalasztott === 0 
+        ? `${Cim.Cim}/csoportjaimBejegyzesei/${belepUserid}` 
+        : `${Cim.Cim}/bejegyEsFelhKategoria`;
       
-        const options = kivalasztott === 0 ? {} : {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            // JAVÍTVA: Itt is a belepUserid-t küldjük a konzisztencia miatt
-            body: JSON.stringify({ "kategoria_id": kivalasztott, "felhasznalo_id": belepUserid }),
-        };
+      const options = kivalasztott === 0 ? {} : {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ "kategoria_id": kivalasztott,"felhasznalok_id":userid }),
+      };
 
-        const response = await fetch(url, options);
-        const data = await response.json();
-        
-        if (response.ok) { 
-            setAdatok(data); 
-
-            // --- LÁJKOK SZÍNEZÉSE BETÖLTÉSKOR ---
-            const initialLikes = {};
-            data.forEach(poszt => {
-                // Ha a user_liked értéke 1, akkor true (piros szív)
-                initialLikes[poszt.bejegyzesek_id] = poszt.user_liked > 0;
-            });
-            setUserLikes(initialLikes);
-            
-            setTolt(false); 
-        }
-    } catch (error) { 
-        setHiba(true); 
-        setTolt(false); 
-    }
-};
+      const response = await fetch(url, options);
+      const data = await response.json();
+      if (response.ok) { setAdatok(data); setTolt(false); }
+    } catch (error) { setHiba(true); setTolt(false); }
+  };
 
   useEffect(() => { betoltes(); }, [kivalasztott, userid]);
 
