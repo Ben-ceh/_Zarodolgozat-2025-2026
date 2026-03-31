@@ -190,9 +190,7 @@ app.post('/bejegyEsFelhKategoria', (req, res) => {
         const {kategoria_id,felhasznalo_id} =req.body
         const sql=`
                 SELECT 
-        *,
-    (SELECT COUNT(*) FROM reakciok WHERE bejegyzes_id = bejegyzesek.bejegyzesek_id) as like_count,
-    (SELECT COUNT(*) FROM reakciok WHERE bejegyzes_id = bejegyzesek.bejegyzesek_id AND felhasznalo_id = ?) as user_liked
+        *
         from bejegyzesek 
         inner JOIN felhasznalok 
         on bejegyzesek.felhasznalo_id = felhasznalok.felhasznalok_id
@@ -399,8 +397,7 @@ app.get('/csoportjaimBejegyzesei/:user_id', (req, res) => {
         
         const sql=`
             SELECT 
-        *,(SELECT COUNT(*) FROM reakciok WHERE bejegyzes_id = b.bejegyzesek_id) as like_count,
-    (SELECT COUNT(*) FROM reakciok WHERE bejegyzes_id = b.bejegyzesek_id AND felhasznalo_id = ?) as user_liked
+        *
         from bejegyzesek 
         inner JOIN felhasznalok 
         on bejegyzesek.felhasznalo_id = felhasznalok.felhasznalok_id

@@ -52,7 +52,7 @@ const UserBejegyzesekOsszesen = ({ userid, belepUserid }) => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             // JAVÍTVA: Itt is a belepUserid-t küldjük a konzisztencia miatt
-            body: JSON.stringify({ "kategoria_id": kivalasztott, "felhasznalo_id": belepUserid }),
+            body: JSON.stringify({ "kategoria_id": kivalasztott}),
         };
 
         const response = await fetch(url, options);
