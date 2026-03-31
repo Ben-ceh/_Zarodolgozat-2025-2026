@@ -6,7 +6,7 @@ Az **Okos Közösség** egy közösségi információmegosztó webalkalmazás, a
 
 A rendszer lehetőséget biztosít arra, hogy a felhasználók különböző témákban posztokat hozzanak létre, amelyekre más felhasználók reagálhatnak vagy kommenteket írhatnak. A platform nem privát üzenetküldésre épül, hanem nyilvános közösségi kommunikációra, ahol az információk mindenki számára elérhetőek.
 
-A weboldal célja, hogy segítse az embereket a helyi vagy aktuális események gyors megosztásában. Például egy felhasználó jelezheti, ha egy utcát baleset miatt lezártak, ha valamilyen esemény történik a városban, vagy ha egy adott helyen fontos információval szeretné ellátni a közösséget.
+A weboldal célja, hogy segítse az embereket a helyi vagy aktuális események gyors megosztásában. {Például egy felhasználó jelezheti, ha egy utcát baleset miatt lezártak, ha valamilyen esemény történik a városban, vagy ha egy adott helyen fontos információval szeretné ellátni a közösséget.} 
 
 # Készítők
 
@@ -106,7 +106,14 @@ Feladata:
 * adatok lekérése a backendről
 * felhasználói interakciók kezelése
 
+![Csoportjaim bejegyzései](kep/userMenu.png)
 
+![Csoportjaim bejegyzései](kep/posztKeszitese.png)
+
+![Csoportjaim bejegyzései](kep/profilom.png)
+
+![Csoportjaim bejegyzései](kep/bejegyzes.png)
+ 
 ### Backend
 
 A backend Node.js és Express segítségével készült.
@@ -118,7 +125,7 @@ Feladata:
 * autentikáció
 * adatellenőrzés
 
-![Csoportjaim bejegyzései](kep/okoskozossegCsoportjaimBejegyzesei.png)
+
 
 ---
 
