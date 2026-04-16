@@ -137,10 +137,10 @@ A rendszer támogatja a közösségi kommunikációt, a helyi információk gyor
 
 **Az Okos Közösség webalkalmazás a saját szellemi termékünk, amely a projektmunka keretében, önálló tervezéssel és megvalósítással készült.**
 
-## Repository klónozása
+## Repository klónozása és Netlify
 
 ```bash
 git clone https://github.com/Ben-ceh/_Zarodolgozat-2025-2026.git
 
-```bash
+
 https://okoskozosseg.netlify.app/
