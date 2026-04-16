@@ -141,3 +141,6 @@ A rendszer támogatja a közösségi kommunikációt, a helyi információk gyor
 
 ```bash
 git clone https://github.com/Ben-ceh/_Zarodolgozat-2025-2026.git
+
+```bash
+https://okoskozosseg.netlify.app/
