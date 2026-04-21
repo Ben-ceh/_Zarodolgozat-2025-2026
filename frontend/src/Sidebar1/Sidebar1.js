@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Home, PlusCircle, Users, User, Settings, LogOut, LogIn } from "lucide-react";
-import "./Sidebar1.css"; // Győződj meg róla, hogy az elérési út jó!
+import { Home, LogOut, LogIn } from "lucide-react";
+import "./Sidebar1.css";
 
 const Sidebar1 = () => {
   const navigate = useNavigate();
@@ -16,17 +16,13 @@ const Sidebar1 = () => {
     navigate("/login");
   };
 
+  // Csak a Főoldal maradt meg
   const NAV_ITEMS = [
     { icon: Home, label: "Főoldal", href: "/" },
-   
-   
-    
-    { icon: Settings, label: "Beállítások", href: "/beallitasok" },
   ];
 
   return (
     <div className="sidebar-container">
-      {/* Logo Szekció */}
       <Link to="/" className="sidebar-logo-section">
         <div className="logo-circle">
           <span className="logo-text-icon">O</span>
@@ -34,7 +30,6 @@ const Sidebar1 = () => {
         <span className="logo-title">Okos Közösség</span>
       </Link>
 
-      {/* Navigáció */}
       <nav className="sidebar-nav">
         {NAV_ITEMS.map((item) => {
           const isActive = location.pathname === item.href;
@@ -51,7 +46,6 @@ const Sidebar1 = () => {
         })}
       </nav>
 
-      {/* Footer / Auth */}
       <div className="sidebar-footer">
         {loggedIn ? (
           <button onClick={handleLogout} className="auth-button logout-style">

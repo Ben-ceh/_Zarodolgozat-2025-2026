@@ -14,8 +14,8 @@ const UserBejegyzesekOsszesen = ({ userid, belepUserid }) => {
   const [kommentek, setKommentek] = useState({});
   const [loadingKomment, setLoadingKomment] = useState({});
   const [commentInputs, setCommentInputs] = useState({});
-  const [userLikes, setUserLikes] = useState({}); // { bejegy_id: true/false }
-  const [likeCounts, setLikeCounts] = useState({}); // { bejegy_id: szám }
+  const [kivalasztott, setKivalasztott] = useState(0); // Megtartva, ha később mégis kellene szűrésre
+  const [userLikes, setUserLikes] = useState({}); // Formátum: { bejegy_id: true/false }
 
   // --- IDŐ FORMÁZÁSOK ---
   const formatRelativeTime = (iso) => {
@@ -38,46 +38,36 @@ const UserBejegyzesekOsszesen = ({ userid, belepUserid }) => {
     setCommentInputs(prev => ({ ...prev, [bejegyId]: value }));
   };
 
-  // --- ADATOK, LÁJKOK ÉS SZÁMLÁLÓK BETÖLTÉSE ---
+  // --- ADATOK ÉS LÁJKOK BETÖLTÉSE (KÜLÖN) ---
   const betoltes = async () => {
     try {
       setTolt(true);
       
       // 1. Posztok lekérése
-      const posztRes = await fetch(`${Cim.Cim}/csoportjaimBejegyzesei/${belepUserid}`);
+      const posztUrl = `${Cim.Cim}/csoportjaimBejegyzesei/${belepUserid}`;
+      const posztRes = await fetch(posztUrl);
       const posztData = await posztRes.json();
 
-      // 2. Saját lájkok lekérése
+      // 2. Saját lájkok lekérése (külön végpontról)
       const likeRes = await fetch(`${Cim.Cim}/sajatLikeok/${belepUserid}`);
-      const likedIds = await likeRes.json();
-
-      // 3. Összes lájkszám lekérése (külön végpontról)
-      const countRes = await fetch(`${Cim.Cim}/likeSzamlalok`);
-      const countsData = await countRes.json(); // [{bejegyzes_id: 1, like_db: 5}, ...]
+      const likedIds = await likeRes.json(); // Elvárás: [12, 45, 67] típusú tömb
 
       if (posztRes.ok) {
         setAdatok(posztData);
 
-        // Saját lájkok map-elése
+        // Lájk állapotok beállítása a kapott ID-k alapján
         const likeMap = {};
         if (Array.isArray(likedIds)) {
-          likedIds.forEach(id => { likeMap[id] = true; });
-        }
-        setUserLikes(likeMap);
-
-        // Lájkszámlálók map-elése
-        const countsMap = {};
-        if (Array.isArray(countsData)) {
-          countsData.forEach(item => {
-            countsMap[item.bejegyzes_id] = item.like_db;
+          likedIds.forEach(id => {
+            likeMap[id] = true;
           });
         }
-        setLikeCounts(countsMap);
+        setUserLikes(likeMap);
         
         setTolt(false);
       }
     } catch (error) {
-      console.error("Hiba:", error);
+      console.error("Hiba a betöltés során:", error);
       setHiba(true);
       setTolt(false);
     }
@@ -85,7 +75,7 @@ const UserBejegyzesekOsszesen = ({ userid, belepUserid }) => {
 
   useEffect(() => { 
     betoltes(); 
-  }, [belepUserid]);
+  }, [belepUserid]); // Frissítés, ha a user változik
 
   const kommentBetoltes = async (index, bejegyId) => {
     setExpanded2(prev => ({ ...prev, [index]: !prev[index] }));
@@ -121,16 +111,14 @@ const UserBejegyzesekOsszesen = ({ userid, belepUserid }) => {
     }
   };
 
-  // --- LÁJK KEZELÉSE + SZÁMLÁLÓ FRISSÍTÉSE ---
+  // --- LÁJK KEZELÉSE ---
   const handleLike = async (bejegyId) => {
     const isCurrentlyLiked = !!userLikes[bejegyId];
-    const currentCount = likeCounts[bejegyId] || 0;
 
-    // UI frissítése azonnal (Optimistic update)
-    setUserLikes(prev => ({ ...prev, [bejegyId]: !isCurrentlyLiked }));
-    setLikeCounts(prev => ({
+    // Azonnali UI frissítés (Optimistic update)
+    setUserLikes(prev => ({
       ...prev,
-      [bejegyId]: isCurrentlyLiked ? Math.max(0, currentCount - 1) : currentCount + 1
+      [bejegyId]: !isCurrentlyLiked
     }));
 
     try {
@@ -140,24 +128,26 @@ const UserBejegyzesekOsszesen = ({ userid, belepUserid }) => {
         body: JSON.stringify({
           bejegyzes_id: bejegyId,
           felhasznalo_id: belepUserid,
-          reakcio: 1
+          reakcio: 1 // A te rendszeredben ez a lájk
         }),
       });
 
       if (!res.ok) {
-        // Hiba esetén visszavonjuk a UI változást
-        setUserLikes(prev => ({ ...prev, [bejegyId]: isCurrentlyLiked }));
-        setLikeCounts(prev => ({ ...prev, [bejegyId]: currentCount }));
-        Swal.fire("Hiba", "Nem sikerült menteni a lájkot", "error");
+        // Ha hiba történt a szerveren, visszacsináljuk a szívecskét
+        setUserLikes(prev => ({
+          ...prev,
+          [bejegyId]: isCurrentlyLiked
+        }));
+        Swal.fire("Hiba", "Nem sikerült a művelet", "error");
       }
     } catch (error) {
+      console.error("Lájk hiba:", error);
       setUserLikes(prev => ({ ...prev, [bejegyId]: isCurrentlyLiked }));
-      setLikeCounts(prev => ({ ...prev, [bejegyId]: currentCount }));
     }
   };
 
   if (tolt) return <div className="text-center p-5">Betöltés...</div>;
-  if (hiba) return <div className="text-center p-5 text-danger">Hiba az adatok betöltésekor.</div>;
+  if (hiba) return <div className="text-center p-5 text-danger">Hiba történt az adatok betöltésekor.</div>;
 
   return (
     <div className="user-feed-wrapper">
@@ -208,7 +198,6 @@ const UserBejegyzesekOsszesen = ({ userid, belepUserid }) => {
                 </div>
               
                 <div className="post-actions-wrapper">
-                  {/* LÁJK GOMB SZÁMLÁLÓVAL */}
                   <button 
                       className={`action-btn like-btn ${userLikes[elem.bejegyzesek_id] ? 'active' : ''}`} 
                       onClick={() => handleLike(elem.bejegyzesek_id)}
@@ -218,8 +207,7 @@ const UserBejegyzesekOsszesen = ({ userid, belepUserid }) => {
                           fill={userLikes[elem.bejegyzesek_id] ? "#f91880" : "none"} 
                           color={userLikes[elem.bejegyzesek_id] ? "#f91880" : "currentColor"}
                       />
-                      {/* Itt jelenik meg a szám */}
-                      <span>{likeCounts[elem.bejegyzesek_id] || 0} Kedvelés</span>
+                      <span>{userLikes[elem.bejegyzesek_id] ? "Tetszik" : "Tetszik"}</span>
                   </button>
 
                   <button className="action-btn comment-trigger" onClick={() => kommentBetoltes(index, elem.bejegyzesek_id)}>
@@ -229,33 +217,59 @@ const UserBejegyzesekOsszesen = ({ userid, belepUserid }) => {
                 </div>
               </div>
 
-              {/* Komment szekció ugyanaz maradt... */}
               {expanded2[index] && (
                 <div className="comment-section-wrapper">
                   <div className="comment-list">
                     {loadingKomment[elem.bejegyzesek_id] ? (
-                      <div className="comment-loading">Betöltés...</div>
+                      <div className="comment-loading">
+                        <div className="spinner-border spinner-border-sm text-primary" role="status"></div>
+                        <span> Kommentek betöltése...</span>
+                      </div>
                     ) : (
-                      Array.isArray(kommentek[elem.bejegyzesek_id]) && kommentek[elem.bejegyzesek_id].map((k, i) => (
-                        <div key={i} className="comment-item">
-                          <img className="c-avatar-small" src={k.profil_kep ? `${Cim.Cim}/kepek/${k.profil_kep}` : `${Cim.Cim}/kepekFelhasznalo/${k.neme === 1 ? 'M.jpg' : 'F.jpg'}`} alt="" />
-                          <div className="comment-bubble">
-                            <div className="c-user-name">{k.felhasznalonev}</div>
-                            <div className="c-text">{k.hozzaszolas_szoveg}</div>
+                      Array.isArray(kommentek[elem.bejegyzesek_id]) && kommentek[elem.bejegyzesek_id].length > 0 ? (
+                        kommentek[elem.bejegyzesek_id].map((k, i) => (
+                          <div key={i} className="comment-item">
+                            <img
+                              className="c-avatar-small"
+                              src={k.profil_kep 
+                                ? `${Cim.Cim}/kepek/${k.profil_kep}` 
+                                : `${Cim.Cim}/kepekFelhasznalo/${k.neme === 1 ? 'M.jpg' : 'F.jpg'}`}
+                              alt=""
+                            />
+                            <div className="comment-bubble">
+                              <div className="c-user-name">{k.felhasznalonev}</div>
+                              <div className="c-text">{k.hozzaszolas_szoveg}</div>
+                              <div className="c-time" title={formatExactDate(k.letrehozva)}>
+                                {formatRelativeTime(k.letrehozva)}
+                              </div>
+                            </div>
                           </div>
+                        ))
+                      ) : (
+                        <div className="text-center text-muted small py-2">
+                          Még nincs hozzászólás.
                         </div>
-                      ))
+                      )
                     )}
                   </div>
+
                   <div className="comment-input-container">
-                    <input
-                      type="text"
-                      placeholder="Írj egy hozzászólást..."
-                      value={commentInputs[elem.bejegyzesek_id] || ""}
-                      onChange={(e) => onCommentInputChange(elem.bejegyzesek_id, e.target.value)}
-                      onKeyDown={(e) => e.key === 'Enter' && submitComment(elem.bejegyzesek_id)}
-                    />
-                    <button className="c-send-btn" onClick={() => submitComment(elem.bejegyzesek_id)}><Send size={16} /></button>
+                    <div className="input-with-button">
+                      <input
+                        type="text"
+                        placeholder="Írj egy hozzászólást..."
+                        value={commentInputs[elem.bejegyzesek_id] || ""}
+                        onChange={(e) => onCommentInputChange(elem.bejegyzesek_id, e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && submitComment(elem.bejegyzesek_id)}
+                      />
+                      <button 
+                        className="c-send-btn" 
+                        onClick={() => submitComment(elem.bejegyzesek_id)}
+                        disabled={!(commentInputs[elem.bejegyzesek_id] || "").trim()}
+                      >
+                        <Send size={16} />
+                      </button>
+                    </div>
                   </div>
                 </div>
               )}

@@ -17,7 +17,7 @@ const Sidebar = () => {
   };
 
   const NAV_ITEMS = [
-    { icon: Home, label: "Főoldal", href: "/" },
+    { icon: Home, label: "Főoldal", href: "/FoOldal" },
     { icon: PlusCircle, label: "Új bejegyzés", href: "/UserBejegyFelv" },
     { icon: Users, label: "Csoportjaim", href: "/csoportjaim" },
     { icon: User, label: "Profilom", href: "/profil" },
@@ -27,7 +27,7 @@ const Sidebar = () => {
   return (
     <div className="sidebar-container">
       {/* Logo Szekció */}
-      <Link to="/" className="sidebar-logo-section">
+      <Link to="/FoOldal" className="sidebar-logo-section">
         <div className="logo-circle">
           <span className="logo-text-icon">O</span>
         </div>

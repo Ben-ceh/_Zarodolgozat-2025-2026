@@ -182,7 +182,7 @@ function App() {
           <Route 
             path="/Profil"
             element={
-              <ProtectedRoute role="user" >
+              <ProtectedRoute role="user">
                 <MainLayout>
                 <Profil />
                 </MainLayout>

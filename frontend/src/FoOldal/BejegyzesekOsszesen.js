@@ -1,4 +1,3 @@
-// BejegyzesekOsszesen.jsx
 import { useState, useEffect } from "react";
 import Cim from "../Cim";
 import "../App.css";
@@ -6,7 +5,8 @@ import "./feed.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Swal from "sweetalert2";
 import LenyiloKategoria from "./LenyiloKategoria";
-import UserBejegyFelv from "../User/UserBejegyFelv";
+// Ikonok importálása az új dizájnhoz
+import { MessageCircle, MapPin, Tag, Users, Send } from "lucide-react";
 
 const BejegyzesekOsszesen = () => {
   const [adatok, setAdatok] = useState([]);
@@ -19,8 +19,7 @@ const BejegyzesekOsszesen = () => {
   const [commentInputs, setCommentInputs] = useState({});
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedGroup, setSelectedGroup] = useState("all");
-  const [kivalasztott,setKivalasztott]=useState(0)
-
+  const [kivalasztott, setKivalasztott] = useState(0);
 
   const formatRelativeTime = (iso) => {
     const now = new Date();
@@ -47,85 +46,52 @@ const BejegyzesekOsszesen = () => {
 
   useEffect(() => {
     const leToltes = async () => {
-// console.log("Összes adat:", adatok.length);
-//       console.log("kivalasztott:"+ kivalasztott)
-//       console.log("selectedcategory:"+ selectedCategory)
-
-      if(kivalasztott==0){
-try {
-        const response = await fetch(Cim.Cim + "/bejegyEsFelh");
-        const data = await response.json();
-        if (response.ok) {
-          
-          
-          setAdatok(data);
-          setTolt(false);
-          // alert(data.profil_kesz)
-        } else {
-          setHiba(true);
-          setTolt(false);
-        }
-      } catch (error) {
-        console.error(error);
-        setHiba(true);
-      }
-      }
-      // if(kivalasztott===5)
-      //   {
-      //     try {
-      //   const response = await fetch(Cim.Cim + "/bejegyEsFelh");
-      //   const data = await response.json();
-      //   if (response.ok) {
-          
-      //     setAdatok(data);
-      //     setTolt(false);
-      //   } else {
-      //     setHiba(true);
-      //     setTolt(false);
-      //   }
-      // } catch (error) {
-      //   console.error(error);
-      //   setHiba(true);
-      // }
-
-      // }
-      else{
+      if (kivalasztott === 0) {
         try {
-        const response = await fetch(Cim.Cim + "/bejegyEsFelhKategoria",{
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ "kategoria_id":kivalasztott }),
-      });
-        const data = await response.json();
-        if (response.ok) {
-          setAdatok(data);
-          setTolt(false);
-        } else {
+          const response = await fetch(Cim.Cim + "/bejegyEsFelh");
+          const data = await response.json();
+          if (response.ok) {
+            setAdatok(data);
+            setTolt(false);
+          } else {
+            setHiba(true);
+            setTolt(false);
+          }
+        } catch (error) {
+          console.error(error);
           setHiba(true);
-          setTolt(false);
         }
-      } catch (error) {
-        console.error(error);
-        setHiba(true);
+      } else {
+        try {
+          const response = await fetch(Cim.Cim + "/bejegyEsFelhKategoria", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ kategoria_id: kivalasztott }),
+          });
+          const data = await response.json();
+          if (response.ok) {
+            setAdatok(data);
+            setTolt(false);
+          } else {
+            setHiba(true);
+            setTolt(false);
+          }
+        } catch (error) {
+          console.error(error);
+          setHiba(true);
+        }
       }
-      }
-      
-
-
     };
     leToltes();
   }, [kivalasztott]);
 
-
-const CommentingWithOutALogin = async (szoveg) => {
-     
-      Swal.fire(`${szoveg}`,'Ismeretlen ként tudsz majd kommentelni, kérlek légy tisztelet teljes.<br></br>','Kérlek jelenkezz be <a href="/login">itt</a>.')
-       
-  
+  const CommentingWithOutALogin = (szoveg) => {
+    Swal.fire({
+      title: szoveg,
+      html: 'Ismeretlenként tudsz kommentelni, kérlek légy tiszteletteljes.<br><br>Kérlek jelentkezz be <a href="/login">itt</a>, ha saját néven szeretnél írni.',
+      icon: 'info'
+    });
   };
-
-  const formatDate = (mysqlDate) =>
-    mysqlDate ? mysqlDate.split("T")[0] : "";
 
   const toggleExpand1 = (index) => {
     setExpanded1((prev) => ({ ...prev, [index]: !prev[index] }));
@@ -139,20 +105,21 @@ const CommentingWithOutALogin = async (szoveg) => {
         body: JSON.stringify({ bejegyzesek_id }),
       });
       const data = await res.json();
-      if (res.ok) {
-        setKommentek((prev) => ({ ...prev, [bejegyzesek_id]: data }));
-      }
+      if (res.ok) setKommentek((prev) => ({ ...prev, [bejegyzesek_id]: data }));
     } catch (err) {
       console.error("Hiba frissítéskor:", err);
     }
   };
 
   const komment = async (index, bejegyzesek_id) => {
-
-    CommentingWithOutALogin("Nem vagy bejelenkezve!")
-
-    setExpanded2((prev) => ({ ...prev, [index]: !prev[index] }));
     const isOpening = !expanded2[index];
+    setExpanded2((prev) => ({ ...prev, [index]: isOpening }));
+    
+    // Csak kinyitáskor szólunk neki, bezáráskor ne ugráljon fel az ablak
+    if (isOpening) {
+        CommentingWithOutALogin("Nem vagy bejelentkezve!");
+    }
+
     if (isOpening && !kommentek[bejegyzesek_id]) {
       setLoadingKomment((prev) => ({ ...prev, [bejegyzesek_id]: true }));
       try {
@@ -182,13 +149,10 @@ const CommentingWithOutALogin = async (szoveg) => {
 
   const submitComment = async (bejegyzesek_id) => {
     const szoveg = (commentInputs[bejegyzesek_id] || "").trim();
-    //If--------------------------- Ha nincs bejelenkezve akkor irjon ki egy uzenetet // else felvitel
-    
-    
+    if (!szoveg) return;
+
     const now = new Date();
-    const offsetDate = new Date(
-      now.getTime() - now.getTimezoneOffset() * 60000
-    );
+    const offsetDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
     const letrehozva = offsetDate.toISOString().slice(0, 19);
 
     try {
@@ -197,7 +161,7 @@ const CommentingWithOutALogin = async (szoveg) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           bejegyzes_id: bejegyzesek_id,
-          felhasznalo_id: 5,
+          felhasznalo_id: 5, // A vendég azonosítója a backendben
           hozzaszolas_szoveg: szoveg,
           letrehozva,
         }),
@@ -211,172 +175,138 @@ const CommentingWithOutALogin = async (szoveg) => {
     }
   };
 
-  if (tolt) return <div style={{ textAlign: "center" }}>Adatok betöltése...</div>;
-  if (hiba) return <div>Hiba történt</div>;
+  if (tolt) return <div style={{ textAlign: "center", marginTop: "50px" }}>Adatok betöltése...</div>;
+  if (hiba) return <div className="text-danger text-center mt-5">Hiba történt az adatok betöltésekor.</div>;
 
   return (
     <div className="feed-wrapper">
-      <h2>Általános</h2>
-  <div className="d-flex justify-content-between align-items-center mb-3">
-
-    {/* Category filter */}
-    <div className="mb-3">
-    <LenyiloKategoria kivalasztott={setKivalasztott}/>
-    </div>
+      <h2 className="mb-4" style={{ fontWeight: 800, color: '#0f1419' }}>Általános Hírfolyam</h2>
+      
+      <div className="mb-4">
+        <LenyiloKategoria kivalasztott={setKivalasztott}/>
+      </div>
  
       {adatok.filter((elem) => {
-      const categoryOk =
-      selectedCategory === "all" ||
-      elem.kategoria_nev === selectedCategory;
-
-    const groupOk =
-      selectedGroup === "all" ||
-      elem.csoport_nev === selectedGroup;
-
-    return categoryOk && groupOk; 
-  })
-  .map((elem, index) => (
-        <div key={elem.bejegyzesek_id} className="bejegyzesKartya">
-
-          {/* HEADER */}
-          <div className="post-header">
-            <img
-              className="profilKep"
-              src={
-                elem.profil_kep
-                  ? `${Cim.Cim}/kepek/${elem.profil_kep}`
-                  : elem.neme === 1
-                  ? `${Cim.Cim}/kepekFelhasznalo/M.jpg`
-                  : `${Cim.Cim}/kepekFelhasznalo/F.jpg`
-              }
-              alt=""
-            />
-
-            <div>
-              <strong>{elem.felhasznalonev}</strong>
-              <div className="post-meta">
-                {formatDate(elem.letrehozva)} · {elem.telepules_nev}
-                <br />
-          <span className="badge bg-warning ms-2">
-            {elem.kategoria_nev}
-          </span>
-          
-              </div>
+        const categoryOk = selectedCategory === "all" || elem.kategoria_nev === selectedCategory;
+        const groupOk = selectedGroup === "all" || elem.csoport_nev === selectedGroup;
+        return categoryOk && groupOk; 
+      }).map((elem, index) => (
+        <div key={elem.bejegyzesek_id} className="post-card">
+          <div className="post-layout">
+            {/* BAL OSZLOP: Profilkép */}
+            <div className="post-avatar-col">
+              <img 
+                src={elem.profil_kep ? `${Cim.Cim}/kepek/${elem.profil_kep}` : `${Cim.Cim}/kepekFelhasznalo/${elem.neme === 1 ? 'M.jpg' : 'F.jpg'}`} 
+                className="post-avatar" alt="avatar" 
+              />
             </div>
-          </div>
+            
+            {/* JOBB OSZLOP: Tartalom */}
+            <div className="post-main-col">
+              <div className="post-header-info">
+                <span className="user-name">{elem.felhasznalonev}</span>
+                <span className="post-meta"> · {formatRelativeTime(elem.letrehozva)}</span>
+                <div className="post-badges">
+                   <span className="badge-item"><Tag size={12}/> {elem.kategoria_nev}</span>
+                   {/* Itt alapból az Általános csoportot írjuk ki, hiszen a vendégek csak ezt látják */}
+                   <span className="badge-item"><Users size={12}/> {elem.csoport_nev || "Általános"}</span>
+                </div>
+              </div>
 
-          {/* TITLE */}
-          
-          <h2 className="bejegyzesCim">{elem.cim}</h2>
-              
-          {/* IMAGE */}
-          <div className="post-image">
-            <img
-              src={
-                elem.kep_url
-                  ? `${Cim.Cim}/kepek/${elem.kep_url}`
-                  : `${Cim.Cim}/bejegyzesKepek/X.png` //Ha nincs bejegyzéskép megadva akkor ez fog látszódni.
-              }
-              alt=""
-            />
-          </div>
-
-          {/* CONTENT */}
-          <p className="bejegyzesTartalom">
-            {expanded1[index]
-              ? elem.tartalom
-              : elem.tartalom.slice(0, 100)}
-            {!expanded1[index] && elem.tartalom.length > 100 && "..."}
-          </p>
-
-          <div className="post-actions">
-  <button
-    className="action-btn"
-    onClick={() => toggleExpand1(index)}
-  >
-    {expanded1[index] ? "Kevesebb" : "Tovább"}
-  </button>
-
-  <button
-    className="action-btn"
-    onClick={() => komment(index, elem.bejegyzesek_id)}
-  >
-    💬 Kommentek
-  </button>
-</div>
-
-
-          {/* COMMENTS */}
-          <div className="mt-3">
-            <button
-              className="btn btn-outline-secondary btn-sm"
-              onClick={() => komment(index, elem.bejegyzesek_id)}
-              
-            >
-              {expanded2[index] ? "Bezár" : "Kommentek"}
-            </button>
-
-            {expanded2[index] && (
-            <div className="comments-box">
-                {loadingKomment[elem.bejegyzesek_id] ? (
-                  <div>Kommentek betöltése...</div>
-                ) : (
-                  kommentek[elem.bejegyzesek_id]?.map((k, i) => (
-                    <div key={i} className="d-flex mb-2">
-                      <img
-                        className="profilKepKomment"
-                        src={
-                          k.profil_kep
-                            ? `${Cim.Cim}/kepek/${k.profil_kep}`
-                            : k.neme === 1
-                            ? `${Cim.Cim}/kepekFelhasznalo/M.jpg`
-                            : `${Cim.Cim}/kepekFelhasznalo/F.jpg`
-                        }
-                        alt=""
-                      />
-                      <div className="ms-2">
-                        <strong>{k.felhasznalonev}</strong>
-                        <div>{k.hozzaszolas_szoveg}</div>
-                        <div
-                          className="text-muted"
-                          title={formatExactDate(k.letrehozva)}
-                          style={{ fontSize: "12px" }}
-                        >
-                          {formatRelativeTime(k.letrehozva)}
-                        </div>
-                      </div>
-                    </div>
-                  ))
+              <h4 className="post-title">{elem.cim}</h4>
+              <p className="post-text">
+                {expanded1[index] ? elem.tartalom : `${elem.tartalom.slice(0, 150)}${elem.tartalom.length > 150 ? '...' : ''}`}
+                {elem.tartalom.length > 150 && (
+                  <button className="text-btn" onClick={() => toggleExpand1(index)}>
+                    {expanded1[index] ? " Kevesebb" : " Mutass többet"}
+                  </button>
                 )}
+              </p>
 
-                <textarea
-                  className="form-control mt-2"
-                  rows={2}
-                  placeholder="Írj egy hozzászólást..."
-                  value={commentInputs[elem.bejegyzesek_id] || ""}
-                  
-                  onChange={(e) =>
-                    onCommentInputChange(
-                      elem.bejegyzesek_id,
-                      e.target.value
+              {elem.kep_url && (
+                <div className="post-media">
+                  <img src={`${Cim.Cim}/kepek/${elem.kep_url}`} alt="poszt kép" />
+                </div>
+              )}
+
+              {/* LÁBLÉC: Helyszín és CSAK Komment gomb */}
+              <div className="post-footer">
+                <div className="post-location"><MapPin size={14}/> {elem.telepules_nev}</div>
+                
+                <div className="post-actions-wrapper">
+                    <button className="action-btn comment-trigger" onClick={() => komment(index, elem.bejegyzesek_id)}>
+                        <MessageCircle size={18} /> 
+                        <span>Kommentek</span>
+                    </button>
+                </div>
+              </div>
+
+              {/* KOMMENTEK SZEKCIÓ */}
+              {expanded2[index] && (
+              <div className="comment-section-wrapper">
+                <div className="comment-list">
+                  {loadingKomment[elem.bejegyzesek_id] ? (
+                    <div className="comment-loading">
+                      <div className="spinner-border spinner-border-sm text-primary" role="status"></div>
+                    </div>
+                  ) : (
+                    Array.isArray(kommentek[elem.bejegyzesek_id]) && kommentek[elem.bejegyzesek_id].length > 0 ? (
+                      kommentek[elem.bejegyzesek_id].map((k, i) => (
+                        <div key={i} className="comment-item">
+                          <img
+                            className="c-avatar-small"
+                            src={k.profil_kep ? `${Cim.Cim}/kepek/${k.profil_kep}` : `${Cim.Cim}/kepekFelhasznalo/${k.neme === 1 ? 'M.jpg' : 'F.jpg'}`}
+                            alt=""
+                          />
+                          <div className="comment-bubble">
+                            <div className="c-user-name">{k.felhasznalonev}</div>
+                            <div className="c-text">{k.hozzaszolas_szoveg}</div>
+                            <div className="c-time" title={formatExactDate(k.letrehozva)}>
+                              {formatRelativeTime(k.letrehozva)}
+                            </div>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center text-muted small py-2">
+                        Még nincs hozzászólás. Legyél te az első!
+                      </div>
                     )
-                  }
-                />
+                  )}
+                </div>
 
-                <button
-                  className="btn btn-primary btn-sm mt-2"
-                  onClick={() => submitComment(elem.bejegyzesek_id)}
-                >
-                  Küldés
-                </button>
+                {/* BEVITELI MEZŐ (Vendégként) */}
+                <div className="comment-input-container">
+                  <img 
+                    className="c-avatar-tiny" 
+                    src={`${Cim.Cim}/kepekFelhasznalo/M.jpg`} 
+                    title="Ismeretlen felhasználó"
+                    alt="Guest" 
+                  />
+                  <div className="input-with-button">
+                    <input
+                      type="text"
+                      placeholder="Írj egy hozzászólást vendégként..."
+                      value={commentInputs[elem.bejegyzesek_id] || ""}
+                      onChange={(e) => onCommentInputChange(elem.bejegyzesek_id, e.target.value)}
+                      onKeyDown={(e) => e.key === 'Enter' && submitComment(elem.bejegyzesek_id)}
+                    />
+                    <button 
+                      className="c-send-btn" 
+                      onClick={() => submitComment(elem.bejegyzesek_id)}
+                      disabled={!(commentInputs[elem.bejegyzesek_id] || "").trim()}
+                    >
+                      <Send size={16} />
+                    </button>
+                  </div>
+                </div>
               </div>
             )}
+            </div>
           </div>
         </div>
       ))}
     </div>
-     </div>
-
   );
 };
 

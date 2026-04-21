@@ -11,7 +11,7 @@ const UserLenyiloKategoria = ({ kivalasztott }) => {
   useEffect(() => {
     const leToltes = async () => {
       try {
-        const response = await fetch(Cim.Cim + "/kategoria/");
+        const response = await fetch(Cim.Cim + "/kategoria");
         const data = await response.json();
 
         if (response.ok) {

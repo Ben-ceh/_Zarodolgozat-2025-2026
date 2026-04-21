@@ -186,27 +186,50 @@ app.get('/bejegyEsFelh', (req, res) => {
         return res.status(200).json(result)
         })
 })
-app.post('/bejegyEsFelhKategoria', (req, res) => {
-        const {kategoria_id,felhasznalo_id} =req.body
-        const sql=`
-                SELECT 
-        *
-        from bejegyzesek 
-        inner JOIN felhasznalok 
-        on bejegyzesek.felhasznalo_id = felhasznalok.felhasznalok_id
-        INNER JOIN bejegyzesek_kategoria
-        ON bejegyzesek_kategoria.kategoria_id = bejegyzesek.kategoria
-        INNER JOIN telepules
-        ON telepules.telepules_id = bejegyzesek.helyszin
+// app.post('/bejegyEsFelhKategoria', (req, res) => {
+//         const {kategoria_id,felhasznalo_id} =req.body
+//         const sql=`
+//                 SELECT 
+//         *
+//         from bejegyzesek 
+//         inner JOIN felhasznalok 
+//         on bejegyzesek.felhasznalo_id = felhasznalok.felhasznalok_id
+//         INNER JOIN bejegyzesek_kategoria
+//         ON bejegyzesek_kategoria.kategoria_id = bejegyzesek.kategoria
+//         INNER JOIN telepules
+//         ON telepules.telepules_id = bejegyzesek.helyszin
         
-        Where bejegyzesek.csoport_id = 1 and kategoria_id = ?
+//         Where bejegyzesek.csoport_id = 1 and kategoria_id = ?
+//         ORDER BY bejegyzesek.letrehozva DESC;
+//                 `
+//         pool.query(sql,[felhasznalo_id,kategoria_id  ], (err, result) => {
+//         if (err) return res.status(500).json(err);
+//         res.status(200).json(result);
+//         })
+// })
+app.post('/bejegyEsFelhKategoria', (req, res) => {
+    const { kategoria_id } = req.body; 
+
+    // Feltételezve, hogy a csoport_id fixen 1, ahogy az eredeti kódodban volt
+    const sql = `
+        SELECT bejegyzesek.*, felhasznalok.*, bejegyzesek_kategoria.*, telepules.*
+        FROM bejegyzesek 
+        INNER JOIN felhasznalok ON bejegyzesek.felhasznalo_id = felhasznalok.felhasznalok_id
+        INNER JOIN bejegyzesek_kategoria ON bejegyzesek_kategoria.kategoria_id = bejegyzesek.kategoria
+        INNER JOIN telepules ON telepules.telepules_id = bejegyzesek.helyszin
+        WHERE bejegyzesek.csoport_id = 1 AND bejegyzesek.kategoria = ?
         ORDER BY bejegyzesek.letrehozva DESC;
-                `
-        pool.query(sql,[felhasznalo_id,kategoria_id  ], (err, result) => {
-        if (err) return res.status(500).json(err);
+    `;
+
+    pool.query(sql, [kategoria_id], (err, result) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json(err);
+        }
         res.status(200).json(result);
-        })
-})
+    });
+});
+
 //Komment Keres Bejegyzes Id Alapjan
 app.post('/kommentKeresBejegyId', (req, res) => {
         const {bejegyzesek_id} =req.body
@@ -230,6 +253,51 @@ Order by hozzaszolasok_id;
         return res.status(200).json(result)
         })
 })
+// Megnézzük, hogy az adott user melyik posztokat lájkolta
+app.get('/sajatLikeok/:user_id', (req, res) => {
+    const { user_id } = req.params;
+    const sql = "SELECT bejegyzes_id FROM reakciok WHERE felhasznalo_id = ?";
+    pool.query(sql, [user_id], (err, result) => {
+        if (err) return res.status(500).json(err);
+        res.status(200).json(result.map(sor => sor.bejegyzes_id));
+    });
+});
+// app.get('/sajatLikeok/:user_id', (req, res) => {
+//     const { user_id } = req.params;
+//     const sql = "SELECT bejegyzes_id FROM reakciok WHERE felhasznalo_id = ?";
+
+//     pool.query(sql, [user_id], (err, result) => {
+//         if (err) return res.status(500).json({ error: "Hiba a lájkok lekérdezésekor" });
+        
+//         // Csak egy egyszerű tömböt adunk vissza az ID-kkal: [1, 5, 12, 44]
+//         const likeIdk = result.map(sor => sor.bejegyzes_id);
+//         res.status(200).json(likeIdk);
+//     });
+// });
+// Összesíti a lájkokat posztonként
+app.get('/likeSzamlalok', (req, res) => {
+    // Ez a lekérdezés megszámolja a lájkokat posztonként
+    const sql = `
+        SELECT bejegyzes_id, COUNT(*) as like_db 
+        FROM reakciok 
+        GROUP BY bejegyzes_id`;
+
+    pool.query(sql, (err, result) => {
+        if (err) return res.status(500).json(err);
+        res.status(200).json(result);
+    });
+});
+// app.get('/likeSzamlalok', (req, res) => {
+//     const sql = `
+//         SELECT bejegyzes_id, COUNT(*) as like_db 
+//         FROM reakciok 
+//         GROUP BY bejegyzes_id`;
+
+//     pool.query(sql, (err, result) => {
+//         if (err) return res.status(500).json(err);
+//         res.status(200).json(result);
+//     });
+// });
 //Poszt felvitele
 app.post('/posztFelvitel', (req, res) => {
         const {cim,tartalom,kep_url_helyszin,letrehozva} =req.body
