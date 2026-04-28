@@ -1,0 +1,14 @@
+.create-card {
+  border: 2px dashed #4a6cf7;
+  padding: 30px;
+  text-align: center;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: 600;
+}
+
+.create-card:hover {
+  background: #f3f6ff;
+  transform: translateY(-2px);
+}

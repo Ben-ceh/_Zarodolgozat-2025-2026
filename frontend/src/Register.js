@@ -68,6 +68,10 @@ const Register = () => {
   }
 };
 
+const goToFoOldal = () => {
+    navigate('/FoOldal');
+  };
+
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Regisztráció</h1>
@@ -117,9 +121,17 @@ const Register = () => {
         <button
           type="button"
           onClick={() => navigate('/login')}
-          style={{ ...styles.button, backgroundColor: '#6c757d', marginTop: '10px' }}
+          style={{ ...styles.button, backgroundColor: '#007bff', marginTop: '10px' }}
         >
           Vissza a bejelentkezéshez
+        </button>
+
+        <button
+          type="button"
+          onClick={goToFoOldal}
+          style={{ ...styles.button, backgroundColor: '#6c757d', marginTop: '10px' }}
+        >
+          Vendégként tovább
         </button>
       </form>
     </div>

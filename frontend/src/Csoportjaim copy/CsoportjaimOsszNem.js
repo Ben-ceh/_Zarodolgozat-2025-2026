@@ -111,15 +111,14 @@ const ido = (evHoNap) => evHoNap.split("T")[0];
         
 <div className="row">
   <table className="styled-table">
-    
-<thead>
-  <tr>
-    <th>Csoport neve</th>
-    <th>Dátum</th>
-  </tr>
-</thead>
-
-
+    <thead>
+      <tr>
+        <th>Csoport neve</th>
+        <th>Dátum</th>
+        <th>Megtekintés</th>
+        
+      </tr>
+    </thead>
 
     <tbody>
       {adatok.map((elem, index) => (

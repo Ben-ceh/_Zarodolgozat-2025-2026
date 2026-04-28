@@ -376,7 +376,7 @@ span{
 
 /*------------------Sanyi css--------------------------*/
 
-.styled-table {
+/* .styled-table {
   width: 100%;
   border-collapse: collapse;
   font-family: Arial, sans-serif;
@@ -399,6 +399,31 @@ span{
   padding: 12px;
   border-bottom: 1px solid #e0e0e0;
   font-size: 15px;
+} */
+
+.styled-table {
+  width: 100%;
+  border-collapse: separate; /* Ezt változtasd 'separate'-re */
+  border-spacing: 0;        /* Az elemek közötti távolsághoz */
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 20px 0;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Lágyabb árnyék */
+}
+
+.styled-table th {
+  background: #f8fafc; /* Világosabb, modern fejléc */
+  color: #1e293b;
+  padding: 16px;
+  text-align: left;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.styled-table td {
+  padding: 16px;
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .styled-table tr:hover {

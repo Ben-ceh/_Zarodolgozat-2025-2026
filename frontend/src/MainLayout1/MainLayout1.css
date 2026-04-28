@@ -112,3 +112,30 @@
     text-align: center;
     font-style: italic;
 }
+
+/* A felhasználói üdvözlő kártya alapja */
+.user-info-card {
+    background: linear-gradient(145deg, #ffffff, #f8fafc); /* Világos, tiszta háttér */
+    border: 1px solid #e2e8f0; /* Vékony, elegáns keret */
+    border-radius: 16px; /* Kerekített sarkok */
+    padding: 24px; /* Kényelmes belső margó */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); /* Finom árnyék a kiemeléshez */
+    margin-top: 20px; /* Távolság a felette lévő elemektől */
+}
+
+/* A címsor (h4) stílusa */
+.user-info-card h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1e293b; /* Sötétkék/fekete, jól olvasható szín */
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+/* A kisebb szöveg (p) stílusa */
+.user-info-card .small-text {
+    font-size: 14px;
+    color: #475569; /* Kicsit halványabb, de tökéletesen olvasható másodlagos szín */
+    margin: 0;
+    line-height: 1.5;
+}
