@@ -52,9 +52,29 @@ const ProtectedRoute = ({ children, role }) => {
   // Ha nincs token, irány a login
   if (!token) return <Navigate to="/login" replace />;
 
-  // Ha rossz a jogosultság (pl. user akar admin oldalra menni)
-  if (role && userRole !== role) {
-    return userRole === "admin" ? <Navigate to="/admin" replace /> : <Navigate to="/user" replace />;
+  // Ha be van jelentkezve, de nincs role (hiba történt a mentésnél)
+  if (token && !userRole) {
+    localStorage.clear();
+    return <Navigate to="/login" replace />;
+  }
+  // // Ha rossz a jogosultság (pl. user akar admin oldalra menni)
+  // if (role && userRole !== role) {
+  //   return userRole === "admin" ? <Navigate to="/admin" replace /> : <Navigate to="/user" replace />;
+  // }
+
+  // JAVÍTÁS: 
+  // Ha az útvonalhoz 'user' jog kell, de a bejelentkezett 'admin', ENGEDD BE.
+  // Ha az útvonalhoz 'admin' jog kell, de a bejelentkezett 'user', DOBD KI.
+  if (role) {
+    if (role === "admin" && userRole !== "admin") {
+      // User akar admin oldalra menni -> nem engedjük
+      return <Navigate to="/user" replace />;
+    }
+    
+    if (role === "user" && userRole !== "user" && userRole !== "admin") {
+      // Csak akkor dobjuk ki, ha se nem user, se nem admin (bár ilyen nincs)
+      return <Navigate to="/login" replace />;
+    }
   }
 
   return children;
@@ -113,13 +133,35 @@ function App() {
 
 
           {/* === ADMIN OLDALAK === */}
-          <Route path="/admin" element={<ProtectedRoute role="admin"><Admin /></ProtectedRoute>} />
+          {/* <Route path="/admin" element={<ProtectedRoute role="admin"><Admin /></ProtectedRoute>} />
           <Route path="/BejegyzesTorles" element={<ProtectedRoute role="admin"><BejegyzesTorles /></ProtectedRoute>} />
           <Route path="/FelhasznaloTorlese" element={<ProtectedRoute role="admin"><FelhasznaloTorlese /></ProtectedRoute>} />
           <Route path="/HozzaszolasTorlese" element={<ProtectedRoute role="admin"><HozzaszolasTorlese /></ProtectedRoute>} />
           <Route path="/ProfilAdmin" element={<ProtectedRoute role="admin"><ProfilAdmin /></ProtectedRoute>} />
-          <Route path="/UzenetKuldes" element={<ProtectedRoute role="admin"><UzenetKuldes /></ProtectedRoute>} />
+          <Route path="/UzenetKuldes" element={<ProtectedRoute role="admin"><MainLayout><UzenetKuldes /></MainLayout></ProtectedRoute>} /> */}
+<Route path="/admin" element={<ProtectedRoute role="admin"><MainLayout><Admin /></MainLayout></ProtectedRoute>} />
+          
+          <Route path="/BejegyzesTorles" element={
+            <ProtectedRoute role="admin"><MainLayout><BejegyzesTorles /></MainLayout></ProtectedRoute>
+          } />
+          
+          <Route path="/FelhasznaloTorlese" element={
+            <ProtectedRoute role="admin"><MainLayout><FelhasznaloTorlese /></MainLayout></ProtectedRoute>
+          } />
+          
+          <Route path="/HozzaszolasTorlese" element={
+            <ProtectedRoute role="admin"><MainLayout><HozzaszolasTorlese /></MainLayout></ProtectedRoute>
+          } />
+          
+          {/* <Route path="/UzenetKuldes" element={
+            <ProtectedRoute role="admin"><MainLayout><UzenetKuldes /></ProtectedRoute>
+          } /> */}
 
+ <Route path="/UzenetKuldes" element={<ProtectedRoute role="admin"><MainLayout><UzenetKuldes /></MainLayout></ProtectedRoute>} />
+
+          <Route path="/ProfilAdmin" element={
+            <ProtectedRoute role="admin"><MainLayout><ProfilAdmin /></MainLayout></ProtectedRoute>
+          } />
         </Routes>
       </div>
     </Router>

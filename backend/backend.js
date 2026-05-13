@@ -1018,34 +1018,57 @@ app.get('/Felhasznalok', (req, res) => {
 });
 
 
-//Felhasznalok törlése
-app.delete('/FelhasznalokTorlese/:felhasznalok_id', (req, res) => {
-        const {felhasznalok_id} =req.params
-        const sql=`DELETE from felhasznalok where felhasznalok_id=?`
-        pool.query(sql,[felhasznalok_id], (err, result) => {
-        if (err) {
-            console.log(err)
-            return res.status(500).json({error:"Hiba"})
-        }
+// //Felhasznalok törlése
+// app.delete('/FelhasznalokTorlese/:felhasznalok_id', (req, res) => {
+//         const {felhasznalok_id} =req.params
+//         const sql=`DELETE from felhasznalok where felhasznalok_id=?`
+//         pool.query(sql,[felhasznalok_id], (err, result) => {
+//         if (err) {
+//             console.log(err)
+//             return res.status(500).json({error:"Hiba"})
+//         }
        
-        return res.status(200).json({message:"Sikeres törlés"})
-        })
+//         return res.status(200).json({message:"Sikeres törlés"})
+//         })
+// });
+
+
+// //Felhasználók törlése part 2
+// app.delete("/felhasznalokTorlese/:id", (req, res) => {
+//   const id = parseInt(req.params.id);
+//   const index = felhasznalok.findIndex((f) => f.felhasznalok_id === id);
+
+//   if (index !== -1) {
+//     const toroltFelhasznalo = felhasznalok.splice(index, 1);
+//     res.json({ message: `A(z) ${toroltFelhasznalo[0].felhasznalonev} felhasználó törölve.` });
+//   } else {
+//     res.status(404).json({ error: "Felhasználó nem található." });
+//   }
+// });
+// CSAK EZ MARADJON (Javított verzió)
+app.delete('/FelhasznalokTorlese/:felhasznalok_id', (req, res) => {
+    const { felhasznalok_id } = req.params;
+
+    // Fontos: Ha a felhasználónak vannak posztjai/kommentjei, ez a hibaágra fut majd!
+    const sql = `DELETE FROM felhasznalok WHERE felhasznalok_id = ?`;
+    
+    pool.query(sql, [felhasznalok_id], (err, result) => {
+        if (err) {
+            console.error("Adatbázis hiba törléskor:", err);
+            // Ha idegen kulcs hiba van, küldjünk értelmes választ
+            if (err.code === 'ER_ROW_IS_REFERENCED_2') {
+                return res.status(400).json({ error: "A felhasználó nem törölhető, mert vannak kapcsolódó bejegyzései vagy kommentjei!" });
+            }
+            return res.status(500).json({ error: "Hiba történt a szerveren." });
+        }
+        
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ error: "Felhasználó nem található." });
+        }
+
+        return res.status(200).json({ message: "Sikeres törlés" });
+    });
 });
-
-
-//Felhasználók törlése part 2
-app.delete("/felhasznalokTorlese/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  const index = felhasznalok.findIndex((f) => f.felhasznalok_id === id);
-
-  if (index !== -1) {
-    const toroltFelhasznalo = felhasznalok.splice(index, 1);
-    res.json({ message: `A(z) ${toroltFelhasznalo[0].felhasznalonev} felhasználó törölve.` });
-  } else {
-    res.status(404).json({ error: "Felhasználó nem található." });
-  }
-});
-
 
 //Felhasználók megjelenítése
 app.get("/felhasznalokMegjelen", (req, res) => {

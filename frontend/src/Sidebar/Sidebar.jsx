@@ -1,13 +1,15 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Home, PlusCircle, Users, User, Settings, LogOut, LogIn } from "lucide-react";
-import "./Sidebar.css"; // Győződj meg róla, hogy az elérési út jó!
+// Hozzáadtam a ShieldCheck ikont
+import { Home, PlusCircle, Users, User, Settings, LogOut, LogIn, ShieldCheck } from "lucide-react";
+import "./Sidebar.css";
 
 const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const token = localStorage.getItem("token");
+  const userRole = localStorage.getItem("role"); // Lekérjük a szerepkört
   const loggedIn = !!token;
 
   const handleLogout = () => {
@@ -16,42 +18,61 @@ const Sidebar = () => {
     navigate("/login");
   };
 
+  // Alap menüpontok mindenki számára
   const NAV_ITEMS = [
-    { icon: Home, label: "Főoldal", href: "/FoOldal" },
+    { icon: Home, label: "Főoldal", href: userRole === "admin" ? "/user" : "/user" },
     { icon: PlusCircle, label: "Új bejegyzés", href: "/UserBejegyFelv" },
     { icon: Users, label: "Csoportjaim", href: "/csoportjaim" },
     { icon: User, label: "Profilom", href: "/profil" },
-    { icon: Settings, label: "Beállítások", href: "/beallitasok" },
+  ];
+
+  // Admin specifikus menüpontok
+  const ADMIN_ITEMS = [
+    { icon: ShieldCheck, label: "Admin Panel", href: "/admin" },
   ];
 
   return (
     <div className="sidebar-container">
-      {/* Logo Szekció */}
-      <Link to="/FoOldal" className="sidebar-logo-section">
+      <Link to="/" className="sidebar-logo-section">
         <div className="logo-circle">
           <span className="logo-text-icon">O</span>
         </div>
         <span className="logo-title">Okos Közösség</span>
       </Link>
 
-      {/* Navigáció */}
       <nav className="sidebar-nav">
-        {NAV_ITEMS.map((item) => {
-          const isActive = location.pathname === item.href;
-          return (
-            <Link
-              key={item.href}
-              to={item.href}
-              className={`sidebar-item ${isActive ? "active" : ""}`}
-            >
-              <item.icon className="sidebar-icon" />
-              <span>{item.label}</span>
-            </Link>
-          );
-        })}
+        {/* Alap menü kirajzolása */}
+        {NAV_ITEMS.map((item) => (
+          <Link
+            key={item.href}
+            to={item.href}
+            className={`sidebar-item ${location.pathname === item.href ? "active" : ""}`}
+          >
+            <item.icon className="sidebar-icon" />
+            <span>{item.label}</span>
+          </Link>
+        ))}
+
+        {/* ADMIN SZEKCIÓ - Csak ha az admin jelentkezett be */}
+        {userRole === "admin" && (
+          <>
+            <div className="sidebar-divider" style={{ margin: "15px 0", borderTop: "1px solid #eee" }} />
+            <p style={{ padding: "0 20px", fontSize: "12px", color: "#888", fontWeight: "bold" }}>ADMINISZTRÁCIÓ</p>
+            {ADMIN_ITEMS.map((item) => (
+              <Link
+                key={item.href}
+                to={item.href}
+                className={`sidebar-item admin-style ${location.pathname === item.href ? "active" : ""}`}
+                style={{ color: "#d97706" }} // Aranyos/Narancs szín az adminnak
+              >
+                <item.icon className="sidebar-icon" />
+                <span>{item.label}</span>
+              </Link>
+            ))}
+          </>
+        )}
       </nav>
 
-      {/* Footer / Auth */}
       <div className="sidebar-footer">
         {loggedIn ? (
           <button onClick={handleLogout} className="auth-button logout-style">

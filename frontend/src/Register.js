@@ -51,6 +51,11 @@ const Register = () => {
     localStorage.setItem("user_id", data.belepUserid);
     // 3️⃣ TOKEN MENTÉS
     localStorage.setItem('token', data.token);
+    localStorage.setItem('role', data.role); // EZ HIÁNYZOTT!
+    localStorage.setItem('userid', data.userid);
+    localStorage.setItem('belepUserid', data.belepUserid);
+
+    console.log("Sikeres auto-login, role:", data.role);
 
     // 4️⃣ ÁTIRÁNYÍTÁS
     if (data.profil_kesz === 0) {
@@ -60,7 +65,7 @@ const Register = () => {
   state: { userid: data.userid }
 });
     } else {
-      navigate('/home');
+      navigate('/user');
     }
 
   } catch (err) {
